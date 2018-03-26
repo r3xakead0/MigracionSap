@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2BB46010-AD37-466A-8339-1074D9D0346D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MigracionSap.Presentacion</RootNamespace>
+    <AssemblyName>MigracionSap</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.2.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.2.1\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseDatos\Entidades\DocumentoBase.cs" />
+    <Compile Include="BaseDatos\Entidades\EntradaAlmacen.cs" />
+    <Compile Include="BaseDatos\Entidades\SolicitudCompra.cs" />
+    <Compile Include="BaseDatos\Entidades\SalidaAlmacen.cs" />
+    <Compile Include="BaseDatos\EntradaAlmacen.cs" />
+    <Compile Include="BaseDatos\SolicitudCompra.cs" />
+    <Compile Include="BaseDatos\SalidaAlmacen.cs" />
+    <Compile Include="FrmMigracionDocumentos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMigracionDocumentos.Designer.cs">
+      <DependentUpon>FrmMigracionDocumentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSalidaAlmacen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSalidaAlmacen.Designer.cs">
+      <DependentUpon>FrmSalidaAlmacen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSolicitudCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSolicitudCompra.Designer.cs">
+      <DependentUpon>FrmSolicitudCompra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="General.cs" />
+    <Compile Include="BaseDatos\Sap.cs" />
+    <Compile Include="ServicioWeb\Json\EntradaAlmacen.cs" />
+    <Compile Include="Documento.cs" />
+    <Compile Include="ServicioWeb\Json\SolicitudCompra.cs" />
+    <Compile Include="ServicioWeb\Json\SalidaAlmacen.cs" />
+    <Compile Include="ServicioWeb\wsSolicitud.cs" />
+    <Compile Include="ServicioWeb\wsEntrada.cs" />
+    <Compile Include="ServicioWeb\wsSalida.cs" />
+    <EmbeddedResource Include="FrmMigracionDocumentos.resx">
+      <DependentUpon>FrmMigracionDocumentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSalidaAlmacen.resx">
+      <DependentUpon>FrmSalidaAlmacen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSolicitudCompra.resx">
+      <DependentUpon>FrmSolicitudCompra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Content Include="Iconos\download.ico" />
+    <Content Include="Iconos\MigracionDocumentos.ico" />
+    <Content Include="Iconos\IngresoAlmacen.ico" />
+    <Content Include="Iconos\SalidaAlmacen.ico" />
+    <Content Include="Iconos\SolicitudCompra.ico" />
+    <Content Include="Iconos\update.ico" />
+    <Content Include="Imagenes\download.png" />
+    <Content Include="Imagenes\upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{68521bd1-c8a4-4fb2-b143-45eb8e2e96f8}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utiles.csproj">
+      <Project>{729d495f-7555-4294-8ca0-f9b24abd794b}</Project>
+      <Name>Utiles</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sap\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
