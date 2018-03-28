@@ -16,7 +16,7 @@ namespace MigracionSap.Presentacion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMigracionDocumentos());
+            Application.Run(FrmMigracionDocumentos.Instance());
         }
     }
 }

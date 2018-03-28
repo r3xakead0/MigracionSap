@@ -9,14 +9,99 @@ namespace MigracionSap.Presentacion.BaseDatos
     public class SalidaAlmacen
     {
 
-        private string stringConnection = "";
-
-        public SalidaAlmacen(string stringConnection)
+        public BE.SalidaAlmacen Obtener(int idSalidaAlmacen, bool detalle = true)
         {
-            this.stringConnection = stringConnection;
+            BE.SalidaAlmacen beSalidaAlmacen = null;
+            try
+            {
+
+                string sp = "SpTbSalidaAlmacenObtener";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IDSALIDAALMACEN", idSalidaAlmacen));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        beSalidaAlmacen = new BE.SalidaAlmacen();
+
+                        beSalidaAlmacen.IdSalidaAlmacen = int.Parse(reader["idSalidaAlmacen"].ToString());
+                        beSalidaAlmacen.Serie = reader["serie"].ToString();
+                        beSalidaAlmacen.FechaContable = DateTime.Parse(reader["fechaContable"].ToString());
+                        beSalidaAlmacen.Comentario = reader["comentario"].ToString();
+                        beSalidaAlmacen.FechaCreacion = DateTime.Parse(reader["fechaCreacion"].ToString());
+                        beSalidaAlmacen.Total = double.Parse(reader["total"].ToString());
+                        beSalidaAlmacen.Usuario = reader["usuario"].ToString();
+                        beSalidaAlmacen.CodSap = int.Parse(reader["codSap"].ToString());
+
+                        if (detalle)
+                            beSalidaAlmacen.Detalle = this.Detalle(idSalidaAlmacen);
+
+                    }
+
+                    cnn.Close();
+                }
+
+                return beSalidaAlmacen;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public List<BE.SalidaAlmacen> Listar()
+        private List<BE.SalidaAlmacenDetalle> Detalle(int idSalidaAlmacen)
+        {
+            var lstSalidaAlmacenDetalle = new List<BE.SalidaAlmacenDetalle>();
+            try
+            {
+
+                string sp = "SpTbSalidaAlmacenDetalleListar";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var beSalidaAlmacenDetalle = new BE.SalidaAlmacenDetalle();
+
+                        beSalidaAlmacenDetalle.IdSalidaAlmacenDetalle = int.Parse(reader["idSalidaAlmacenDetalle"].ToString());
+                        beSalidaAlmacenDetalle.IdSalidaAlmacen = int.Parse(reader["idSalidaAlmacen"].ToString());
+                        beSalidaAlmacenDetalle.NroLinea = int.Parse(reader["nroLinea"].ToString());
+                        beSalidaAlmacenDetalle.Codigo = reader["codigo"].ToString();
+                        beSalidaAlmacenDetalle.Descripcion = reader["descripcion"].ToString();
+                        beSalidaAlmacenDetalle.Cantidad = double.Parse(reader["cantidad"].ToString());
+                        beSalidaAlmacenDetalle.CodAlmacen = reader["codAlmacen"].ToString();
+                        beSalidaAlmacenDetalle.CodImpuesto = reader["codImpuesto"].ToString();
+                        beSalidaAlmacenDetalle.CodCuentaContable = reader["nroCuentaContable"].ToString();
+                        beSalidaAlmacenDetalle.CodProyecto = reader["codProyecto"].ToString();
+                        beSalidaAlmacenDetalle.CodCentroCosto = reader["codCentroCosto"].ToString();
+
+                        lstSalidaAlmacenDetalle.Add(beSalidaAlmacenDetalle);
+                    }
+
+                    cnn.Close();
+                }
+
+                return lstSalidaAlmacenDetalle;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<BE.SalidaAlmacen> Listar(bool detalle = true)
         {
             var lstSalidaAlmacen = new List<BE.SalidaAlmacen>();
             try
@@ -24,7 +109,7 @@ namespace MigracionSap.Presentacion.BaseDatos
 
                 string sp = "SpTbSalidaAlmacenListar";
 
-                using (var cnn = new SqlConnection(this.stringConnection))
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
 
@@ -43,7 +128,10 @@ namespace MigracionSap.Presentacion.BaseDatos
                         beSalidaAlmacen.FechaCreacion = DateTime.Parse(reader["fechaCreacion"].ToString()); 
                         beSalidaAlmacen.Total = double.Parse(reader["total"].ToString()); 
                         beSalidaAlmacen.Usuario = reader["usuario"].ToString();  
-                        beSalidaAlmacen.CodSap = int.Parse(reader["codSap"].ToString()); 
+                        beSalidaAlmacen.CodSap = int.Parse(reader["codSap"].ToString());
+
+                        if (detalle)
+                            beSalidaAlmacen.Detalle = this.Detalle(beSalidaAlmacen.IdSalidaAlmacen);
 
                         lstSalidaAlmacen.Add(beSalidaAlmacen);
                     }
@@ -72,7 +160,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                 string spCab = "SpTbSalidaAlmacenInsertar";
                 string spDet = "SpTbSalidaAlmacenDetalleInsertar";
 
-                using (cnn = new SqlConnection(this.stringConnection))
+                using (cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
                     tns = cnn.BeginTransaction();
@@ -117,7 +205,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                             cmd.Parameters.Add(new SqlParameter("@CANTIDAD", beSalidaAlmacenDetalle.Cantidad));
                             cmd.Parameters.Add(new SqlParameter("@CODALMACEN", beSalidaAlmacenDetalle.CodAlmacen));
                             cmd.Parameters.Add(new SqlParameter("@CODIMPUESTO", beSalidaAlmacenDetalle.CodImpuesto));
-                            cmd.Parameters.Add(new SqlParameter("@NROCUENTACONTABLE", beSalidaAlmacenDetalle.NroCuentaContable));
+                            cmd.Parameters.Add(new SqlParameter("@NROCUENTACONTABLE", beSalidaAlmacenDetalle.CodCuentaContable));
                             cmd.Parameters.Add(new SqlParameter("@CODPROYECTO", beSalidaAlmacenDetalle.CodProyecto));
                             cmd.Parameters.Add(new SqlParameter("@CODCENTROCOSTO", beSalidaAlmacenDetalle.CodCentroCosto));
 

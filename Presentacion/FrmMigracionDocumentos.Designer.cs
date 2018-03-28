@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMigracionDocumentos));
-            this.dgvSincronizar = new System.Windows.Forms.DataGridView();
-            this.tbcSincronizar = new System.Windows.Forms.TabControl();
+            this.dgvMigraciones = new System.Windows.Forms.DataGridView();
+            this.tbcMigraciones = new System.Windows.Forms.TabControl();
             this.tbpSincronizar = new System.Windows.Forms.TabPage();
             this.btnEnviar = new System.Windows.Forms.Button();
-            this.btnRecibir = new System.Windows.Forms.Button();
+            this.btnSincronizar = new System.Windows.Forms.Button();
             this.btnVisualizar = new System.Windows.Forms.Button();
             this.btnErrores = new System.Windows.Forms.Button();
             this.tbpHistorial = new System.Windows.Forms.TabPage();
@@ -45,45 +45,45 @@
             this.LBLal = new System.Windows.Forms.Label();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
             this.LBLrangodefechas = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSincronizar)).BeginInit();
-            this.tbcSincronizar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMigraciones)).BeginInit();
+            this.tbcMigraciones.SuspendLayout();
             this.tbpSincronizar.SuspendLayout();
             this.tbpHistorial.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgvSincronizar
+            // dgvMigraciones
             // 
-            this.dgvSincronizar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvMigraciones.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSincronizar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSincronizar.Location = new System.Drawing.Point(6, 6);
-            this.dgvSincronizar.Name = "dgvSincronizar";
-            this.dgvSincronizar.Size = new System.Drawing.Size(947, 343);
-            this.dgvSincronizar.TabIndex = 0;
+            this.dgvMigraciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMigraciones.Location = new System.Drawing.Point(6, 6);
+            this.dgvMigraciones.Name = "dgvMigraciones";
+            this.dgvMigraciones.Size = new System.Drawing.Size(947, 343);
+            this.dgvMigraciones.TabIndex = 0;
             // 
-            // tbcSincronizar
+            // tbcMigraciones
             // 
-            this.tbcSincronizar.AccessibleName = "";
-            this.tbcSincronizar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tbcMigraciones.AccessibleName = "";
+            this.tbcMigraciones.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbcSincronizar.Controls.Add(this.tbpSincronizar);
-            this.tbcSincronizar.Controls.Add(this.tbpHistorial);
-            this.tbcSincronizar.Location = new System.Drawing.Point(16, 13);
-            this.tbcSincronizar.Name = "tbcSincronizar";
-            this.tbcSincronizar.SelectedIndex = 0;
-            this.tbcSincronizar.Size = new System.Drawing.Size(967, 412);
-            this.tbcSincronizar.TabIndex = 1;
+            this.tbcMigraciones.Controls.Add(this.tbpSincronizar);
+            this.tbcMigraciones.Controls.Add(this.tbpHistorial);
+            this.tbcMigraciones.Location = new System.Drawing.Point(16, 13);
+            this.tbcMigraciones.Name = "tbcMigraciones";
+            this.tbcMigraciones.SelectedIndex = 0;
+            this.tbcMigraciones.Size = new System.Drawing.Size(967, 412);
+            this.tbcMigraciones.TabIndex = 1;
             // 
             // tbpSincronizar
             // 
             this.tbpSincronizar.Controls.Add(this.btnEnviar);
-            this.tbpSincronizar.Controls.Add(this.btnRecibir);
+            this.tbpSincronizar.Controls.Add(this.btnSincronizar);
             this.tbpSincronizar.Controls.Add(this.btnVisualizar);
             this.tbpSincronizar.Controls.Add(this.btnErrores);
-            this.tbpSincronizar.Controls.Add(this.dgvSincronizar);
+            this.tbpSincronizar.Controls.Add(this.dgvMigraciones);
             this.tbpSincronizar.Location = new System.Drawing.Point(4, 23);
             this.tbpSincronizar.Name = "tbpSincronizar";
             this.tbpSincronizar.Padding = new System.Windows.Forms.Padding(3);
@@ -104,16 +104,16 @@
             this.btnEnviar.UseVisualStyleBackColor = true;
             this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
             // 
-            // btnRecibir
+            // btnSincronizar
             // 
-            this.btnRecibir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRecibir.Location = new System.Drawing.Point(6, 355);
-            this.btnRecibir.Name = "btnRecibir";
-            this.btnRecibir.Size = new System.Drawing.Size(107, 24);
-            this.btnRecibir.TabIndex = 8;
-            this.btnRecibir.Text = "Recibir";
-            this.btnRecibir.UseVisualStyleBackColor = true;
-            this.btnRecibir.Click += new System.EventHandler(this.btnRecibir_Click);
+            this.btnSincronizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSincronizar.Location = new System.Drawing.Point(6, 355);
+            this.btnSincronizar.Name = "btnSincronizar";
+            this.btnSincronizar.Size = new System.Drawing.Size(107, 24);
+            this.btnSincronizar.TabIndex = 8;
+            this.btnSincronizar.Text = "Recibir";
+            this.btnSincronizar.UseVisualStyleBackColor = true;
+            this.btnSincronizar.Click += new System.EventHandler(this.btnRecibir_Click);
             // 
             // btnVisualizar
             // 
@@ -174,6 +174,7 @@
             this.btnBuscar.TabIndex = 46;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // cboTiposDocumentos
             // 
@@ -232,7 +233,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(999, 438);
-            this.Controls.Add(this.tbcSincronizar);
+            this.Controls.Add(this.tbcMigraciones);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -240,8 +241,8 @@
             this.Name = "FrmMigracionDocumentos";
             this.Text = "Migracion De Documentos";
             this.Load += new System.EventHandler(this.FrmMigracionDocumentos_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSincronizar)).EndInit();
-            this.tbcSincronizar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMigraciones)).EndInit();
+            this.tbcMigraciones.ResumeLayout(false);
             this.tbpSincronizar.ResumeLayout(false);
             this.tbpHistorial.ResumeLayout(false);
             this.tbpHistorial.PerformLayout();
@@ -252,8 +253,8 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvSincronizar;
-        private System.Windows.Forms.TabControl tbcSincronizar;
+        private System.Windows.Forms.DataGridView dgvMigraciones;
+        private System.Windows.Forms.TabControl tbcMigraciones;
         private System.Windows.Forms.TabPage tbpSincronizar;
         private System.Windows.Forms.TabPage tbpHistorial;
         private System.Windows.Forms.Button btnVisualizar;
@@ -267,6 +268,6 @@
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.ComboBox cboTiposDocumentos;
         private System.Windows.Forms.Button btnEnviar;
-        private System.Windows.Forms.Button btnRecibir;
+        private System.Windows.Forms.Button btnSincronizar;
     }
 }

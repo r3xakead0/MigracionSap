@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MigracionSap.Presentacion
@@ -16,45 +9,65 @@ namespace MigracionSap.Presentacion
         {
             InitializeComponent();
         }
+      
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void FrmSolicitudCompra_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void lblTipo_Click(object sender, EventArgs e)
+        private void FormatDetalle()
         {
+            try
+            {
+                General.FormatDatagridview(ref this.dgvDetalle);
 
-        }
+                for (int i = 0; i < this.dgvDetalle.Columns.Count; i++)
+                    this.dgvDetalle.Columns[i].Visible = false;
 
-        private void label1_Click_1(object sender, EventArgs e)
-        {
+                this.dgvDetalle.Columns["NroLinea"].Visible = true;
+                this.dgvDetalle.Columns["NroLinea"].HeaderText = "Nro. Linea";
+                this.dgvDetalle.Columns["NroLinea"].Width = 100;
+                this.dgvDetalle.Columns["NroLinea"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-        }
+                this.dgvDetalle.Columns["Codigo"].Visible = true;
+                this.dgvDetalle.Columns["Codigo"].HeaderText = "Codigo";
+                this.dgvDetalle.Columns["Codigo"].Width = 150;
+                this.dgvDetalle.Columns["Codigo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
-        {
+                this.dgvDetalle.Columns["Descripcion"].Visible = true;
+                this.dgvDetalle.Columns["Descripcion"].HeaderText = "Descripcion";
+                this.dgvDetalle.Columns["Descripcion"].Width = 200;
+                this.dgvDetalle.Columns["Descripcion"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-        }
+                this.dgvDetalle.Columns["Cantidad"].Visible = true;
+                this.dgvDetalle.Columns["Cantidad"].HeaderText = "Cantidad";
+                this.dgvDetalle.Columns["Cantidad"].Width = 100;
+                this.dgvDetalle.Columns["Cantidad"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                this.dgvDetalle.Columns["Cantidad"].DefaultCellStyle.Format = "N2";
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
+                this.dgvDetalle.Columns["DscCentroCosto"].Visible = true;
+                this.dgvDetalle.Columns["DscCentroCosto"].HeaderText = "Centro Costo";
+                this.dgvDetalle.Columns["DscCentroCosto"].Width = 200;
+                this.dgvDetalle.Columns["DscCentroCosto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void DataGridSolicitudDeCompra_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+                General.AutoWidthColumn(ref this.dgvDetalle, "Descripcion");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

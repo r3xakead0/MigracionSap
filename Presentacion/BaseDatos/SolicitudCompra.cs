@@ -9,13 +9,6 @@ namespace MigracionSap.Presentacion.BaseDatos
     public class SolicitudCompra
     {
 
-        private string stringConnection = "";
-
-        public SolicitudCompra(string stringConnection)
-        {
-            this.stringConnection = stringConnection;
-        }
-
         public List<BE.SolicitudCompra> Listar()
         {
             var lstSolicitudCompra = new List<BE.SolicitudCompra>();
@@ -24,7 +17,7 @@ namespace MigracionSap.Presentacion.BaseDatos
 
                 string sp = "SpTbSolicitudCompraListar";
 
-                using (var cnn = new SqlConnection(this.stringConnection))
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
 
@@ -74,7 +67,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                 string spCab = "SpTbSolicitudCompraInsertar";
                 string spDet = "SpTbSolicitudCompraDetalleInsertar";
 
-                using (cnn = new SqlConnection(this.stringConnection))
+                using (cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
                     tns = cnn.BeginTransaction();

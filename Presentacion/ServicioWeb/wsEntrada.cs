@@ -16,7 +16,7 @@ namespace MigracionSap.Presentacion.ServicioWeb
             this.endPoint = "https://sap-solpe.herokuapp.com/php/ws_entrada.php";
         }
 
-        public List<JS.EntradaAlmacen> Obtener()
+        public List<JS.EntradaAlmacen> Obtener(DateTime fechaHora, int idEmpresa)
         {
             var lstEntradaAlmacen = new List<JS.EntradaAlmacen>();
 
@@ -25,11 +25,11 @@ namespace MigracionSap.Presentacion.ServicioWeb
 
                 var client = new RestClient(this.endPoint);
 
-                //var request = new RestRequest("resource/{id}", Method.POST);
-                //request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
-                //IRestResponse response = client.Execute(request);
+                var request = new RestRequest(Method.POST);
+                request.AddParameter("datetime", fechaHora.ToString("yyyy-MM-ddTHH:mm:ss"));
+                request.AddParameter("sociedad", idEmpresa.ToString());
 
-                var task = client.ExecuteTaskAsync(new RestRequest());
+                var task = client.ExecuteTaskAsync(request);
                 task.Wait();
 
                 string jsonCabecera = task.Result.Content;

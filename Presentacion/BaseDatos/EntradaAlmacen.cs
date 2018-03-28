@@ -9,13 +9,6 @@ namespace MigracionSap.Presentacion.BaseDatos
     public class EntradaAlmacen
     {
 
-        private string stringConnection = "";
-
-        public EntradaAlmacen(string stringConnection)
-        {
-            this.stringConnection = stringConnection;
-        }
-
         public List<BE.EntradaAlmacen> Listar()
         {
             var lstEntradaAlmacen = new List<BE.EntradaAlmacen>();
@@ -24,7 +17,7 @@ namespace MigracionSap.Presentacion.BaseDatos
 
                 string sp = "SpTbSalidaAlmaceListar";
 
-                using (var cnn = new SqlConnection(this.stringConnection))
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
 
@@ -73,7 +66,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                 string spCab = "SpTbEntradaAlmacenInsertar";
                 string spDet = "SpTbEntradaAlmacenDetalleInsertar";
 
-                using (cnn = new SqlConnection(this.stringConnection))
+                using (cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
                     tns = cnn.BeginTransaction();

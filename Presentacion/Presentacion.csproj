@@ -35,9 +35,6 @@
     <ApplicationIcon>App.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -62,18 +59,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDatos\Entidades\DocumentoBase.cs" />
+    <Compile Include="BaseDatos\Conexion.cs" />
+    <Compile Include="BaseDatos\Migracion.cs" />
+    <Compile Include="BaseDatos\Configuracion.cs" />
+    <Compile Include="BaseDatos\Entidades\Configuracion.cs" />
+    <Compile Include="BaseDatos\Entidades\Migracion.cs" />
+    <Compile Include="BaseDatos\Entidades\Planificacion.cs" />
+    <Compile Include="BaseDatos\Entidades\Error.cs" />
+    <Compile Include="BaseDatos\Entidades\TipoDocumento.cs" />
+    <Compile Include="BaseDatos\Entidades\Empresa.cs" />
+    <Compile Include="BaseDatos\Entidades\Base.cs" />
     <Compile Include="BaseDatos\Entidades\EntradaAlmacen.cs" />
     <Compile Include="BaseDatos\Entidades\SolicitudCompra.cs" />
     <Compile Include="BaseDatos\Entidades\SalidaAlmacen.cs" />
+    <Compile Include="BaseDatos\Empresa.cs" />
     <Compile Include="BaseDatos\EntradaAlmacen.cs" />
     <Compile Include="BaseDatos\SolicitudCompra.cs" />
     <Compile Include="BaseDatos\SalidaAlmacen.cs" />
+    <Compile Include="DetalleAlmacen.cs" />
+    <Compile Include="Migracion.cs" />
+    <Compile Include="FrmPlanificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPlanificacion.Designer.cs">
+      <DependentUpon>FrmPlanificacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmConfiguracion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConfiguracion.Designer.cs">
+      <DependentUpon>FrmConfiguracion.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMigracionDocumentos.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmMigracionDocumentos.Designer.cs">
       <DependentUpon>FrmMigracionDocumentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmEntradaAlmacen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEntradaAlmacen.Designer.cs">
+      <DependentUpon>FrmEntradaAlmacen.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmSalidaAlmacen.cs">
       <SubType>Form</SubType>
@@ -98,8 +125,17 @@
     <Compile Include="ServicioWeb\wsSolicitud.cs" />
     <Compile Include="ServicioWeb\wsEntrada.cs" />
     <Compile Include="ServicioWeb\wsSalida.cs" />
+    <EmbeddedResource Include="FrmPlanificacion.resx">
+      <DependentUpon>FrmPlanificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConfiguracion.resx">
+      <DependentUpon>FrmConfiguracion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMigracionDocumentos.resx">
       <DependentUpon>FrmMigracionDocumentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEntradaAlmacen.resx">
+      <DependentUpon>FrmEntradaAlmacen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSalidaAlmacen.resx">
       <DependentUpon>FrmSalidaAlmacen.cs</DependentUpon>
@@ -143,10 +179,6 @@
     <Content Include="Imagenes\upload.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Entidades\Entidades.csproj">
-      <Project>{68521bd1-c8a4-4fb2-b143-45eb8e2e96f8}</Project>
-      <Name>Entidades</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utils\Utiles.csproj">
       <Project>{729d495f-7555-4294-8ca0-f9b24abd794b}</Project>
       <Name>Utiles</Name>
@@ -154,6 +186,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sap\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SAPbobsCOM">
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30090}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

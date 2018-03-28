@@ -15,7 +15,8 @@ namespace MigracionSap.Presentacion.BaseDatos.Entidades
         public int IdSalidaAlmacen { get; set; }
         public string CodAlmacen { get; set; }
         public string CodImpuesto { get; set; }
-        public string NroCuentaContable { get; set; }
+        public string CodMoneda { get; set; }
+        public string CodCuentaContable { get; set; }
         public string CodProyecto { get; set; }
         public string CodCentroCosto { get; set; }
     }

@@ -37,12 +37,14 @@
             this.lblComentarios = new System.Windows.Forms.Label();
             this.lblSolicitante = new System.Windows.Forms.Label();
             this.dgvDetalle = new System.Windows.Forms.DataGridView();
+            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
             this.SuspendLayout();
             // 
             // dtpFechaDocumento
             // 
             this.dtpFechaDocumento.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtpFechaDocumento.Enabled = false;
             this.dtpFechaDocumento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaDocumento.Location = new System.Drawing.Point(731, 13);
             this.dtpFechaDocumento.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -65,26 +67,32 @@
             // 
             this.txtComentario.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtComentario.BackColor = System.Drawing.SystemColors.Window;
             this.txtComentario.Location = new System.Drawing.Point(131, 41);
             this.txtComentario.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtComentario.Multiline = true;
             this.txtComentario.Name = "txtComentario";
+            this.txtComentario.ReadOnly = true;
             this.txtComentario.Size = new System.Drawing.Size(727, 60);
             this.txtComentario.TabIndex = 26;
             // 
             // txtUsuarioNombre
             // 
+            this.txtUsuarioNombre.BackColor = System.Drawing.SystemColors.Window;
             this.txtUsuarioNombre.Location = new System.Drawing.Point(267, 13);
             this.txtUsuarioNombre.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtUsuarioNombre.Name = "txtUsuarioNombre";
+            this.txtUsuarioNombre.ReadOnly = true;
             this.txtUsuarioNombre.Size = new System.Drawing.Size(292, 22);
             this.txtUsuarioNombre.TabIndex = 25;
             // 
             // txtUsuarioCodigo
             // 
+            this.txtUsuarioCodigo.BackColor = System.Drawing.SystemColors.Window;
             this.txtUsuarioCodigo.Location = new System.Drawing.Point(131, 13);
             this.txtUsuarioCodigo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtUsuarioCodigo.Name = "txtUsuarioCodigo";
+            this.txtUsuarioCodigo.ReadOnly = true;
             this.txtUsuarioCodigo.Size = new System.Drawing.Size(127, 22);
             this.txtUsuarioCodigo.TabIndex = 24;
             this.txtUsuarioCodigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -118,14 +126,26 @@
             this.dgvDetalle.Location = new System.Drawing.Point(17, 125);
             this.dgvDetalle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvDetalle.Name = "dgvDetalle";
-            this.dgvDetalle.Size = new System.Drawing.Size(842, 273);
+            this.dgvDetalle.Size = new System.Drawing.Size(842, 269);
             this.dgvDetalle.TabIndex = 29;
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.Location = new System.Drawing.Point(752, 400);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(107, 24);
+            this.btnCerrar.TabIndex = 30;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // FrmSalidaAlmacen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(875, 410);
+            this.ClientSize = new System.Drawing.Size(875, 436);
+            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.dgvDetalle);
             this.Controls.Add(this.dtpFechaDocumento);
             this.Controls.Add(this.lblFechaDocumento);
@@ -158,6 +178,7 @@
         private System.Windows.Forms.Label lblComentarios;
         private System.Windows.Forms.Label lblSolicitante;
         private System.Windows.Forms.DataGridView dgvDetalle;
+        private System.Windows.Forms.Button btnCerrar;
     }
 }
 

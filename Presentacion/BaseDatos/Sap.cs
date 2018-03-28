@@ -10,13 +10,6 @@ namespace MigracionSap.Presentacion.BaseDatos
         private const int ENTRADAALMACEN = 59;
         private const int SOLICITUDCOMPRA = 1470000113;
 
-        private string stringConnection = "";
-
-        public Sap(string stringConnection)
-        {
-            this.stringConnection = stringConnection;
-        }
-
         /// <summary>
         /// Obtener la serie de numeracion por documento
         /// </summary>
@@ -30,7 +23,7 @@ namespace MigracionSap.Presentacion.BaseDatos
             {
                 string sql = $"SELECT TOP 1 T0.SERIES FROM NNM1 T0 WHERE T0.OBJECTCODE = { idDocumento.ToString() } AND T0.SERIESNAME = '{ serie }'";
 
-                using (SqlConnection cnn = new SqlConnection(this.stringConnection))
+                using (SqlConnection cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
 
@@ -77,7 +70,7 @@ namespace MigracionSap.Presentacion.BaseDatos
             {
                 string sql = $"SELECT TOP 1 MainCurncy, DfltWhs, TaxCodeCst FROM OAD";
 
-                using (SqlConnection cnn = new SqlConnection(this.stringConnection))
+                using (SqlConnection cnn = new SqlConnection(Conexion.strCnxBD))
                 {
                     cnn.Open();
 
