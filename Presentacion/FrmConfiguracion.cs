@@ -29,6 +29,8 @@ namespace MigracionSap.Presentacion
 
         #endregion
 
+        private BE.Configuracion configuracion = null;
+
         public FrmConfiguracion()
         {
             InitializeComponent();
@@ -39,7 +41,37 @@ namespace MigracionSap.Presentacion
             try
             {
 
-                new BD.Empresa().Listar();
+                this.configuracion = new BE.Configuracion();
+
+                this.cboTipoBD.Items.Add("MSSQL 2008");
+                this.cboEmpresa.SelectedIndex = 0;
+
+                var lstBeEmpresa = new BD.Empresa().Listar();
+                this.cboEmpresa.DataSource = lstBeEmpresa;
+                this.cboEmpresa.DisplayMember = "Nombre";
+                this.cboEmpresa.ValueMember = "Id";
+                
+                this.cboEmpresa.SelectedIndex = 0;
+
+                var beEmpresa = (BE.Empresa)this.cboEmpresa.SelectedItem;
+
+                if (beEmpresa != null)
+                {
+                    configuracion = new BD.Configuracion().Obtener(beEmpresa);
+                    if (configuracion != null)
+                    {
+                        this.txtServidor.Text = configuracion.Servidor;
+
+                        this.txtServidor.Text = configuracion.LicenciaSAP;
+                        this.txtUsuarioSBO.Text = configuracion.UsuarioSAP;
+                        this.txtClaveSBO.Text = configuracion.ClaveSAP;
+
+                        this.txtNombreBD.Text = configuracion.BaseDatos;
+                        this.txtUsuarioBD.Text = configuracion.UsuarioBD;
+                        this.txtClaveSBO.Text = configuracion.ClaveBD;
+                    }
+                }
+                
 
             }
             catch (Exception ex)
@@ -64,7 +96,7 @@ namespace MigracionSap.Presentacion
         {
             try
             {
-                
+
             }
             catch (Exception ex)
             {
