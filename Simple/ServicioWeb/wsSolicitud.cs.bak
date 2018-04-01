@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using RestSharp;
 using Newtonsoft.Json.Linq;
-using JS = MigracionSap.Simple.ServicioWeb.Json;
+using JS = MigracionSap.Presentacion.ServicioWeb.Json;
 
-namespace MigracionSap.Simple.ServicioWeb
+namespace MigracionSap.Presentacion.ServicioWeb
 {
-    public class WsSolicitud
+    public class wsSolicitud
     {
 
         private string endPoint = "";
 
-        public WsSolicitud()
+        public wsSolicitud()
         {
             this.endPoint = "https://sap-solpe.herokuapp.com/php/ws_solicitud.php";
         }
 
-        public List<JS.SolicitudCompra> Obtener(DateTime fechaHora, int idEmpresa)
+        public List<JS.SolicitudCompra> Obtener()
         {
             var lstSolicitudCompra = new List<JS.SolicitudCompra>();
 
@@ -25,11 +25,11 @@ namespace MigracionSap.Simple.ServicioWeb
 
                 var client = new RestClient(this.endPoint);
 
-                var request = new RestRequest(Method.POST);
-                request.AddParameter("datetime", fechaHora.ToString("yyyy-MM-ddTHH:mm:ss"));
-                request.AddParameter("sociedad", idEmpresa.ToString());
+                //var request = new RestRequest("resource/{id}", Method.POST);
+                //request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
+                //IRestResponse response = client.Execute(request);
 
-                var task = client.ExecuteTaskAsync(request);
+                var task = client.ExecuteTaskAsync(new RestRequest());
                 task.Wait();
 
                 string jsonCabecera = task.Result.Content;
