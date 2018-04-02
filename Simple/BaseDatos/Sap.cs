@@ -12,6 +12,11 @@ namespace MigracionSap.Simple.BaseDatos
 
         private string strCnxBD = @"Data Source=SRVMAYO1;Initial Catalog=SBO_PRUEBACMAYO19072017;User id=sa;Password=Sapb1admin;";
 
+        public Sap(string servidor, string basedatos, string usuario, string clave)
+        {
+            strCnxBD = $"Data Source={servidor};Initial Catalog={basedatos};User id={usuario};Password={clave};";
+        }
+
         /// <summary>
         /// Obtener la serie de numeracion por documento
         /// </summary>

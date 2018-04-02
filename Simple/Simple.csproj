@@ -42,6 +42,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDatos\Conexion.cs" />
+    <Compile Include="BaseDatos\Configuracion.cs" />
+    <Compile Include="BaseDatos\Empresa.cs" />
+    <Compile Include="BaseDatos\Entidades\Configuracion.cs" />
+    <Compile Include="BaseDatos\Entidades\Empresa.cs" />
     <Compile Include="BaseDatos\Sap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

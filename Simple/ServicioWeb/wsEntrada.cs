@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RestSharp;
 using Newtonsoft.Json.Linq;
 using JS = MigracionSap.Simple.ServicioWeb.Json;
+using System.Configuration;
 
 namespace MigracionSap.Simple.ServicioWeb
 {
@@ -13,8 +14,8 @@ namespace MigracionSap.Simple.ServicioWeb
 
         public WsEntrada()
         {
-            this.endPoint = "https://sap-solpe.herokuapp.com/php/ws_entrada.php";
-        }
+            this.endPoint = ConfigurationManager.AppSettings["wsEntrada"].ToString();
+    }
 
         public List<JS.EntradaAlmacen> Obtener(DateTime fechaHora, int idEmpresa)
         {

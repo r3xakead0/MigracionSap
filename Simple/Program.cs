@@ -15,20 +15,36 @@ namespace MigracionSap.Simple
                 if (DateTime.Now.Month > 3)
                     return;
 
-                Console.Write($"Ingrese la fecha y hora (dd/MM/yyyy HH:mm:ss) : ");
-                string strFechahora = Console.ReadLine();
-
-                Console.Write($"Ingrese el codigo de la sociendad : ");
-                string strIdEmpresa = Console.ReadLine();
-
                 DateTime fechaHora = new DateTime(2018, 2, 2, 0, 0, 0);
                 int idEmpresa = 13;
 
+                Console.Write($"Ingrese la fecha y hora (dd/MM/yyyy HH:mm:ss) : ");
+                Console.Write(fechaHora.ToString("dd/MM/yyyy HH:mm:ss"));
+                string strFechahora = Console.ReadLine();
+
+                Console.Write($"Ingrese el codigo de la sociendad : ");
+                Console.Write(idEmpresa.ToString());
+                string strIdEmpresa = Console.ReadLine();
+
                 string strRpta = "";
-                var sapBd = new BD.Sap();
+                
 
                 Console.Write($"Conectarse a SBO");
-                var sbo = new Sap.DiConexion();
+                var beConfiguracion = new BD.Configuracion().Obtener(idEmpresa);
+
+                string server = beConfiguracion.Servidor;
+                string licenseServer = beConfiguracion.LicenciaSAP;
+                string companyDB = beConfiguracion.BaseDatos;
+                string dbUserName = beConfiguracion.UsuarioBD;
+                string dbPassword = beConfiguracion.ClaveBD;
+                string userName = beConfiguracion.UsuarioSAP;
+                string password = beConfiguracion.ClaveSAP;
+
+                var sbo = new DI.DiConexion(server, licenseServer, companyDB,
+                                                    dbUserName, dbPassword,
+                                                    userName, password);
+
+                var sapBd = new BD.Sap(server, companyDB, dbUserName, dbPassword);
 
                 Console.Write($"Sincronizar SALIDAS DE ALMACEN (SI o NO) : ");
                 strRpta = Console.ReadLine().ToUpper();

@@ -5,6 +5,13 @@ namespace MigracionSap.Simple.Sap
 {
     public class DiConexion : IDisposable
     {
+        public string Server = "";
+        private string LicenseServer = "";
+        public string CompanyDB = "";
+        public string DbUserName = "";
+        public string DbPassword = "";
+        private string UserName = "";
+        private string Password = "";
 
         public Company oCompany = null;
         public bool disposed = false;
@@ -12,8 +19,19 @@ namespace MigracionSap.Simple.Sap
         /// <summary>
         /// Construction
         /// </summary>
-        public DiConexion()
+        public DiConexion(string server, string licenseServer, string companyDB,
+                        string dbUserName, string dbPassword, string userName,
+                        string password)
         {
+
+            this.Server = server;
+            this.LicenseServer = licenseServer;
+            this.CompanyDB = companyDB;
+            this.DbUserName = dbUserName;
+            this.DbPassword = dbPassword;
+            this.UserName = userName;
+            this.Password = password;
+
             this.Conectar();
         }
 
@@ -62,14 +80,14 @@ namespace MigracionSap.Simple.Sap
             {
                 this.oCompany = new Company();
 
-                oCompany.Server = "SRVMAYO1";
-                oCompany.LicenseServer = "192.168.1.10:30000";
-                oCompany.CompanyDB = "SBO_PRUEBACMAYO19072017";
+                oCompany.Server = this.Server;
+                oCompany.LicenseServer = this.LicenseServer;
+                oCompany.CompanyDB = this.CompanyDB;
                 oCompany.DbServerType = BoDataServerTypes.dst_MSSQL2008;
-                oCompany.DbUserName = "sa";
-                oCompany.DbPassword = "Sapb1admin";
-                oCompany.UserName = "manager";
-                oCompany.Password = "m1r1";
+                oCompany.DbUserName = this.DbUserName;
+                oCompany.DbPassword = this.DbPassword;
+                oCompany.UserName = this.UserName;
+                oCompany.Password = this.Password;
                 oCompany.language = BoSuppLangs.ln_Spanish_La;
 
                 int retCode = oCompany.Connect();
