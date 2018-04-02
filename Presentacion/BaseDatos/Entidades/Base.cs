@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MigracionSap.Presentacion.BaseDatos.Entidades
+namespace MigracionSap.Cliente.BaseDatos.Entidades
 {
 
     public class Base
@@ -13,13 +13,13 @@ namespace MigracionSap.Presentacion.BaseDatos.Entidades
     {
         public Empresa Empresa { get; set; } = null;
         public TipoDocumento TipoDocumento { get; set; } = null;
-        public string Serie { get; set; } = "";
+        public int Serie { get; set; } = 0;
         public string Usuario { get; set; } = "";
         public string Comentario { get; set; } = "";
         public DateTime FechaContable { get; set; } = DateTime.Now;
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
         public double Total { get; set; } = 0.0;
-        public int CodSap { get; set; } = 0;
+        public string CodSap { get; set; } = "";
     }
 
     public class DetalleBase
@@ -28,6 +28,5 @@ namespace MigracionSap.Presentacion.BaseDatos.Entidades
         public string Codigo { get; set; } = "";
         public string Descripcion { get; set; } = "";
         public double Cantidad { get; set; } = 0.0;
-        public double Precio { get; set; } = 0.0;
     }
 }

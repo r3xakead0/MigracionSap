@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MigracionSap.Simple.ServicioWeb.Json
+namespace MigracionSap.Cliente.ServicioWeb.Json
 {
     public class SolicitudCompra
     {

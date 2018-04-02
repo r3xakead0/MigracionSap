@@ -1,4 +1,4 @@
-﻿namespace MigracionSap.Presentacion.BaseDatos.Entidades
+﻿namespace MigracionSap.Cliente.BaseDatos.Entidades
 {
     public class Configuracion
     {

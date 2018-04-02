@@ -1,4 +1,4 @@
-﻿namespace MigracionSap.Presentacion
+﻿namespace MigracionSap.Cliente
 {
     partial class FrmEntradaAlmacen
     {

@@ -1,4 +1,4 @@
-﻿namespace MigracionSap.Presentacion
+﻿namespace MigracionSap.Cliente
 {
     partial class FrmMigracionDocumentos
     {
@@ -32,9 +32,7 @@
             this.dgvMigraciones = new System.Windows.Forms.DataGridView();
             this.tbcMigraciones = new System.Windows.Forms.TabControl();
             this.tbpSincronizar = new System.Windows.Forms.TabPage();
-            this.btnEnviar = new System.Windows.Forms.Button();
             this.btnSincronizar = new System.Windows.Forms.Button();
-            this.btnVisualizar = new System.Windows.Forms.Button();
             this.btnErrores = new System.Windows.Forms.Button();
             this.tbpHistorial = new System.Windows.Forms.TabPage();
             this.dgvHistorial = new System.Windows.Forms.DataGridView();
@@ -79,9 +77,7 @@
             // 
             // tbpSincronizar
             // 
-            this.tbpSincronizar.Controls.Add(this.btnEnviar);
             this.tbpSincronizar.Controls.Add(this.btnSincronizar);
-            this.tbpSincronizar.Controls.Add(this.btnVisualizar);
             this.tbpSincronizar.Controls.Add(this.btnErrores);
             this.tbpSincronizar.Controls.Add(this.dgvMigraciones);
             this.tbpSincronizar.Location = new System.Drawing.Point(4, 23);
@@ -92,18 +88,6 @@
             this.tbpSincronizar.Text = "Sincronizar";
             this.tbpSincronizar.UseVisualStyleBackColor = true;
             // 
-            // btnEnviar
-            // 
-            this.btnEnviar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEnviar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEnviar.Location = new System.Drawing.Point(119, 355);
-            this.btnEnviar.Name = "btnEnviar";
-            this.btnEnviar.Size = new System.Drawing.Size(107, 24);
-            this.btnEnviar.TabIndex = 9;
-            this.btnEnviar.Text = "Enviar";
-            this.btnEnviar.UseVisualStyleBackColor = true;
-            this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
-            // 
             // btnSincronizar
             // 
             this.btnSincronizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -111,25 +95,14 @@
             this.btnSincronizar.Name = "btnSincronizar";
             this.btnSincronizar.Size = new System.Drawing.Size(107, 24);
             this.btnSincronizar.TabIndex = 8;
-            this.btnSincronizar.Text = "Recibir";
+            this.btnSincronizar.Text = "Sincronizar";
             this.btnSincronizar.UseVisualStyleBackColor = true;
-            this.btnSincronizar.Click += new System.EventHandler(this.btnRecibir_Click);
-            // 
-            // btnVisualizar
-            // 
-            this.btnVisualizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVisualizar.Location = new System.Drawing.Point(846, 355);
-            this.btnVisualizar.Name = "btnVisualizar";
-            this.btnVisualizar.Size = new System.Drawing.Size(107, 24);
-            this.btnVisualizar.TabIndex = 6;
-            this.btnVisualizar.Text = "Visualizar";
-            this.btnVisualizar.UseVisualStyleBackColor = true;
-            this.btnVisualizar.Click += new System.EventHandler(this.btnVisualizar_Click);
+            this.btnSincronizar.Click += new System.EventHandler(this.btnSincronizar_Click);
             // 
             // btnErrores
             // 
             this.btnErrores.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnErrores.Location = new System.Drawing.Point(733, 355);
+            this.btnErrores.Location = new System.Drawing.Point(846, 355);
             this.btnErrores.Name = "btnErrores";
             this.btnErrores.Size = new System.Drawing.Size(107, 24);
             this.btnErrores.TabIndex = 5;
@@ -257,7 +230,6 @@
         private System.Windows.Forms.TabControl tbcMigraciones;
         private System.Windows.Forms.TabPage tbpSincronizar;
         private System.Windows.Forms.TabPage tbpHistorial;
-        private System.Windows.Forms.Button btnVisualizar;
         private System.Windows.Forms.Button btnErrores;
         private System.Windows.Forms.DateTimePicker dtpInicio;
         private System.Windows.Forms.Label LBLrangodefechas;
@@ -267,7 +239,6 @@
         private System.Windows.Forms.DataGridView dgvHistorial;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.ComboBox cboTiposDocumentos;
-        private System.Windows.Forms.Button btnEnviar;
         private System.Windows.Forms.Button btnSincronizar;
     }
 }

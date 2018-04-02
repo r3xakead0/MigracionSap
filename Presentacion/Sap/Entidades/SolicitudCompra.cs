@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MigracionSap.Simple.Sap.Entidades
+namespace MigracionSap.Cliente.Sap.Entidades
 {
     public class SolicitudCompra
     {
@@ -15,7 +15,7 @@ namespace MigracionSap.Simple.Sap.Entidades
         public DateTime FechaNecesita { get; set; } = DateTime.Now;
         public int IdSucursal { get; set; } = 0;
         public int IdArea { get; set; } = 0;
-        public int DocEntry { get; set; } = 0;
+        public string DocEntry { get; set; } = "";
 
         public List<SolicitudCompraDetalle> Detalle = new List<SolicitudCompraDetalle>();
     }

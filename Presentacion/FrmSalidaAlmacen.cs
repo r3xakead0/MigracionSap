@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
-using BD = MigracionSap.Presentacion.BaseDatos;
-using BE = MigracionSap.Presentacion.BaseDatos.Entidades;
+using BD = MigracionSap.Cliente.BaseDatos;
+using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 
-namespace MigracionSap.Presentacion
+namespace MigracionSap.Cliente
 {
     public partial class FrmSalidaAlmacen : Form
     {
@@ -61,8 +61,8 @@ namespace MigracionSap.Presentacion
                 var beSalidaAlmacen = new BD.SalidaAlmacen().Obtener(idSalidaAlmacen);
                 if (beSalidaAlmacen != null)
                 {
-                    this.txtUsuarioCodigo.Text = beSalidaAlmacen.Usuario;
-                    this.txtUsuarioNombre.Text = beSalidaAlmacen.Usuario;
+                    this.txtUsuario.Text = beSalidaAlmacen.Usuario;
+                    this.txtEmpresa.Text = beSalidaAlmacen.Usuario;
                     this.dtpFechaDocumento.Value = beSalidaAlmacen.FechaContable;
                     this.txtComentario.Text = beSalidaAlmacen.Comentario;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MigracionSap.Simple.Sap.Entidades
+namespace MigracionSap.Cliente.Sap.Entidades
 {
     public class SalidaAlmacen
     {
@@ -11,7 +11,7 @@ namespace MigracionSap.Simple.Sap.Entidades
         public string Comentario { get; set; } = "";
         public DateTime FechaContable { get; set; } = DateTime.Now;
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
-        public int DocEntry { get; set; } = 0;
+        public string DocEntry { get; set; } = "";
 
         public List<SalidaAlmacenDetalle> Detalle = new List<SalidaAlmacenDetalle>();
     }

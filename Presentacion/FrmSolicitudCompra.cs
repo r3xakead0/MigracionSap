@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace MigracionSap.Presentacion
+namespace MigracionSap.Cliente
 {
     public partial class FrmSolicitudCompra : Form
     {

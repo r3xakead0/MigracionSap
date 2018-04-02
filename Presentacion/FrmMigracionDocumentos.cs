@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
-//using SAPbobsCOM;
-using BD = MigracionSap.Presentacion.BaseDatos;
-using BE = MigracionSap.Presentacion.BaseDatos.Entidades;
-using WS = MigracionSap.Presentacion.ServicioWeb;
+using DI = MigracionSap.Cliente.Sap;
+using WS = MigracionSap.Cliente.ServicioWeb;
+using BD = MigracionSap.Cliente.BaseDatos;
+using TD = MigracionSap.Cliente.Traductor;
 
-namespace MigracionSap.Presentacion
+namespace MigracionSap.Cliente
 {
     public partial class FrmMigracionDocumentos : Form
     {
@@ -30,8 +30,6 @@ namespace MigracionSap.Presentacion
         }
 
         #endregion
-
-        private string cnxStrBD = ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
 
         private List<Documento> lstMigracion = null;
         private List<Documento> lstHistorial = null;
@@ -70,55 +68,11 @@ namespace MigracionSap.Presentacion
             }
         }
 
-        private List<BE.SalidaAlmacen> ObtenerSalidasAlmacen(DateTime fechaHora, int idEmpresa)
+        private void SincronizarSalidasAlmacen()
         {
-            var lstSalidaAlmacen = new List<BE.SalidaAlmacen>();
             try
             {
 
-                string formatoFechaHora = "yyyy-MM-dd HH:mm:ss";
-
-                var lstSalidaAlmacenJson = new WS.wsSalida().Obtener(fechaHora, idEmpresa);
-
-                foreach (var salidaAlmacenJson in lstSalidaAlmacenJson)
-                {
-                    var beSalidaAlmacen = new BE.SalidaAlmacen();
-
-                    beSalidaAlmacen.IdSalidaAlmacen = 0;
-                    beSalidaAlmacen.Serie = "";
-                    beSalidaAlmacen.Comentario = salidaAlmacenJson.comentario;
-                    beSalidaAlmacen.Usuario = salidaAlmacenJson.usuario;
-                    beSalidaAlmacen.Total = double.Parse(salidaAlmacenJson.total);
-                    beSalidaAlmacen.FechaContable = General.ParseStringToDatetime(salidaAlmacenJson.FechaContable, formatoFechaHora);
-                    beSalidaAlmacen.FechaCreacion = General.ParseStringToDatetime(salidaAlmacenJson.FechaCreacion, formatoFechaHora);
-                    beSalidaAlmacen.CodSap = 0;
-
-                    int nroLinea = 1;
-                    foreach (var salidaAlmacenDetalleJson in salidaAlmacenJson.detalle)
-                    {
-                        var beSalidaAlmacenDetalle = new BE.SalidaAlmacenDetalle();
-
-                        beSalidaAlmacenDetalle.IdSalidaAlmacenDetalle = 0;
-                        beSalidaAlmacenDetalle.IdSalidaAlmacen =  0;
-                        beSalidaAlmacenDetalle.NroLinea = nroLinea;
-                        beSalidaAlmacenDetalle.Codigo = salidaAlmacenDetalleJson.codArticulo;
-                        beSalidaAlmacenDetalle.Descripcion = salidaAlmacenDetalleJson.descripcion;
-                        beSalidaAlmacenDetalle.Cantidad = double.Parse(salidaAlmacenDetalleJson.cantidad);
-                        beSalidaAlmacenDetalle.CodAlmacen = salidaAlmacenDetalleJson.codAlmacen;
-                        beSalidaAlmacenDetalle.CodImpuesto = salidaAlmacenDetalleJson.codImpuesto;
-                        beSalidaAlmacenDetalle.CodCuentaContable = "";
-                        beSalidaAlmacenDetalle.CodProyecto = "";
-                        beSalidaAlmacenDetalle.CodCentroCosto = salidaAlmacenDetalleJson.codCentroCosto;
-
-                        beSalidaAlmacen.Detalle.Add(beSalidaAlmacenDetalle);
-
-                        nroLinea += 1;
-                    }
-
-                    lstSalidaAlmacen.Add(beSalidaAlmacen);
-                }
-
-                return lstSalidaAlmacen;
             }
             catch (Exception ex)
             {
@@ -126,427 +80,159 @@ namespace MigracionSap.Presentacion
             }
         }
 
-        private List<BE.EntradaAlmacen> ObtenerEntradasAlmacen(DateTime fechaHora, int idEmpresa)
+        private void btnSincronizar_Click(object sender, EventArgs e)
         {
-            var lstEntradaAlmacen = new List<BE.EntradaAlmacen>();
+            this.btnSincronizar.Enabled = false;
+
             try
             {
+                string serieName = DateTime.Now.Year.ToString();
+                int errCode = 0;
+                string errMessage = "";
 
-                string formatoFechaHora = "yyyy-MM-dd HH:mm:ss";
+                var bdTipoDocumento = new BD.TipoDocumento();
 
-                var lstEntradaAlmacenJson = new WS.wsEntrada().Obtener(fechaHora, idEmpresa);
-
-                foreach (var EntradaAlmacenJson in lstEntradaAlmacenJson)
-                {
-                    var beEntradaAlmacen = new BE.EntradaAlmacen();
-
-                    beEntradaAlmacen.IdEntradaAlmacen = 0;
-                    beEntradaAlmacen.Serie = "";
-                    beEntradaAlmacen.Comentario = EntradaAlmacenJson.comentario;
-                    beEntradaAlmacen.Usuario = EntradaAlmacenJson.usuario;
-                    beEntradaAlmacen.Total = double.Parse(EntradaAlmacenJson.total);
-                    beEntradaAlmacen.FechaContable = General.ParseStringToDatetime(EntradaAlmacenJson.FechaContable, formatoFechaHora);
-                    beEntradaAlmacen.FechaCreacion = General.ParseStringToDatetime(EntradaAlmacenJson.FechaCreacion, formatoFechaHora);
-                    beEntradaAlmacen.CodSap = 0;
-                    beEntradaAlmacen.refSap = EntradaAlmacenJson.docEntryOrden;
-
-                    int nroLinea = 1;
-                    foreach (var EntradaAlmacenDetalleJson in EntradaAlmacenJson.detalle)
-                    {
-                        var beEntradaAlmacenDetalle = new BE.EntradaAlmacenDetalle();
-
-                        beEntradaAlmacenDetalle.IdEntradaAlmacenDetalle = 0;
-                        beEntradaAlmacenDetalle.IdEntradaAlmacen = 0;
-                        beEntradaAlmacenDetalle.NroLinea = nroLinea;
-                        beEntradaAlmacenDetalle.Codigo = EntradaAlmacenDetalleJson.codArticulo;
-                        beEntradaAlmacenDetalle.Descripcion = EntradaAlmacenDetalleJson.descripcion;
-                        beEntradaAlmacenDetalle.Cantidad = double.Parse(EntradaAlmacenDetalleJson.cantidad);
-                        beEntradaAlmacenDetalle.CodAlmacen = EntradaAlmacenDetalleJson.codAlmacen;
-                        beEntradaAlmacenDetalle.CodImpuesto = EntradaAlmacenDetalleJson.codImpuesto;
-                        beEntradaAlmacenDetalle.NroCuentaContable = "";
-                        beEntradaAlmacenDetalle.CodProyecto = "";
-                        beEntradaAlmacenDetalle.CodCentroCosto = EntradaAlmacenDetalleJson.codCentroCosto;
-
-                        beEntradaAlmacen.Detalle.Add(beEntradaAlmacenDetalle);
-
-                        nroLinea += 1;
-                    }
-
-                    lstEntradaAlmacen.Add(beEntradaAlmacen);
-                }
-
-                return lstEntradaAlmacen;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private List<BE.SolicitudCompra> ObtenerSolicitudCompra(DateTime fechaHora, int idEmpresa)
-        {
-            var lstSolicitudCompra = new List<BE.SolicitudCompra>();
-            try
-            {
-
-                string formatoFechaHora = "yyyy-MM-dd HH:mm:ss";
-
-                var lstSolicitudCompraJson = new WS.wsSolicitud().Obtener(fechaHora, idEmpresa);
-
-                foreach (var SolicitudCompraJson in lstSolicitudCompraJson)
-                {
-                    var beSolicitudCompra = new BE.SolicitudCompra();
-
-                    beSolicitudCompra.IdSolicitudCompra = 0;
-                    beSolicitudCompra.Serie = "";
-                    beSolicitudCompra.Tipo = char.Parse(SolicitudCompraJson.tipo);
-                    beSolicitudCompra.Comentario = SolicitudCompraJson.comentario;
-                    beSolicitudCompra.Usuario = SolicitudCompraJson.usuario;
-                    beSolicitudCompra.Total = 0;
-                    beSolicitudCompra.FechaContable = General.ParseStringToDatetime(SolicitudCompraJson.FechaContable, formatoFechaHora);
-                    beSolicitudCompra.FechaNecesita = General.ParseStringToDatetime(SolicitudCompraJson.FechaNecesita, formatoFechaHora);
-                    beSolicitudCompra.FechaCreacion = General.ParseStringToDatetime(SolicitudCompraJson.FechaCreacion, formatoFechaHora);
-                    beSolicitudCompra.CodSap = 0;
-
-                    int nroLinea = 1;
-                    foreach (var SolicitudCompraDetalleJson in SolicitudCompraJson.items)
-                    {
-                        var beSolicitudCompraDetalle = new BE.SolicitudCompraDetalle();
-
-                        beSolicitudCompraDetalle.IdSolicitudCompraDetalle = 0;
-                        beSolicitudCompraDetalle.IdSolicitudCompra = 0;
-                        beSolicitudCompraDetalle.NroLinea = nroLinea;
-                        beSolicitudCompraDetalle.Codigo = SolicitudCompraDetalleJson.codArticulo;
-                        beSolicitudCompraDetalle.Descripcion = SolicitudCompraDetalleJson.descripcion;
-                        beSolicitudCompraDetalle.Cantidad = double.Parse(SolicitudCompraDetalleJson.cantidad);
-                        beSolicitudCompraDetalle.CodAlmacen = SolicitudCompraDetalleJson.codAlmacen;
-                        beSolicitudCompraDetalle.CodCentroCosto = SolicitudCompraDetalleJson.codCentroCosto;
-                        beSolicitudCompraDetalle.CodProveedor = SolicitudCompraDetalleJson.codProveedor;
-
-                        beSolicitudCompra.Detalle.Add(beSolicitudCompraDetalle);
-
-                        nroLinea += 1;
-                    }
-
-                    lstSolicitudCompra.Add(beSolicitudCompra);
-                }
-
-                return lstSolicitudCompra;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private void btnRecibir_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.btnSincronizar.Enabled = false;
-
-                bool rpta = false;
-                var lstMigracion = new List<Documento>();
+                var beTipoSalida = bdTipoDocumento.Obtener(1);
+                var beTipoEntrada = bdTipoDocumento.Obtener(2);
+                var beTipoSsolicitud = bdTipoDocumento.Obtener(3);
 
                 DateTime fechaHora = new DateTime(2018, 2, 2, 0, 0, 0);
-                int idEmpresa = 0;
+                int idEmpresa = 13;
 
-                var lstSalidaAlmacen = this.ObtenerSalidasAlmacen(fechaHora, idEmpresa);
-                rpta = new BD.SalidaAlmacen().Insertar(ref lstSalidaAlmacen);
-                if (rpta)
+                var lstBeConfiguracion = new BD.Configuracion().Listar();
+                foreach (var beConfiguracion in lstBeConfiguracion)
                 {
-                    foreach (var objSalidaAlmacen in lstSalidaAlmacen)
-                    {
-                        var objMigracion = new Documento();
+                    string server = beConfiguracion.Servidor;
+                    string licenseServer = beConfiguracion.LicenciaSAP;
+                    string companyDB = beConfiguracion.BaseDatos;
+                    string dbUserName = beConfiguracion.UsuarioBD;
+                    string dbPassword = beConfiguracion.ClaveBD;
+                    string userName = beConfiguracion.UsuarioSAP;
+                    string password = beConfiguracion.ClaveSAP;
 
-                        objMigracion.Empresa = "CORPORACION MAYO";
-                        objMigracion.Tipo = "Salida de Almacen";
-                        objMigracion.Numeracion = "";
-                        objMigracion.Fecha = objSalidaAlmacen.FechaContable;
-                        objMigracion.Estado = "Pendiente";
-                        objMigracion.FechaMigracion = null;
+                    using (var sbo = new DI.DiConexion(server, licenseServer, companyDB, 
+                                                        dbUserName, dbPassword,
+                                                        userName, password))
+                    { 
 
-                        lstMigracion.Add(objMigracion);
+                        var sapBd = new BD.Sap(server, companyDB, dbUserName, dbPassword);
+
+                        var salidaWs = new WS.WsSalida();
+                        var salidaDi = new DI.DiSalidaAlmacen(sbo.oCompany);
+                        var salidaBd = new BD.SalidaAlmacen();
+
+                        var lstSalidasJson = salidaWs.Obtener(fechaHora, idEmpresa);
+
+                        foreach (var salidaJson in lstSalidasJson)
+                        {
+                            var salidaBe = TD.JsonToSap.SalidaAlmacen(salidaJson);
+
+                            salidaBe.Serie = sapBd.ObtenerSerieSalidaAlmacen(serieName);
+                            for (int i = 0; i < salidaBe.Detalle.Count; i++)
+                            {
+                                salidaBe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(salidaBe.Detalle[i].Codigo);
+                            }
+
+                            string docEntry = salidaDi.Enviar(salidaBe, out errCode, out errMessage);
+
+                            if (docEntry.Length == 0)
+                            {
+                                salidaBe.DocEntry = "";
+                                //Error
+                            }
+                            else
+                            {
+                                salidaBe.DocEntry = docEntry;
+
+                                var salidaBD = TD.SapToBd.SalidaAlmacen(salidaBe);
+                                salidaBD.Empresa = beConfiguracion.Empresa;
+                                salidaBD.TipoDocumento = beTipoSalida;
+                                salidaBd.Insertar(ref salidaBD);
+                            }
+                        }
+
+
+                        var entradaWs = new WS.WsEntrada();
+                        var entradaDi = new DI.DiEntradaAlmacen(sbo.oCompany);
+                        var entradaBd = new BD.EntradaAlmacen();
+
+                        var lstEntradasJson = entradaWs.Obtener(fechaHora, idEmpresa);
+
+                        foreach (var entradaJson in lstEntradasJson)
+                        {
+                            var entradaBe = TD.JsonToSap.EntradaAlmacen(entradaJson);
+
+                            entradaBe.Serie = sapBd.ObtenerSerieEntradaAlmacen(serieName);
+                            for (int i = 0; i < entradaBe.Detalle.Count; i++)
+                            {
+                                entradaBe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(entradaBe.Detalle[i].Codigo);
+                            }
+
+                            string docEntry = entradaDi.Enviar(entradaBe, out errCode, out errMessage);
+
+                            if (docEntry.Length == 0)
+                            {
+                                entradaBe.DocEntry = "";
+                                //Error
+                            }
+                            else
+                            {
+                                entradaBe.DocEntry = docEntry;
+
+                                var entradaBD = TD.SapToBd.EntradaAlmacen(entradaBe);
+                                entradaBD.Empresa = beConfiguracion.Empresa;
+                                entradaBD.TipoDocumento = beTipoEntrada;
+                                entradaBd.Insertar(ref entradaBD);
+                            }
+                        }
+
+
+                        var solicitudWs = new WS.WsSolicitud();
+                        var solicitudDi = new DI.DiSolicitudCompra(sbo.oCompany);
+                        var solicitudBd = new BD.SolicitudCompra();
+
+                        var lstSolicitudJson = solicitudWs.Obtener(fechaHora, idEmpresa);
+
+                        foreach (var solicitudJson in lstSolicitudJson)
+                        {
+                            var solicitudBe = TD.JsonToSap.SolicitudCompra(solicitudJson);
+
+                            solicitudBe.Serie = sapBd.ObtenerSerieSolicitudCompra(serieName);
+                            for (int i = 0; i < solicitudBe.Detalle.Count; i++)
+                            {
+                                solicitudBe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(solicitudBe.Detalle[i].Codigo);
+                            }
+
+                            string docEntry = solicitudDi.Enviar(solicitudBe, out errCode, out errMessage);
+
+                            if (docEntry.Length == 0)
+                            {
+                                solicitudBe.DocEntry = "";
+                                //Error
+                            }
+                            else
+                            {
+                                solicitudBe.DocEntry = docEntry;
+
+                                var solicitudBD = TD.SapToBd.SolicitudCompra(solicitudBe);
+                                solicitudBD.Empresa = beConfiguracion.Empresa;
+                                solicitudBD.TipoDocumento = beTipoSsolicitud;
+                                solicitudBd.Insertar(ref solicitudBD);
+                            }
+                        }
                     }
                 }
 
-                var lstEntradaAlmacen = this.ObtenerEntradasAlmacen(fechaHora, idEmpresa);
-                rpta = new BD.EntradaAlmacen().Insertar(ref lstEntradaAlmacen);
-                if (rpta)
-                {
-                    foreach (var objEntradaAlmacen in lstEntradaAlmacen)
-                    {
-                        var objMigracion = new Documento();
 
-                        objMigracion.Empresa = "CORPORACION MAYO";
-                        objMigracion.Tipo = "Entrada de Almacen";
-                        objMigracion.Numeracion = "";
-                        objMigracion.Fecha = objEntradaAlmacen.FechaContable;
-                        objMigracion.Estado = "Pendiente";
-                        objMigracion.FechaMigracion = null;
-
-                        lstMigracion.Add(objMigracion);
-                    }
-                }
-
-                var lstSolicitudCompra = this.ObtenerSolicitudCompra(fechaHora, idEmpresa);
-                rpta = new BD.SolicitudCompra().Insertar(ref lstSolicitudCompra);
-                if (rpta)
-                {
-                    foreach (var objSolicitudCompra in lstSolicitudCompra)
-                    {
-                        var objMigracion = new Documento();
-
-                        objMigracion.Empresa = "CORPORACION MAYO";
-                        objMigracion.Tipo = "Solicitud de Compra";
-                        objMigracion.Numeracion = "";
-                        objMigracion.Fecha = objSolicitudCompra.FechaContable;
-                        objMigracion.Estado = "Pendiente";
-                        objMigracion.FechaMigracion = null;
-
-                        lstMigracion.Add(objMigracion);
-                    }
-                }
-
-                this.dgvMigraciones.DataSource = lstMigracion;
-
-
+                
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+            finally
+            {
                 this.btnSincronizar.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                General.ErrorMessage(ex.Message);
-            }
-        }
-
-        private Company ConexionSAP(BE.Configuracion beConfiguracion)
-        {
-            try
-            {
-                var oCompany = new Company();
-
-                oCompany.Server = beConfiguracion.Servidor;
-                oCompany.LicenseServer = beConfiguracion.LicenciaSAP;
-                oCompany.CompanyDB = beConfiguracion.BaseDatos;
-                oCompany.DbServerType = BoDataServerTypes.dst_MSSQL2008; //configuracion.TipoBD
-                oCompany.DbUserName = beConfiguracion.UsuarioBD;
-                oCompany.DbPassword = beConfiguracion.ClaveBD;
-                oCompany.UserName = beConfiguracion.UsuarioSAP;
-                oCompany.Password = beConfiguracion.ClaveSAP;
-                oCompany.language = BoSuppLangs.ln_Spanish_La; //Español
-
-                int retCode = oCompany.Connect();
-                if (retCode != 0)
-                {
-                    int codErr = 0;
-                    string msgErr = "";
-                    oCompany.GetLastError(out codErr, out msgErr);
-                    throw new Exception($"{codErr} - {msgErr}");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private string SalidaAlmacen(BE.SalidaAlmacen beSalidaAlmacen, Company oCompany)
-        {
-            string docEntry = "";
-
-            try
-            {
-                Documents oSalidaAlmacen = oCompany.GetBusinessObject(BoObjectTypes.oInventoryGenExit);
-
-                oSalidaAlmacen.Series = beSalidaAlmacen.Serie;
-
-                oSalidaAlmacen.DocDate = beSalidaAlmacen.FechaContable;
-                oSalidaAlmacen.TaxDate = beSalidaAlmacen.FechaContable;
-                oSalidaAlmacen.DocDueDate = beSalidaAlmacen.FechaCreacion;
-
-                oSalidaAlmacen.Comments = beSalidaAlmacen.Comentario;
-
-                oSalidaAlmacen.PaymentGroupCode = -1;
-
-                oSalidaAlmacen.UserFields.Fields.Item("U_EXX_NOMBENEFE").Value = beSalidaAlmacen.Usuario;
-
-                int linea = 0;
-                foreach (var beSalidaAlmacenDetalle in beSalidaAlmacen.Detalle)
-                {
-                    if (linea > 0)
-                        oSalidaAlmacen.Add();
-
-                    oSalidaAlmacen.Lines.ItemCode = beSalidaAlmacenDetalle.Codigo;
-                    oSalidaAlmacen.Lines.ItemDescription = beSalidaAlmacenDetalle.Descripcion;
-                    oSalidaAlmacen.Lines.Quantity = beSalidaAlmacenDetalle.Cantidad;
-
-                    oSalidaAlmacen.Lines.Price = beSalidaAlmacenDetalle.Precio;
-                    oSalidaAlmacen.Lines.UnitPrice = beSalidaAlmacenDetalle.Precio;
-
-                    oSalidaAlmacen.Lines.TaxCode = beSalidaAlmacenDetalle.CodImpuesto;
-                    oSalidaAlmacen.Lines.Currency = beSalidaAlmacenDetalle.CodMoneda;
-
-                    oSalidaAlmacen.Lines.WarehouseCode = beSalidaAlmacenDetalle.CodAlmacen;
-
-                    oSalidaAlmacen.Lines.AccountCode = beSalidaAlmacenDetalle.CodCuentaContable;
-
-                    oSalidaAlmacen.Lines.CostingCode = beSalidaAlmacenDetalle.CodCentroCosto;
-                    //oSalidaAlmacen.Lines.ProjectCode = beSalidaAlmacenDetalle.CodProyecto;
-                }
-
-
-                int retCode = oSalidaAlmacen.Add();
-                if (retCode != 0)
-                {
-                    int codErr = 0;
-                    string msgErr = "";
-                    oCompany.GetLastError(out codErr, out msgErr);
-                    throw new Exception($"{codErr} - {msgErr}");
-                }
-
-                docEntry = oCompany.GetNewObjectKey();
-
-                return docEntry;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private string EntradaAlmacen(BE.EntradaAlmacen beEntradaAlmacen, Company oCompany)
-        {
-            string docEntry = "";
-
-            try
-            {
-                Documents oSalidaAlmacen = oCompany.GetBusinessObject(BoObjectTypes.oInventoryGenExit);
-
-                oSalidaAlmacen.Series = beEntradaAlmacen.Serie;
-
-                oSalidaAlmacen.DocDate = beEntradaAlmacen.FechaContable;
-                oSalidaAlmacen.TaxDate = beEntradaAlmacen.FechaContable;
-                oSalidaAlmacen.DocDueDate = beEntradaAlmacen.FechaCreacion;
-
-                oSalidaAlmacen.Comments = beEntradaAlmacen.Comentario;
-
-                oSalidaAlmacen.PaymentGroupCode = -1;
-
-                oSalidaAlmacen.UserFields.Fields.Item("U_EXX_NOMBENEFE").Value = beEntradaAlmacen.Usuario;
-
-                int linea = 0;
-                foreach (var beSalidaAlmacenDetalle in beEntradaAlmacen.Detalle)
-                {
-                    if (linea > 0)
-                        oSalidaAlmacen.Add();
-
-                    oSalidaAlmacen.Lines.ItemCode = beSalidaAlmacenDetalle.Codigo;
-                    oSalidaAlmacen.Lines.ItemDescription = beSalidaAlmacenDetalle.Descripcion;
-                    oSalidaAlmacen.Lines.Quantity = beSalidaAlmacenDetalle.Cantidad;
-
-                    oSalidaAlmacen.Lines.Price = beSalidaAlmacenDetalle.Precio;
-                    oSalidaAlmacen.Lines.UnitPrice = beSalidaAlmacenDetalle.Precio;
-
-                    oSalidaAlmacen.Lines.TaxCode = beSalidaAlmacenDetalle.CodImpuesto;
-                    oSalidaAlmacen.Lines.Currency = beSalidaAlmacenDetalle.CodMoneda;
-
-                    oSalidaAlmacen.Lines.WarehouseCode = beSalidaAlmacenDetalle.CodAlmacen;
-
-                    oSalidaAlmacen.Lines.AccountCode = beSalidaAlmacenDetalle.CodCuentaContable;
-
-                    oSalidaAlmacen.Lines.CostingCode = beSalidaAlmacenDetalle.CodCentroCosto;
-                    //oSalidaAlmacen.Lines.ProjectCode = beSalidaAlmacenDetalle.CodProyecto;
-                }
-
-
-                int retCode = oSalidaAlmacen.Add();
-                if (retCode != 0)
-                {
-                    int codErr = 0;
-                    string msgErr = "";
-                    oCompany.GetLastError(out codErr, out msgErr);
-                    throw new Exception($"{codErr} - {msgErr}");
-                }
-
-                docEntry = oCompany.GetNewObjectKey();
-
-                return docEntry;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private void btnEnviar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (this.lstMigracion.Count == 0)
-                    return;
-
-
-                /*
-                var oCompany = new Company();
-
-                oCompany.Server = "SRVMAYO1";
-                oCompany.LicenseServer = "192.168.1.10:30000";
-                oCompany.CompanyDB = "SBO_PRUEBACMAYO19072017";
-                oCompany.DbServerType = BoDataServerTypes.dst_MSSQL2008;
-                oCompany.DbUserName = "sa";
-                oCompany.DbPassword = "Sapb1admin";
-                oCompany.UserName = "manager";
-                oCompany.Password = "m1r1";
-                oCompany.language = BoSuppLangs.ln_Spanish_La;
-
-                int retCode = oCompany.Connect();
-                if (retCode != 0)
-                {
-                    int codErr = 0;
-                    string msgErr = "";
-                    oCompany.GetLastError(out codErr, out msgErr);
-                    throw new Exception(msgErr);
-                }
-
-                //var lstSalidaAlmacen = new BD.SalidaAlmacen(this.cnxStrBD).Listar();
-
-                Documents oSalidaAlmacen = oCompany.GetBusinessObject(BoObjectTypes.oInventoryGenExit);
-                oSalidaAlmacen.Series = 266;
-                oSalidaAlmacen.DocDate = DateTime.Now;
-                oSalidaAlmacen.TaxDate = DateTime.Now;
-                oSalidaAlmacen.DocDueDate = DateTime.Now;
-                oSalidaAlmacen.Comments = "Prueba Directa";
-                oSalidaAlmacen.PaymentGroupCode = -1;
-
-                oSalidaAlmacen.Lines.ItemCode = "OBR00000021";
-                oSalidaAlmacen.Lines.ItemDescription = "PETROLEO DB5";
-                oSalidaAlmacen.Lines.Quantity = 7.585;
-                oSalidaAlmacen.Lines.Price = 9.940600;
-                oSalidaAlmacen.Lines.UnitPrice = 9.940600;
-                oSalidaAlmacen.Lines.TaxCode = "IGV";
-                oSalidaAlmacen.Lines.Currency = "SOL";
-                oSalidaAlmacen.Lines.WarehouseCode = "01";
-                oSalidaAlmacen.Lines.AccountCode = "_SYS00000003579";
-                oSalidaAlmacen.Lines.CostingCode = "6.03.003";
-
-                retCode = oSalidaAlmacen.Add();
-                if (retCode != 0)
-                {
-                    int codErr = 0;
-                    string msgErr = "";
-                    oCompany.GetLastError(out codErr, out msgErr);
-                    throw new Exception(msgErr);
-                }
-                else
-                {
-                    string docEntry = oCompany.GetNewObjectKey();
-                }
-                */
-
-            }
-            catch (Exception ex)
-            {
-                General.ErrorMessage(ex.Message);
             }
         }
 

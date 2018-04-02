@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MigracionSap.Simple.BaseDatos
+namespace MigracionSap.Cliente.BaseDatos
 {
     public class Sap
     {
@@ -11,6 +11,11 @@ namespace MigracionSap.Simple.BaseDatos
         private const int SOLICITUDCOMPRA = 1470000113;
 
         private string strCnxBD = @"Data Source=SRVMAYO1;Initial Catalog=SBO_PRUEBACMAYO19072017;User id=sa;Password=Sapb1admin;";
+
+        public Sap(string servidor, string basedatos, string usuario, string clave)
+        {
+            strCnxBD = $"Data Source={servidor};Initial Catalog={basedatos};User id={usuario};Password={clave};";
+        }
 
         /// <summary>
         /// Obtener la serie de numeracion por documento

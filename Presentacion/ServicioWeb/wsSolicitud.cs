@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using RestSharp;
 using Newtonsoft.Json.Linq;
-using JS = MigracionSap.Simple.ServicioWeb.Json;
+using JS = MigracionSap.Cliente.ServicioWeb.Json;
+using System.Configuration;
 
-namespace MigracionSap.Simple.ServicioWeb
+namespace MigracionSap.Cliente.ServicioWeb
 {
     public class WsSolicitud
     {
 
-        private string endPoint = "";
+        private string endPoint = ConfigurationManager.AppSettings["wsSolicitud"].ToString();
 
         public WsSolicitud()
         {
-            this.endPoint = "https://sap-solpe.herokuapp.com/php/ws_solicitud.php";
+            
         }
 
         public List<JS.SolicitudCompra> Obtener(DateTime fechaHora, int idEmpresa)

@@ -1,8 +1,8 @@
 ﻿using System;
-using BE = MigracionSap.Simple.Sap.Entidades;
+using BE = MigracionSap.Cliente.Sap.Entidades;
 using SAPbobsCOM;
 
-namespace MigracionSap.Simple.Sap
+namespace MigracionSap.Cliente.Sap
 {
     public class DiEntradaAlmacen 
     {

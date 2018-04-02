@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
-using BD = MigracionSap.Presentacion.BaseDatos;
-using BE = MigracionSap.Presentacion.BaseDatos.Entidades;
+using BD = MigracionSap.Cliente.BaseDatos;
+using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 
-namespace MigracionSap.Presentacion
+namespace MigracionSap.Cliente
 {
     public partial class FrmConfiguracion : Form
     {

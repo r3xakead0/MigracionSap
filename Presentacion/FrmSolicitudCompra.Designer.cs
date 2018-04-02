@@ -1,4 +1,4 @@
-﻿namespace MigracionSap.Presentacion
+﻿namespace MigracionSap.Cliente
 {
     partial class FrmSolicitudCompra
     {
@@ -124,8 +124,9 @@
             // dtpFechaDocumento
             // 
             this.dtpFechaDocumento.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtpFechaDocumento.CustomFormat = "dd/MM/yyyy";
             this.dtpFechaDocumento.Enabled = false;
-            this.dtpFechaDocumento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaDocumento.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFechaDocumento.Location = new System.Drawing.Point(732, 13);
             this.dtpFechaDocumento.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dtpFechaDocumento.Name = "dtpFechaDocumento";
@@ -146,8 +147,9 @@
             // dtpFechaRequerida
             // 
             this.dtpFechaRequerida.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtpFechaRequerida.CustomFormat = "dd/MM/yyyy";
             this.dtpFechaRequerida.Enabled = false;
-            this.dtpFechaRequerida.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaRequerida.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFechaRequerida.Location = new System.Drawing.Point(732, 41);
             this.dtpFechaRequerida.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dtpFechaRequerida.Name = "dtpFechaRequerida";

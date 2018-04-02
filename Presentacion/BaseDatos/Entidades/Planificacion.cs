@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MigracionSap.Presentacion.BaseDatos.Entidades
+namespace MigracionSap.Cliente.BaseDatos.Entidades
 {
     public class Planificacion
     {

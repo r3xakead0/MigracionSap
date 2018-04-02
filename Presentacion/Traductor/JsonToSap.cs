@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Collections.Generic;
-using JS = MigracionSap.Simple.ServicioWeb.Json;
-using BE = MigracionSap.Simple.Sap.Entidades;
+using JS = MigracionSap.Cliente.ServicioWeb.Json;
+using BE = MigracionSap.Cliente.Sap.Entidades;
 
-namespace MigracionSap.Simple.Traductor
+namespace MigracionSap.Cliente.Traductor
 {
     public class JsonToSap
     {
@@ -53,7 +53,7 @@ namespace MigracionSap.Simple.Traductor
                     beSalidaAlmacen.Comentario = jsSalidaAlmacen.comentario;
                     beSalidaAlmacen.FechaContable = ParseStringToDatetime(jsSalidaAlmacen.FechaContable);
                     beSalidaAlmacen.FechaCreacion = ParseStringToDatetime(jsSalidaAlmacen.FechaCreacion);
-                    beSalidaAlmacen.DocEntry = 0;
+                    beSalidaAlmacen.DocEntry = "";
 
                     beSalidaAlmacen.Detalle = new List<BE.SalidaAlmacenDetalle>();
 
@@ -103,7 +103,7 @@ namespace MigracionSap.Simple.Traductor
                     beEntradaAlmacen.Comentario = jsEntradaAlmacen.comentario;
                     beEntradaAlmacen.FechaContable = ParseStringToDatetime(jsEntradaAlmacen.FechaContable);
                     beEntradaAlmacen.FechaCreacion = ParseStringToDatetime(jsEntradaAlmacen.FechaCreacion);
-                    beEntradaAlmacen.DocEntry = 0;
+                    beEntradaAlmacen.DocEntry = "";
                     beEntradaAlmacen.refSap = jsEntradaAlmacen.docEntryOrden;
 
                     beEntradaAlmacen.Detalle = new List<BE.EntradaAlmacenDetalle>();
@@ -159,7 +159,7 @@ namespace MigracionSap.Simple.Traductor
                     beSolicitudCompra.FechaNecesita = ParseStringToDatetime(jsSolicitudCompra.FechaNecesita);
                     beSolicitudCompra.IdSucursal = ParseStringToInt(jsSolicitudCompra.idSucursal);
                     beSolicitudCompra.IdArea = ParseStringToInt(jsSolicitudCompra.idArea);
-                    beSolicitudCompra.DocEntry = 0;
+                    beSolicitudCompra.DocEntry = "";
 
                     beSolicitudCompra.Detalle = new List<BE.SolicitudCompraDetalle>();
 

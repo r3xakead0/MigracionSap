@@ -1,30 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using BE = MigracionSap.Presentacion.BaseDatos.Entidades;
+using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 
-namespace MigracionSap.Presentacion.BaseDatos
+namespace MigracionSap.Cliente.BaseDatos
 {
     public class Configuracion
     {
-
-        public BE.Configuracion Obtener(int idEmpresa)
-        {
-            BE.Configuracion beConfiguracion = null;
-            try
-            {
-                var beEmpresa = new Empresa().Obtener(idEmpresa);
-                if (beEmpresa != null)
-                    beConfiguracion = this.Obtener(beEmpresa);
-
-                return beConfiguracion;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
 
         public BE.Configuracion Obtener(BE.Empresa empresa)
         {
@@ -47,7 +30,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                     {
                         beConfiguracion = new BE.Configuracion();
 
-                        beConfiguracion.IdConfiguracion = int.Parse(reader["IdConfiguracion"].ToString());
+                        beConfiguracion.Id = int.Parse(reader["IdConfiguracion"].ToString());
                         beConfiguracion.Empresa = empresa;
                         beConfiguracion.Servidor = reader["servidor"].ToString();
                         beConfiguracion.BaseDatos = reader["baseDatos"].ToString();
@@ -70,6 +53,59 @@ namespace MigracionSap.Presentacion.BaseDatos
             }
         }
 
+        public List<BE.Configuracion> Listar()
+        {
+            var lstBeConfiguracion = new List<BE.Configuracion>();
+            try
+            {
+
+                string sp = "SpTbConfiguracionListar";
+                int idEmpresa = 0;
+                var bdEmpresa = new Empresa();
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var beConfiguracion = new BE.Configuracion();
+
+                        beConfiguracion.Id = int.Parse(reader["idConfiguracion"].ToString()); 
+
+                        idEmpresa = int.Parse(reader["idEmpresa"].ToString());
+                        beConfiguracion.Empresa = bdEmpresa.Obtener(idEmpresa);
+
+                        beConfiguracion.Servidor = reader["servidor"].ToString(); 
+                        beConfiguracion.BaseDatos = reader["baseDatos"].ToString(); 
+                        beConfiguracion.TipoBD = int.Parse(reader["tipoBD"].ToString()); 
+                        beConfiguracion.UsuarioBD = reader["usuarioBD"].ToString(); 
+                        beConfiguracion.ClaveBD = reader["claveBD"].ToString(); 
+                        beConfiguracion.LicenciaSAP = reader["licenciaSAP"].ToString(); 
+                        beConfiguracion.UsuarioSAP = reader["usuarioSAP"].ToString(); 
+                        beConfiguracion.ClaveSAP = reader["claveSAP"].ToString();
+
+
+                        lstBeConfiguracion.Add(beConfiguracion);
+                    }
+
+                    cnn.Close();
+                }
+
+
+                return lstBeConfiguracion;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool Insertar(ref BE.Configuracion configuracion)
         {
             try
@@ -84,7 +120,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                     var cmd = new SqlCommand(sp, cnn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add(new SqlParameter("@IDCONFIGURACION", configuracion.IdConfiguracion));
+                    cmd.Parameters.Add(new SqlParameter("@IDCONFIGURACION", configuracion.Id));
                     cmd.Parameters["@IDCONFIGURACION"].Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", configuracion.Empresa.Id));
                     cmd.Parameters.Add(new SqlParameter("@SERVIDOR", configuracion.Servidor));
@@ -97,7 +133,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                     cmd.Parameters.Add(new SqlParameter("@CLAVESAP", configuracion.ClaveSAP));
 
                     rowsAffected = cmd.ExecuteNonQuery();
-                    configuracion.IdConfiguracion = int.Parse(cmd.Parameters["@IDCONFIGURACION"].Value.ToString());
+                    configuracion.Id = int.Parse(cmd.Parameters["@IDCONFIGURACION"].Value.ToString());
                 }
 
                 return rowsAffected > 0;
@@ -124,7 +160,7 @@ namespace MigracionSap.Presentacion.BaseDatos
                     SqlCommand cmd = new SqlCommand(sp, cnn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add(new SqlParameter("@IDCONFIGURACION", configuracion.IdConfiguracion));
+                    cmd.Parameters.Add(new SqlParameter("@IDCONFIGURACION", configuracion.Id));
                     cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", configuracion.Empresa.Id));
                     cmd.Parameters.Add(new SqlParameter("@SERVIDOR", configuracion.Servidor));
                     cmd.Parameters.Add(new SqlParameter("@BASEDATOS", configuracion.BaseDatos));

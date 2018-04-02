@@ -7,7 +7,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 
-namespace MigracionSap.Presentacion
+namespace MigracionSap.Cliente
 {
     public class General 
     {

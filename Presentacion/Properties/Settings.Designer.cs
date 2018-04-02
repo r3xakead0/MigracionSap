@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MigracionSap.Presentacion.Properties {
+namespace MigracionSap.Cliente.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

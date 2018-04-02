@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MigracionSap.Presentacion.BaseDatos.Entidades
+namespace MigracionSap.Cliente.BaseDatos.Entidades
 {
     public class SalidaAlmacen : DocumentoBase
     {

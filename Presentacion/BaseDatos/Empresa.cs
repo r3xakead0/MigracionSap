@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using BE = MigracionSap.Presentacion.BaseDatos.Entidades;
+using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 
-namespace MigracionSap.Presentacion.BaseDatos
+namespace MigracionSap.Cliente.BaseDatos
 {
     public class Empresa
     {
@@ -79,6 +79,68 @@ namespace MigracionSap.Presentacion.BaseDatos
                 }
 
                 return beEmpresa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Insertar(ref BE.Empresa empresa)
+        {
+            try
+            {
+                string sp = "SpTbEmpresaInsertar";
+                int rowsAffected = 0;
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", empresa.Id));
+                    cmd.Parameters["@IDEMPRESA"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(new SqlParameter("@NOMBRE", empresa.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("@DESCRIPCION", empresa.Descripcion));
+
+                    rowsAffected = cmd.ExecuteNonQuery();
+                    empresa.Id = int.Parse(cmd.Parameters["@IDEMPRESA"].Value.ToString());
+                }
+
+                return rowsAffected > 0;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Actualizar(BE.Empresa empresa)
+        {
+            try
+            {
+                string sp = "SpTbEmpresaActualizar";
+                int rowsAffected = 0;
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", empresa.Id));
+                    cmd.Parameters.Add(new SqlParameter("@NOMBRE", empresa.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("@DESCRIPCION", empresa.Descripcion));
+
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+
+                return rowsAffected > 0;
+
             }
             catch (Exception ex)
             {

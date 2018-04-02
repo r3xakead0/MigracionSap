@@ -1,4 +1,4 @@
-﻿namespace MigracionSap.Presentacion
+﻿namespace MigracionSap.Cliente
 {
     partial class FrmConfiguracion
     {
@@ -39,10 +39,10 @@
             this.txtUsuarioBD = new System.Windows.Forms.TextBox();
             this.lblUsuarioBD = new System.Windows.Forms.Label();
             this.grpBaseDatos = new System.Windows.Forms.GroupBox();
+            this.cboTipoBD = new System.Windows.Forms.ComboBox();
+            this.lblTipoBD = new System.Windows.Forms.Label();
             this.lblClaveBD = new System.Windows.Forms.Label();
             this.txtClaveBD = new System.Windows.Forms.TextBox();
-            this.lblTipoBD = new System.Windows.Forms.Label();
-            this.cboTipoBD = new System.Windows.Forms.ComboBox();
             this.grpLicencia = new System.Windows.Forms.GroupBox();
             this.lblClaveSBO = new System.Windows.Forms.Label();
             this.txtClaveSBO = new System.Windows.Forms.TextBox();
@@ -51,6 +51,7 @@
             this.lblUsuarioSBO = new System.Windows.Forms.Label();
             this.txtUsuarioSBO = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnEmpresa = new System.Windows.Forms.Button();
             this.grpBaseDatos.SuspendLayout();
             this.grpLicencia.SuspendLayout();
             this.SuspendLayout();
@@ -107,7 +108,7 @@
             this.cboEmpresa.Location = new System.Drawing.Point(131, 12);
             this.cboEmpresa.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboEmpresa.Name = "cboEmpresa";
-            this.cboEmpresa.Size = new System.Drawing.Size(323, 22);
+            this.cboEmpresa.Size = new System.Drawing.Size(294, 22);
             this.cboEmpresa.TabIndex = 33;
             // 
             // txtNombreBD
@@ -167,6 +168,30 @@
             this.grpBaseDatos.TabStop = false;
             this.grpBaseDatos.Text = "Base de Datos";
             // 
+            // cboTipoBD
+            // 
+            this.cboTipoBD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipoBD.Enabled = false;
+            this.cboTipoBD.FormattingEnabled = true;
+            this.cboTipoBD.Items.AddRange(new object[] {
+            "Servicios",
+            "Articulos"});
+            this.cboTipoBD.Location = new System.Drawing.Point(119, 21);
+            this.cboTipoBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.cboTipoBD.Name = "cboTipoBD";
+            this.cboTipoBD.Size = new System.Drawing.Size(297, 22);
+            this.cboTipoBD.TabIndex = 41;
+            // 
+            // lblTipoBD
+            // 
+            this.lblTipoBD.AutoSize = true;
+            this.lblTipoBD.Location = new System.Drawing.Point(17, 24);
+            this.lblTipoBD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTipoBD.Name = "lblTipoBD";
+            this.lblTipoBD.Size = new System.Drawing.Size(42, 14);
+            this.lblTipoBD.TabIndex = 40;
+            this.lblTipoBD.Text = "Tipo :";
+            // 
             // lblClaveBD
             // 
             this.lblClaveBD.AutoSize = true;
@@ -187,30 +212,6 @@
             this.txtClaveBD.ReadOnly = true;
             this.txtClaveBD.Size = new System.Drawing.Size(297, 22);
             this.txtClaveBD.TabIndex = 39;
-            // 
-            // lblTipoBD
-            // 
-            this.lblTipoBD.AutoSize = true;
-            this.lblTipoBD.Location = new System.Drawing.Point(17, 24);
-            this.lblTipoBD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTipoBD.Name = "lblTipoBD";
-            this.lblTipoBD.Size = new System.Drawing.Size(42, 14);
-            this.lblTipoBD.TabIndex = 40;
-            this.lblTipoBD.Text = "Tipo :";
-            // 
-            // cboTipoBD
-            // 
-            this.cboTipoBD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTipoBD.Enabled = false;
-            this.cboTipoBD.FormattingEnabled = true;
-            this.cboTipoBD.Items.AddRange(new object[] {
-            "Servicios",
-            "Articulos"});
-            this.cboTipoBD.Location = new System.Drawing.Point(119, 21);
-            this.cboTipoBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.cboTipoBD.Name = "cboTipoBD";
-            this.cboTipoBD.Size = new System.Drawing.Size(297, 22);
-            this.cboTipoBD.TabIndex = 41;
             // 
             // grpLicencia
             // 
@@ -299,11 +300,22 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // btnEmpresa
+            // 
+            this.btnEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEmpresa.Location = new System.Drawing.Point(432, 12);
+            this.btnEmpresa.Name = "btnEmpresa";
+            this.btnEmpresa.Size = new System.Drawing.Size(22, 22);
+            this.btnEmpresa.TabIndex = 44;
+            this.btnEmpresa.Text = "+";
+            this.btnEmpresa.UseVisualStyleBackColor = true;
+            // 
             // FrmConfiguracion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(481, 391);
+            this.Controls.Add(this.btnEmpresa);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.grpLicencia);
             this.Controls.Add(this.grpBaseDatos);
@@ -352,6 +364,7 @@
         private System.Windows.Forms.Label lblUsuarioSBO;
         private System.Windows.Forms.TextBox txtUsuarioSBO;
         private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnEmpresa;
     }
 }
 
