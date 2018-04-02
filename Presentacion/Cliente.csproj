@@ -60,10 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDatos\Conexion.cs" />
+    <Compile Include="BaseDatos\Entidades\Error.cs" />
+    <Compile Include="BaseDatos\Error.cs" />
     <Compile Include="BaseDatos\TipoDocumento.cs" />
     <Compile Include="BaseDatos\Configuracion.cs" />
     <Compile Include="BaseDatos\Entidades\Configuracion.cs" />
-    <Compile Include="BaseDatos\Entidades\Migracion.cs" />
     <Compile Include="BaseDatos\Entidades\Planificacion.cs" />
     <Compile Include="BaseDatos\Entidades\TipoDocumento.cs" />
     <Compile Include="BaseDatos\Entidades\Empresa.cs" />
@@ -76,6 +77,12 @@
     <Compile Include="BaseDatos\SolicitudCompra.cs" />
     <Compile Include="BaseDatos\SalidaAlmacen.cs" />
     <Compile Include="DetalleAlmacen.cs" />
+    <Compile Include="FrmErrorList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmErrorList.Designer.cs">
+      <DependentUpon>FrmErrorList.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmEmpresa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +146,9 @@
     <Compile Include="ServicioWeb\WsSolicitud.cs" />
     <Compile Include="Traductor\SapToBd.cs" />
     <Compile Include="Traductor\JsonToSap.cs" />
+    <EmbeddedResource Include="FrmErrorList.resx">
+      <DependentUpon>FrmErrorList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmEmpresa.resx">
       <DependentUpon>FrmEmpresa.cs</DependentUpon>
     </EmbeddedResource>

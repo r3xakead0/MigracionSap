@@ -87,21 +87,32 @@ namespace MigracionSap.Cliente
             try
             {
                 string serieName = DateTime.Now.Year.ToString();
+
                 int errCode = 0;
                 string errMessage = "";
 
+                #region Tipo de Documentos
+
+                int idTipoSalida = 1;
+                int idTipoEntrada= 2;
+                int idTipoSolicitud= 3;
+
                 var bdTipoDocumento = new BD.TipoDocumento();
 
-                var beTipoSalida = bdTipoDocumento.Obtener(1);
-                var beTipoEntrada = bdTipoDocumento.Obtener(2);
-                var beTipoSsolicitud = bdTipoDocumento.Obtener(3);
+                var beTipoSalida = bdTipoDocumento.Obtener(idTipoSalida);
+                var beTipoEntrada = bdTipoDocumento.Obtener(idTipoEntrada);
+                var beTipoSsolicitud = bdTipoDocumento.Obtener(idTipoSolicitud);
 
-                DateTime fechaHora = new DateTime(2018, 2, 2, 0, 0, 0);
-                int idEmpresa = 13;
+                #endregion
+
+                DateTime recepcion = new DateTime(2018, 2, 2, 0, 0, 0);
+
+                var lstDocumentos = new List<Documento>();
 
                 var lstBeConfiguracion = new BD.Configuracion().Listar();
                 foreach (var beConfiguracion in lstBeConfiguracion)
                 {
+
                     string server = beConfiguracion.Servidor;
                     string licenseServer = beConfiguracion.LicenciaSAP;
                     string companyDB = beConfiguracion.BaseDatos;
@@ -116,12 +127,15 @@ namespace MigracionSap.Cliente
                     { 
 
                         var sapBd = new BD.Sap(server, companyDB, dbUserName, dbPassword);
+                        var errorBd = new BD.Error();
+
+                        #region Salida de Almacen
 
                         var salidaWs = new WS.WsSalida();
                         var salidaDi = new DI.DiSalidaAlmacen(sbo.oCompany);
                         var salidaBd = new BD.SalidaAlmacen();
 
-                        var lstSalidasJson = salidaWs.Obtener(fechaHora, idEmpresa);
+                        var lstSalidasJson = salidaWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
 
                         foreach (var salidaJson in lstSalidasJson)
                         {
@@ -134,29 +148,47 @@ namespace MigracionSap.Cliente
                             }
 
                             string docEntry = salidaDi.Enviar(salidaBe, out errCode, out errMessage);
+                            salidaBe.DocEntry = docEntry;
 
-                            if (docEntry.Length == 0)
-                            {
-                                salidaBe.DocEntry = "";
-                                //Error
-                            }
-                            else
-                            {
-                                salidaBe.DocEntry = docEntry;
+                            var salidaBD = TD.SapToBd.SalidaAlmacen(salidaBe);
+                            salidaBD.Empresa = beConfiguracion.Empresa;
+                            salidaBD.TipoDocumento = beTipoSalida;
 
-                                var salidaBD = TD.SapToBd.SalidaAlmacen(salidaBe);
-                                salidaBD.Empresa = beConfiguracion.Empresa;
-                                salidaBD.TipoDocumento = beTipoSalida;
-                                salidaBd.Insertar(ref salidaBD);
+                            var rpta = salidaBd.Insertar(ref salidaBD);
+                            if (rpta)
+                            {
+                                string estado = "Sincronizado";
+                                DateTime? envio = DateTime.Now;
+                                if (docEntry.Length == 0)
+                                {
+                                    errorBd.Insertar(idTipoSalida, salidaBD.IdSalidaAlmacen, errMessage);
+                                    estado = "Error";
+                                    envio = null;
+                                }
+
+                                var documento = new Documento();
+                                documento.Empresa = beConfiguracion.Empresa.Nombre;
+                                documento.Tipo = salidaBD.TipoDocumento.Nombre;
+                                documento.Id = salidaBD.IdSalidaAlmacen;
+                                documento.Usuario = salidaBD.Usuario;
+                                documento.Estado = estado;
+                                documento.FechaRecepcion = recepcion;
+                                documento.FechaEnvio = envio;
+
+                                lstDocumentos.Add(documento);
                             }
+
                         }
 
+                        #endregion
+
+                        #region Entrada de Almacen
 
                         var entradaWs = new WS.WsEntrada();
                         var entradaDi = new DI.DiEntradaAlmacen(sbo.oCompany);
                         var entradaBd = new BD.EntradaAlmacen();
 
-                        var lstEntradasJson = entradaWs.Obtener(fechaHora, idEmpresa);
+                        var lstEntradasJson = entradaWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
 
                         foreach (var entradaJson in lstEntradasJson)
                         {
@@ -169,29 +201,46 @@ namespace MigracionSap.Cliente
                             }
 
                             string docEntry = entradaDi.Enviar(entradaBe, out errCode, out errMessage);
+                            entradaBe.DocEntry = docEntry;
 
-                            if (docEntry.Length == 0)
-                            {
-                                entradaBe.DocEntry = "";
-                                //Error
-                            }
-                            else
-                            {
-                                entradaBe.DocEntry = docEntry;
+                            var entradaBD = TD.SapToBd.EntradaAlmacen(entradaBe);
+                            entradaBD.Empresa = beConfiguracion.Empresa;
+                            entradaBD.TipoDocumento = beTipoEntrada;
 
-                                var entradaBD = TD.SapToBd.EntradaAlmacen(entradaBe);
-                                entradaBD.Empresa = beConfiguracion.Empresa;
-                                entradaBD.TipoDocumento = beTipoEntrada;
-                                entradaBd.Insertar(ref entradaBD);
+                            var rpta = entradaBd.Insertar(ref entradaBD);
+                            if (rpta)
+                            {
+                                string estado = "Sincronizado";
+                                DateTime? envio = DateTime.Now;
+                                if (docEntry.Length == 0)
+                                {
+                                    errorBd.Insertar(idTipoEntrada, entradaBD.IdEntradaAlmacen, errMessage);
+                                    estado = "Error";
+                                    envio = null;
+                                }
+
+                                var documento = new Documento();
+                                documento.Empresa = beConfiguracion.Empresa.Nombre;
+                                documento.Tipo = entradaBD.TipoDocumento.Nombre;
+                                documento.Id = entradaBD.IdEntradaAlmacen;
+                                documento.Usuario = entradaBD.Usuario;
+                                documento.Estado = estado;
+                                documento.FechaRecepcion = recepcion;
+                                documento.FechaEnvio = envio;
+
+                                lstDocumentos.Add(documento);
                             }
                         }
 
+                        #endregion
+
+                        #region Solicitud de Compra 
 
                         var solicitudWs = new WS.WsSolicitud();
                         var solicitudDi = new DI.DiSolicitudCompra(sbo.oCompany);
                         var solicitudBd = new BD.SolicitudCompra();
 
-                        var lstSolicitudJson = solicitudWs.Obtener(fechaHora, idEmpresa);
+                        var lstSolicitudJson = solicitudWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
 
                         foreach (var solicitudJson in lstSolicitudJson)
                         {
@@ -204,26 +253,45 @@ namespace MigracionSap.Cliente
                             }
 
                             string docEntry = solicitudDi.Enviar(solicitudBe, out errCode, out errMessage);
+                            solicitudBe.DocEntry = docEntry;
 
-                            if (docEntry.Length == 0)
-                            {
-                                solicitudBe.DocEntry = "";
-                                //Error
-                            }
-                            else
-                            {
-                                solicitudBe.DocEntry = docEntry;
+                            var solicitudBD = TD.SapToBd.SolicitudCompra(solicitudBe);
+                            solicitudBD.Empresa = beConfiguracion.Empresa;
+                            solicitudBD.TipoDocumento = beTipoSsolicitud;
 
-                                var solicitudBD = TD.SapToBd.SolicitudCompra(solicitudBe);
-                                solicitudBD.Empresa = beConfiguracion.Empresa;
-                                solicitudBD.TipoDocumento = beTipoSsolicitud;
-                                solicitudBd.Insertar(ref solicitudBD);
+                            var rpta = solicitudBd.Insertar(ref solicitudBD);
+
+                            if (rpta)
+                            {
+                                string estado = "Sincronizado";
+                                DateTime? envio = DateTime.Now;
+                                if (docEntry.Length == 0)
+                                {
+                                    errorBd.Insertar(idTipoSolicitud, solicitudBD.IdSolicitudCompra, errMessage);
+                                    estado = "Error";
+                                    envio = null;
+                                }
+
+                                var documento = new Documento();
+                                documento.Empresa = beConfiguracion.Empresa.Nombre;
+                                documento.Tipo = solicitudBD.TipoDocumento.Nombre;
+                                documento.Id = solicitudBD.IdSolicitudCompra;
+                                documento.Usuario = solicitudBD.Usuario;
+                                documento.Estado = estado;
+                                documento.FechaRecepcion = recepcion;
+                                documento.FechaEnvio = envio;
+
+                                lstDocumentos.Add(documento);
                             }
+
                         }
+
+                        #endregion
+
                     }
                 }
 
-
+                this.dgvMigraciones.DataSource = lstDocumentos;
                 
             }
             catch (Exception ex)
@@ -361,6 +429,38 @@ namespace MigracionSap.Cliente
             try
             {
 
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void btnErrores_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.dgvHistorial.CurrentRow != null)
+                {
+                    var documento = (Documento)this.dgvMigraciones.CurrentRow.DataBoundItem;
+
+                    switch (documento.Tipo)
+                    {
+                        case "Salida de Almacen":
+                            var salida = FrmSalidaAlmacen.Instance();
+                            salida.Cargar(documento.Id);
+                            salida.Show();
+                            break;
+                        case "Entrada de Almacen":
+                            var entrada = FrmEntradaAlmacen.Instance();
+                            entrada.Cargar(documento.Id);
+                            entrada.Show();
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
             }
             catch (Exception ex)
             {

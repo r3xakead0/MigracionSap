@@ -108,6 +108,7 @@
             this.btnErrores.TabIndex = 5;
             this.btnErrores.Text = "Errores";
             this.btnErrores.UseVisualStyleBackColor = true;
+            this.btnErrores.Click += new System.EventHandler(this.btnErrores_Click);
             // 
             // tbpHistorial
             // 

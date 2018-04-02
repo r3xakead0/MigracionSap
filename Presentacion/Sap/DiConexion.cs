@@ -6,11 +6,11 @@ namespace MigracionSap.Cliente.Sap
     public class DiConexion : IDisposable
     {
 
-        private string Server = "";
+        public string Server = "";
         private string LicenseServer = "";
-        private string CompanyDB = "";
-        private string DbUserName = "";
-        private string DbPassword = "";
+        public string CompanyDB = "";
+        public string DbUserName = "";
+        public string DbPassword = "";
         private string UserName = "";
         private string Password = "";
 
