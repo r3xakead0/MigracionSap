@@ -11,8 +11,8 @@ namespace MigracionSap.Cliente.Sap.Entidades
         public string Comentario { get; set; } = "";
         public DateTime FechaContable { get; set; } = DateTime.Now;
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
-        public string DocEntry { get; set; } = "";
-        public string refSap { get; set; } = "";
+        public int DocEntry { get; set; } = 0;
+        public int refSap { get; set; } = 0;
 
         public List<EntradaAlmacenDetalle> Detalle = new List<EntradaAlmacenDetalle>();
     }
@@ -30,5 +30,6 @@ namespace MigracionSap.Cliente.Sap.Entidades
         public string CodCuentaContable { get; set; }
         public string CodProyecto { get; set; }
         public string CodCentroCosto { get; set; }
+        public int refLineaSap { get; set; } = 1;
     }
 }

@@ -91,6 +91,7 @@ namespace MigracionSap.Cliente.Traductor
                         bdDetalle.CodCuentaContable = sapDetalle.CodCuentaContable;
                         bdDetalle.CodProyecto = sapDetalle.CodProyecto;
                         bdDetalle.CodCentroCosto = sapDetalle.CodCentroCosto;
+                        bdDetalle.refLineaSap = sapDetalle.refLineaSap;
 
                         bdEntradaAlmacen.Detalle.Add(bdDetalle);
                     }

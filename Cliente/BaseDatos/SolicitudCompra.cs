@@ -33,6 +33,8 @@ namespace MigracionSap.Cliente.BaseDatos
 
                     cmd.Parameters.Add(new SqlParameter("@IDSOLICITUDCOMPRA", beSolicitudCompra.IdSolicitudCompra));
                     cmd.Parameters["@IDSOLICITUDCOMPRA"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", beSolicitudCompra.Empresa.Id));
+                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", beSolicitudCompra.TipoDocumento.Id));
                     cmd.Parameters.Add(new SqlParameter("@SERIE", beSolicitudCompra.Serie));
                     cmd.Parameters.Add(new SqlParameter("@TIPO", beSolicitudCompra.Tipo));
                     cmd.Parameters.Add(new SqlParameter("@FECHACONTABLE", beSolicitudCompra.FechaContable));

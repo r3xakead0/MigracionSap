@@ -33,6 +33,8 @@ namespace MigracionSap.Cliente.BaseDatos
 
                     cmd.Parameters.Add(new SqlParameter("@IDENTRADAALMACEN", beEntradaAlmacen.IdEntradaAlmacen));
                     cmd.Parameters["@IDENTRADAALMACEN"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", beEntradaAlmacen.Empresa.Id));
+                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", beEntradaAlmacen.TipoDocumento.Id));
                     cmd.Parameters.Add(new SqlParameter("@SERIE", beEntradaAlmacen.Serie));
                     cmd.Parameters.Add(new SqlParameter("@FECHACONTABLE", beEntradaAlmacen.FechaContable));
                     cmd.Parameters.Add(new SqlParameter("@COMENTARIO", beEntradaAlmacen.Comentario));
@@ -67,6 +69,7 @@ namespace MigracionSap.Cliente.BaseDatos
                         cmd.Parameters.Add(new SqlParameter("@CODCUENTACONTABLE", beEntradaAlmacenDetalle.CodCuentaContable));
                         cmd.Parameters.Add(new SqlParameter("@CODPROYECTO", beEntradaAlmacenDetalle.CodProyecto));
                         cmd.Parameters.Add(new SqlParameter("@CODCENTROCOSTO", beEntradaAlmacenDetalle.CodCentroCosto));
+                        cmd.Parameters.Add(new SqlParameter("@REFLINEASAP", beEntradaAlmacenDetalle.refLineaSap));
 
                         rowsAffected += cmd.ExecuteNonQuery();
 

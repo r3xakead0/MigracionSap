@@ -131,7 +131,7 @@
     <Compile Include="General.cs" />
     <Compile Include="BaseDatos\Sap.cs" />
     <Compile Include="Sap\DiConexion.cs" />
-    <Compile Include="Sap\DiEntradaAlmacen.cs" />
+    <Compile Include="Sap\DiEntradaAlmacenPorCompra.cs" />
     <Compile Include="Sap\DiSalidaAlmacen.cs" />
     <Compile Include="Sap\DiSolicitudCompra.cs" />
     <Compile Include="Sap\Entidades\EntradaAlmacen.cs" />
@@ -196,7 +196,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
-    <Content Include="Diagrama.PNG" />
     <Content Include="Iconos\download.ico" />
     <Content Include="Iconos\MigracionDocumentos.ico" />
     <Content Include="Iconos\IngresoAlmacen.ico" />

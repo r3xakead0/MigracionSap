@@ -10,11 +10,11 @@ namespace MigracionSap.Cliente.ServicioWeb
     public class WsSalida
     {
 
-        private string endPoint = ConfigurationManager.AppSettings["wsSalida"].ToString();
+        private string endPoint = "";
 
         public WsSalida()
         {
-            
+            this.endPoint = ConfigurationManager.AppSettings["wsSalida"].ToString();
         }
 
         public List<JS.SalidaAlmacen> Obtener(DateTime fechaHora, int idEmpresa)

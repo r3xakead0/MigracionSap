@@ -30,5 +30,6 @@ namespace MigracionSap.Simple.Sap.Entidades
         public string CodCuentaContable { get; set; }
         public string CodProyecto { get; set; }
         public string CodCentroCosto { get; set; }
+        public int refLineaSap { get; set; } = 1;
     }
 }

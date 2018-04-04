@@ -15,7 +15,7 @@ namespace MigracionSap.Simple.ServicioWeb
         public WsEntrada()
         {
             this.endPoint = ConfigurationManager.AppSettings["wsEntrada"].ToString();
-    }
+        }
 
         public List<JS.EntradaAlmacen> Obtener(DateTime fechaHora, int idEmpresa)
         {
@@ -64,6 +64,7 @@ namespace MigracionSap.Simple.ServicioWeb
                             objEntradaAlmacenDetalle.codAlmacen = propDet.Value["codAlmacen"].ToString();
                             objEntradaAlmacenDetalle.codImpuesto = propDet.Value["codImpuesto"].ToString();
                             objEntradaAlmacenDetalle.codCentroCosto = propDet.Value["codCentroCosto"].ToString();
+                            objEntradaAlmacenDetalle.lineNumSap = propDet.Value["lineNumSap"].ToString();
 
                             objEntradaAlmacen.detalle.Add(objEntradaAlmacenDetalle);
                         }

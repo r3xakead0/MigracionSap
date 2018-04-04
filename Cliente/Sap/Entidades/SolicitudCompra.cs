@@ -15,7 +15,7 @@ namespace MigracionSap.Cliente.Sap.Entidades
         public DateTime FechaNecesita { get; set; } = DateTime.Now;
         public int IdSucursal { get; set; } = 0;
         public int IdArea { get; set; } = 0;
-        public string DocEntry { get; set; } = "";
+        public int DocEntry { get; set; } = 0;
 
         public List<SolicitudCompraDetalle> Detalle = new List<SolicitudCompraDetalle>();
     }

@@ -5,7 +5,7 @@ namespace MigracionSap.Cliente.BaseDatos.Entidades
     public class EntradaAlmacen : DocumentoBase
     {
         public int IdEntradaAlmacen { get; set; }
-        public string refSap { get; set; }
+        public int refSap { get; set; }
         public List<EntradaAlmacenDetalle> Detalle = new List<EntradaAlmacenDetalle>();
     }
 
@@ -19,5 +19,6 @@ namespace MigracionSap.Cliente.BaseDatos.Entidades
         public string CodCuentaContable { get; set; }
         public string CodProyecto { get; set; }
         public string CodCentroCosto { get; set; }
+        public int refLineaSap { get; set; }
     }
 }

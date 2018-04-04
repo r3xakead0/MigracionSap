@@ -7,7 +7,7 @@ namespace MigracionSap.Cliente.BaseDatos
     public class Sap
     {
         private const int SALIDAALMACEN = 60;
-        private const int ENTRADAALMACEN = 59;
+        private const int ENTRADAALMACENPORCOMPRA = 20;
         private const int SOLICITUDCOMPRA = 1470000113;
 
         private string strCnxBD = @"Data Source=SRVMAYO1;Initial Catalog=SBO_PRUEBACMAYO19072017;User id=sa;Password=Sapb1admin;";
@@ -50,14 +50,14 @@ namespace MigracionSap.Cliente.BaseDatos
             }
         }
 
+        public int ObtenerSerieEntradaAlmacenPorCompra(string serie)
+        {
+            return this.ObtenerSerie(serie, ENTRADAALMACENPORCOMPRA);
+        }
+
         public int ObtenerSerieSalidaAlmacen(string serie)
         {
             return this.ObtenerSerie(serie, SALIDAALMACEN);
-        }
-
-        public int ObtenerSerieEntradaAlmacen(string serie)
-        {
-            return this.ObtenerSerie(serie, ENTRADAALMACEN);
         }
 
         public int ObtenerSerieSolicitudCompra(string serie)

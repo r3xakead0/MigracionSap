@@ -16,6 +16,7 @@ namespace MigracionSap.Simple.ServicioWeb.Json
 
     public class EntradaAlmacenDetalle
     {
+        public string lineNumSap { get; set; }
         public string codArticulo { get; set; }
         public string descripcion { get; set; }
         public string cantidad { get; set; }

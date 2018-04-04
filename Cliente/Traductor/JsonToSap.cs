@@ -53,7 +53,7 @@ namespace MigracionSap.Cliente.Traductor
                     beSalidaAlmacen.Comentario = jsSalidaAlmacen.comentario;
                     beSalidaAlmacen.FechaContable = ParseStringToDatetime(jsSalidaAlmacen.FechaContable);
                     beSalidaAlmacen.FechaCreacion = ParseStringToDatetime(jsSalidaAlmacen.FechaCreacion);
-                    beSalidaAlmacen.DocEntry = "";
+                    beSalidaAlmacen.DocEntry = 0;
 
                     beSalidaAlmacen.Detalle = new List<BE.SalidaAlmacenDetalle>();
 
@@ -103,8 +103,8 @@ namespace MigracionSap.Cliente.Traductor
                     beEntradaAlmacen.Comentario = jsEntradaAlmacen.comentario;
                     beEntradaAlmacen.FechaContable = ParseStringToDatetime(jsEntradaAlmacen.FechaContable);
                     beEntradaAlmacen.FechaCreacion = ParseStringToDatetime(jsEntradaAlmacen.FechaCreacion);
-                    beEntradaAlmacen.DocEntry = "";
-                    beEntradaAlmacen.refSap = jsEntradaAlmacen.docEntryOrden;
+                    beEntradaAlmacen.DocEntry = 0;
+                    beEntradaAlmacen.refSap = int.Parse(jsEntradaAlmacen.docEntryOrden);
 
                     beEntradaAlmacen.Detalle = new List<BE.EntradaAlmacenDetalle>();
 
@@ -124,6 +124,7 @@ namespace MigracionSap.Cliente.Traductor
                         beDetalle.CodCuentaContable = "";
                         beDetalle.CodProyecto = "";
                         beDetalle.CodCentroCosto = jsDetalle.codCentroCosto;
+                        beDetalle.refLineaSap = int.Parse(jsDetalle.lineNumSap);
 
                         beEntradaAlmacen.Detalle.Add(beDetalle);
 
@@ -159,7 +160,7 @@ namespace MigracionSap.Cliente.Traductor
                     beSolicitudCompra.FechaNecesita = ParseStringToDatetime(jsSolicitudCompra.FechaNecesita);
                     beSolicitudCompra.IdSucursal = ParseStringToInt(jsSolicitudCompra.idSucursal);
                     beSolicitudCompra.IdArea = ParseStringToInt(jsSolicitudCompra.idArea);
-                    beSolicitudCompra.DocEntry = "";
+                    beSolicitudCompra.DocEntry = 0;
 
                     beSolicitudCompra.Detalle = new List<BE.SolicitudCompraDetalle>();
 

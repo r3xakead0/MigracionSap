@@ -10,11 +10,11 @@ namespace MigracionSap.Cliente.ServicioWeb
     public class WsSolicitud
     {
 
-        private string endPoint = ConfigurationManager.AppSettings["wsSolicitud"].ToString();
+        private string endPoint = "";
 
         public WsSolicitud()
         {
-            
+            this.endPoint = ConfigurationManager.AppSettings["wsSolicitud"].ToString();
         }
 
         public List<JS.SolicitudCompra> Obtener(DateTime fechaHora, int idEmpresa)

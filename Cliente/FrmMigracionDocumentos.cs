@@ -45,7 +45,7 @@ namespace MigracionSap.Cliente
             {
                 this.lstMigracion = new List<Documento>();
                 this.dgvMigraciones.DataSource = this.lstMigracion;
-                this.FormatoSincronizar();
+                this.FormatoMigraciones();
 
                 this.lstHistorial = new List<Documento>();
                 this.dgvHistorial.DataSource = this.lstHistorial;
@@ -148,7 +148,8 @@ namespace MigracionSap.Cliente
                             }
 
                             string docEntry = salidaDi.Enviar(salidaBe, out errCode, out errMessage);
-                            salidaBe.DocEntry = docEntry;
+                            if(docEntry.Length > 0)
+                                salidaBe.DocEntry = int.Parse(docEntry);
 
                             var salidaBD = TD.SapToBd.SalidaAlmacen(salidaBe);
                             salidaBD.Empresa = beConfiguracion.Empresa;
@@ -171,6 +172,7 @@ namespace MigracionSap.Cliente
                                 documento.Tipo = salidaBD.TipoDocumento.Nombre;
                                 documento.Id = salidaBD.IdSalidaAlmacen;
                                 documento.Usuario = salidaBD.Usuario;
+                                documento.Fecha = salidaBD.FechaContable;
                                 documento.Estado = estado;
                                 documento.FechaRecepcion = recepcion;
                                 documento.FechaEnvio = envio;
@@ -185,7 +187,7 @@ namespace MigracionSap.Cliente
                         #region Entrada de Almacen
 
                         var entradaWs = new WS.WsEntrada();
-                        var entradaDi = new DI.DiEntradaAlmacen(sbo.oCompany);
+                        var entradaDi = new DI.DiEntradaAlmacenPorCompra(sbo.oCompany);
                         var entradaBd = new BD.EntradaAlmacen();
 
                         var lstEntradasJson = entradaWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
@@ -194,14 +196,15 @@ namespace MigracionSap.Cliente
                         {
                             var entradaBe = TD.JsonToSap.EntradaAlmacen(entradaJson);
 
-                            entradaBe.Serie = sapBd.ObtenerSerieEntradaAlmacen(serieName);
+                            entradaBe.Serie = sapBd.ObtenerSerieEntradaAlmacenPorCompra(serieName);
                             for (int i = 0; i < entradaBe.Detalle.Count; i++)
                             {
                                 entradaBe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(entradaBe.Detalle[i].Codigo);
                             }
 
                             string docEntry = entradaDi.Enviar(entradaBe, out errCode, out errMessage);
-                            entradaBe.DocEntry = docEntry;
+                            if (docEntry.Length > 0)
+                                entradaBe.DocEntry = int.Parse(docEntry);
 
                             var entradaBD = TD.SapToBd.EntradaAlmacen(entradaBe);
                             entradaBD.Empresa = beConfiguracion.Empresa;
@@ -224,6 +227,7 @@ namespace MigracionSap.Cliente
                                 documento.Tipo = entradaBD.TipoDocumento.Nombre;
                                 documento.Id = entradaBD.IdEntradaAlmacen;
                                 documento.Usuario = entradaBD.Usuario;
+                                documento.Fecha = entradaBD.FechaContable;
                                 documento.Estado = estado;
                                 documento.FechaRecepcion = recepcion;
                                 documento.FechaEnvio = envio;
@@ -253,12 +257,13 @@ namespace MigracionSap.Cliente
                             }
 
                             string docEntry = solicitudDi.Enviar(solicitudBe, out errCode, out errMessage);
-                            solicitudBe.DocEntry = docEntry;
+                            if (docEntry.Length > 0)
+                                solicitudBe.DocEntry = int.Parse(docEntry);
 
                             var solicitudBD = TD.SapToBd.SolicitudCompra(solicitudBe);
                             solicitudBD.Empresa = beConfiguracion.Empresa;
                             solicitudBD.TipoDocumento = beTipoSsolicitud;
-
+                           
                             var rpta = solicitudBd.Insertar(ref solicitudBD);
 
                             if (rpta)
@@ -277,6 +282,7 @@ namespace MigracionSap.Cliente
                                 documento.Tipo = solicitudBD.TipoDocumento.Nombre;
                                 documento.Id = solicitudBD.IdSolicitudCompra;
                                 documento.Usuario = solicitudBD.Usuario;
+                                documento.Fecha = solicitudBD.FechaContable;
                                 documento.Estado = estado;
                                 documento.FechaRecepcion = recepcion;
                                 documento.FechaEnvio = envio;
@@ -304,7 +310,7 @@ namespace MigracionSap.Cliente
             }
         }
 
-        private void FormatoSincronizar()
+        private void FormatoMigraciones()
         {
             try
             {
@@ -323,16 +329,16 @@ namespace MigracionSap.Cliente
                 this.dgvMigraciones.Columns["Tipo"].Width = 200;
                 this.dgvMigraciones.Columns["Tipo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-                this.dgvMigraciones.Columns["Numeracion"].Visible = true;
-                this.dgvMigraciones.Columns["Numeracion"].HeaderText = "Numeracion";
-                this.dgvMigraciones.Columns["Numeracion"].Width = 150;
-                this.dgvMigraciones.Columns["Numeracion"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
                 this.dgvMigraciones.Columns["Fecha"].Visible = true;
                 this.dgvMigraciones.Columns["Fecha"].HeaderText = "Fecha";
                 this.dgvMigraciones.Columns["Fecha"].Width = 100;
                 this.dgvMigraciones.Columns["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 this.dgvMigraciones.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
+                this.dgvMigraciones.Columns["Usuario"].Visible = true;
+                this.dgvMigraciones.Columns["Usuario"].HeaderText = "Usuario";
+                this.dgvMigraciones.Columns["Usuario"].Width = 150;
+                this.dgvMigraciones.Columns["Usuario"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 this.dgvMigraciones.Columns["Estado"].Visible = true;
                 this.dgvMigraciones.Columns["Estado"].HeaderText = "Estado";

@@ -40,7 +40,7 @@ namespace MigracionSap.Simple.Sap
                 foreach (var beSalidaAlmacenDetalle in beSalidaAlmacen.Detalle)
                 {
                     if (linea > 0)
-                        oSalidaAlmacen.Add();
+                        oSalidaAlmacen.Lines.Add();
 
                     oSalidaAlmacen.Lines.ItemCode = beSalidaAlmacenDetalle.Codigo;
                     oSalidaAlmacen.Lines.ItemDescription = beSalidaAlmacenDetalle.Descripcion;

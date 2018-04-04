@@ -11,7 +11,7 @@ namespace MigracionSap.Cliente.Sap.Entidades
         public string Comentario { get; set; } = "";
         public DateTime FechaContable { get; set; } = DateTime.Now;
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
-        public string DocEntry { get; set; } = "";
+        public int DocEntry { get; set; } = 0;
 
         public List<SalidaAlmacenDetalle> Detalle = new List<SalidaAlmacenDetalle>();
     }

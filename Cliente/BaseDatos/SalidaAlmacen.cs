@@ -37,7 +37,7 @@ namespace MigracionSap.Cliente.BaseDatos
                         beSalidaAlmacen.FechaCreacion = DateTime.Parse(reader["fechaCreacion"].ToString());
                         beSalidaAlmacen.Total = double.Parse(reader["total"].ToString());
                         beSalidaAlmacen.Usuario = reader["usuario"].ToString();
-                        beSalidaAlmacen.CodSap = reader["codSap"].ToString();
+                        beSalidaAlmacen.CodSap = int.Parse(reader["codSap"].ToString());
 
                         if (detalle)
                             beSalidaAlmacen.Detalle = this.Detalle(idSalidaAlmacen);
@@ -125,6 +125,7 @@ namespace MigracionSap.Cliente.BaseDatos
                     cmd.Transaction = tns;
 
                     cmd.Parameters.Add(new SqlParameter("@IDSALIDAALMACEN", beSalidaAlmacen.IdSalidaAlmacen));
+                    cmd.Parameters["@IDSALIDAALMACEN"].Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", beSalidaAlmacen.Empresa.Id));
                     cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", beSalidaAlmacen.TipoDocumento.Id));
                     cmd.Parameters.Add(new SqlParameter("@SERIE", beSalidaAlmacen.Serie));
@@ -150,7 +151,7 @@ namespace MigracionSap.Cliente.BaseDatos
 
                         cmd.Parameters.Add(new SqlParameter("@IDSALIDAALMACENDETALLE", beSalidaAlmacenDetalle.IdSalidaAlmacenDetalle));
                         cmd.Parameters["@IDSALIDAALMACENDETALLE"].Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(new SqlParameter("@IDSALIDAALMACEN", beSalidaAlmacenDetalle.IdSalidaAlmacen));
+                        cmd.Parameters.Add(new SqlParameter("@IDSALIDAALMACEN", idSalidaAlmacen));
                         cmd.Parameters.Add(new SqlParameter("@NROLINEA", beSalidaAlmacenDetalle.NroLinea));
                         cmd.Parameters.Add(new SqlParameter("@CODARTICULO", beSalidaAlmacenDetalle.Codigo));
                         cmd.Parameters.Add(new SqlParameter("@DSCARTICULO", beSalidaAlmacenDetalle.Descripcion));

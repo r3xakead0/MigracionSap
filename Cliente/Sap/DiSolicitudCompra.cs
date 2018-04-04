@@ -53,7 +53,7 @@ namespace MigracionSap.Cliente.Sap
                     foreach (var beSolicitudCompraDetalle in beSolicitudCompra.Detalle)
                     {
                         if (linea > 0)
-                            oSolicitudCompra.Add();
+                            oSolicitudCompra.Lines.Add();
 
                         oSolicitudCompra.Lines.ItemCode = beSolicitudCompraDetalle.Codigo;
 
@@ -65,7 +65,7 @@ namespace MigracionSap.Cliente.Sap
 
                         //oEntradaAlmacen.Lines.TaxCode = beEntradaAlmacenDetalle.CodImpuesto;
                         //oEntradaAlmacen.Lines.Currency = beEntradaAlmacenDetalle.CodMoneda;
-
+                        oSolicitudCompra.Lines.RequiredDate = beSolicitudCompra.FechaNecesita;
                         oSolicitudCompra.Lines.WarehouseCode = beSolicitudCompraDetalle.CodAlmacen;
 
                         //oEntradaAlmacen.Lines.AccountCode = beEntradaAlmacenDetalle.CodCuentaContable;
@@ -81,7 +81,7 @@ namespace MigracionSap.Cliente.Sap
                     foreach (var beSolicitudCompraDetalle in beSolicitudCompra.Detalle)
                     {
                         if (linea > 0)
-                            oSolicitudCompra.Add();
+                            oSolicitudCompra.Lines.Add();
 
                         oSolicitudCompra.Lines.UserFields.Fields.Item("U_EXX_SERCOMPR").Value = beSolicitudCompraDetalle.Codigo;
 
@@ -93,8 +93,8 @@ namespace MigracionSap.Cliente.Sap
 
                         //oEntradaAlmacen.Lines.TaxCode = beEntradaAlmacenDetalle.CodImpuesto;
                         //oEntradaAlmacen.Lines.Currency = beEntradaAlmacenDetalle.CodMoneda;
-
-                        oSolicitudCompra.Lines.WarehouseCode = beSolicitudCompraDetalle.CodAlmacen;
+                        oSolicitudCompra.Lines.RequiredDate = beSolicitudCompra.FechaNecesita;
+                        //oSolicitudCompra.Lines.WarehouseCode = beSolicitudCompraDetalle.CodAlmacen;
 
                         //oEntradaAlmacen.Lines.AccountCode = beEntradaAlmacenDetalle.CodCuentaContable;
 

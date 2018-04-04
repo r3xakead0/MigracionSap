@@ -19,7 +19,7 @@ namespace MigracionSap.Cliente.BaseDatos.Entidades
         public DateTime FechaContable { get; set; } = DateTime.Now;
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
         public double Total { get; set; } = 0.0;
-        public string CodSap { get; set; } = "";
+        public int CodSap { get; set; } = 0;
     }
 
     public class DetalleBase

@@ -124,6 +124,7 @@ namespace MigracionSap.Simple.Traductor
                         beDetalle.CodCuentaContable = "";
                         beDetalle.CodProyecto = "";
                         beDetalle.CodCentroCosto = jsDetalle.codCentroCosto;
+                        beDetalle.refLineaSap = int.Parse(jsDetalle.lineNumSap);
 
                         beEntradaAlmacen.Detalle.Add(beDetalle);
 
