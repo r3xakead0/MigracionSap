@@ -29,7 +29,7 @@ namespace MigracionSap.Cliente
 
         #endregion
 
-        private List<BE.Error> lstError = null;
+        private List<Error> lstError = null;
 
         public FrmErrorList()
         {
@@ -40,7 +40,8 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                this.lstError = new List<BE.Error>();
+                this.lstError = new List<Error>();
+                this.dgvErrores.DataSource = this.lstError;
                 this.FormatoErrores();
             }
             catch (Exception ex)
@@ -53,7 +54,18 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                this.lstError = new BD.Error().Listar(idTipoDocumento, idDocumento);
+                var lstBeError = new BD.Error().Listar(idTipoDocumento, idDocumento);
+
+                this.lstError = new List<Error>();
+                foreach (var beError in lstBeError)
+                {
+                    var error = new Error();
+                    error.Id = beError.Id;
+                    error.Mensaje = beError.Mensaje;
+                    this.lstError.Add(error);
+                }
+
+                this.dgvErrores.DataSource = this.lstError;
             }
             catch (Exception ex)
             {

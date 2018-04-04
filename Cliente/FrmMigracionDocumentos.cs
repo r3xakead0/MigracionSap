@@ -446,21 +446,26 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                if (this.dgvHistorial.CurrentRow != null)
+                if (this.dgvMigraciones.CurrentRow != null)
                 {
                     var documento = (Documento)this.dgvMigraciones.CurrentRow.DataBoundItem;
+
+                    if (documento.Estado != "Error")
+                        return;
+
+                    var error = FrmErrorList.Instance();
+                    error.Show();
 
                     switch (documento.Tipo)
                     {
                         case "Salida de Almacen":
-                            var salida = FrmSalidaAlmacen.Instance();
-                            salida.Cargar(documento.Id);
-                            salida.Show();
+                            error.Cargar(1, documento.Id);
                             break;
                         case "Entrada de Almacen":
-                            var entrada = FrmEntradaAlmacen.Instance();
-                            entrada.Cargar(documento.Id);
-                            entrada.Show();
+                            error.Cargar(2, documento.Id);
+                            break;
+                        case "Solicitud de Compra":
+                            error.Cargar(3, documento.Id);
                             break;
                         default:
                             break;

@@ -5,6 +5,26 @@ namespace MigracionSap.Cliente
 {
     public partial class FrmSolicitudCompra : Form
     {
+
+        #region "Patron Singleton"
+
+        private static FrmSolicitudCompra frmInstance = null;
+
+        public static FrmSolicitudCompra Instance()
+        {
+
+            if (frmInstance == null || frmInstance.IsDisposed == true)
+            {
+                frmInstance = new FrmSolicitudCompra();
+            }
+
+            frmInstance.BringToFront();
+
+            return frmInstance;
+        }
+
+        #endregion
+
         public FrmSolicitudCompra()
         {
             InitializeComponent();
