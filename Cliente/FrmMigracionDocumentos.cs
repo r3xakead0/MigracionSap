@@ -318,22 +318,21 @@ namespace MigracionSap.Cliente
                 this.dgvHistorial.Columns["Tipo"].Width = 200;
                 this.dgvHistorial.Columns["Tipo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-                this.dgvHistorial.Columns["Numeracion"].Visible = true;
-                this.dgvHistorial.Columns["Numeracion"].HeaderText = "Numeracion";
-                this.dgvHistorial.Columns["Numeracion"].Width = 150;
-                this.dgvHistorial.Columns["Numeracion"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
                 this.dgvHistorial.Columns["Fecha"].Visible = true;
                 this.dgvHistorial.Columns["Fecha"].HeaderText = "Fecha";
                 this.dgvHistorial.Columns["Fecha"].Width = 100;
                 this.dgvHistorial.Columns["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 this.dgvHistorial.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
-                this.dgvHistorial.Columns["FechaMigracion"].Visible = true;
-                this.dgvHistorial.Columns["FechaMigracion"].HeaderText = "Fecha y Hora Migracion";
-                this.dgvHistorial.Columns["FechaMigracion"].Width = 200;
-                this.dgvHistorial.Columns["FechaMigracion"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.dgvHistorial.Columns["FechaMigracion"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+                this.dgvHistorial.Columns["Usuario"].Visible = true;
+                this.dgvHistorial.Columns["Usuario"].HeaderText = "Usuario";
+                this.dgvHistorial.Columns["Usuario"].Width = 150;
+                this.dgvHistorial.Columns["Usuario"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                this.dgvHistorial.Columns["Estado"].Visible = true;
+                this.dgvHistorial.Columns["Estado"].HeaderText = "Estado";
+                this.dgvHistorial.Columns["Estado"].Width = 100;
+                this.dgvHistorial.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 General.AutoWidthColumn(ref this.dgvHistorial, "Empresa");
             }
