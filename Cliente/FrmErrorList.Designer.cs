@@ -42,14 +42,14 @@
             this.dgvErrores.Location = new System.Drawing.Point(13, 12);
             this.dgvErrores.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvErrores.Name = "dgvErrores";
-            this.dgvErrores.Size = new System.Drawing.Size(556, 201);
+            this.dgvErrores.Size = new System.Drawing.Size(849, 201);
             this.dgvErrores.TabIndex = 30;
             // 
             // FrmErrorList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 225);
+            this.ClientSize = new System.Drawing.Size(875, 225);
             this.Controls.Add(this.dgvErrores);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -59,6 +59,7 @@
             this.Name = "FrmErrorList";
             this.Text = "Lista de Errores";
             this.Load += new System.EventHandler(this.FrmErrorList_Load);
+            this.Resize += new System.EventHandler(this.FrmErrorList_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).EndInit();
             this.ResumeLayout(false);
 

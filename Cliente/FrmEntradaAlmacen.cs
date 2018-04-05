@@ -29,9 +29,7 @@ namespace MigracionSap.Cliente
 
         #endregion
 
-        private string cnxStrBD = ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
-
-        private List<DetalleAlmacen> lstDetalle = new List<DetalleAlmacen>();
+        private List<DetalleAlmacen> lstUiDetalle = new List<DetalleAlmacen>();
 
         public FrmEntradaAlmacen()
         {
@@ -43,8 +41,8 @@ namespace MigracionSap.Cliente
             try
             {
 
-                this.lstDetalle = new List<DetalleAlmacen>();
-                this.dgvDetalle.DataSource = this.lstDetalle;
+                this.lstUiDetalle = new List<DetalleAlmacen>();
+                this.dgvDetalle.DataSource = this.lstUiDetalle;
                 this.FormatDetalle();
 
             }
@@ -61,36 +59,36 @@ namespace MigracionSap.Cliente
                 var beSalidaAlmacen = new BD.SalidaAlmacen().Obtener(idSalidaAlmacen);
                 if (beSalidaAlmacen != null)
                 {
-                    this.txtUsuarioCodigo.Text = beSalidaAlmacen.Usuario;
-                    this.txtUsuarioNombre.Text = beSalidaAlmacen.Usuario;
+                    this.txtUsuario.Text = beSalidaAlmacen.Usuario;
+                    this.txtEmpresa.Text = beSalidaAlmacen.Empresa.Nombre;
                     this.dtpFechaDocumento.Value = beSalidaAlmacen.FechaContable;
                     this.txtComentario.Text = beSalidaAlmacen.Comentario;
 
-                    this.lstDetalle = new List<DetalleAlmacen>();
+                    this.lstUiDetalle = new List<DetalleAlmacen>();
                     foreach (var beDetalle in beSalidaAlmacen.Detalle)
                     {
-                        var detalle = new DetalleAlmacen();
+                        var uiDetalle = new DetalleAlmacen();
 
-                        detalle.NroLinea = beDetalle.NroLinea;
-                        detalle.Codigo = beDetalle.Codigo;
-                        detalle.Descripcion = beDetalle.Descripcion;
-                        detalle.Cantidad = beDetalle.Cantidad;
-                        detalle.CodAlmacen = beDetalle.CodAlmacen;
-                        detalle.DscAlmacen = "";
-                        detalle.CodImpuesto = beDetalle.CodImpuesto;
-                        detalle.DscImpuesto = "";
-                        detalle.CodCuentaContable = "";
-                        detalle.DscCuentaContable = "";
-                        detalle.NroCuentaContable = beDetalle.CodCuentaContable;
-                        detalle.CodProyecto = beDetalle.CodProyecto;
-                        detalle.DscProyecto = "";
-                        detalle.CodCentroCosto = beDetalle.CodCentroCosto;
-                        detalle.DscCentroCosto = "";
+                        uiDetalle.NroLinea = beDetalle.NroLinea;
+                        uiDetalle.Codigo = beDetalle.Codigo;
+                        uiDetalle.Descripcion = beDetalle.Descripcion;
+                        uiDetalle.Cantidad = beDetalle.Cantidad;
+                        uiDetalle.CodAlmacen = beDetalle.CodAlmacen;
+                        uiDetalle.DscAlmacen = "";
+                        uiDetalle.CodImpuesto = beDetalle.CodImpuesto;
+                        uiDetalle.DscImpuesto = "";
+                        uiDetalle.CodCuentaContable = "";
+                        uiDetalle.DscCuentaContable = "";
+                        uiDetalle.NroCuentaContable = beDetalle.CodCuentaContable;
+                        uiDetalle.CodProyecto = beDetalle.CodProyecto;
+                        uiDetalle.DscProyecto = "";
+                        uiDetalle.CodCentroCosto = beDetalle.CodCentroCosto;
+                        uiDetalle.DscCentroCosto = "";
 
-                        this.lstDetalle.Add(detalle);
+                        this.lstUiDetalle.Add(uiDetalle);
                     }
 
-                    this.dgvDetalle.DataSource = this.lstDetalle;
+                    this.dgvDetalle.DataSource = this.lstUiDetalle;
                 }
             }
             catch (Exception ex)

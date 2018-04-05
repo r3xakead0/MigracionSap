@@ -86,7 +86,7 @@ namespace MigracionSap.Cliente.BaseDatos
             }
         }
 
-        public bool Insertar(ref BE.Empresa empresa)
+        public bool Insertar(BE.Empresa empresa)
         {
             try
             {
@@ -101,12 +101,10 @@ namespace MigracionSap.Cliente.BaseDatos
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", empresa.Id));
-                    cmd.Parameters["@IDEMPRESA"].Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(new SqlParameter("@NOMBRE", empresa.Nombre));
                     cmd.Parameters.Add(new SqlParameter("@DESCRIPCION", empresa.Descripcion));
 
                     rowsAffected = cmd.ExecuteNonQuery();
-                    empresa.Id = int.Parse(cmd.Parameters["@IDEMPRESA"].Value.ToString());
                 }
 
                 return rowsAffected > 0;

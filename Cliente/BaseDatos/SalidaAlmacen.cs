@@ -184,5 +184,43 @@ namespace MigracionSap.Cliente.BaseDatos
                 throw ex;
             }
         }
+
+        public bool Actualizar(BE.SalidaAlmacen beSalidaAlmacen)
+        {
+            try
+            {
+                string sp = "SpTbSalidaAlmacennActualizar";
+                int rowsAffected = 0;
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@IDSALIDAALMACEN", beSalidaAlmacen.IdSalidaAlmacen));
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", beSalidaAlmacen.Empresa.Id));
+                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", beSalidaAlmacen.TipoDocumento.Id));
+                    cmd.Parameters.Add(new SqlParameter("@SERIE", beSalidaAlmacen.Serie));
+                    cmd.Parameters.Add(new SqlParameter("@FECHACONTABLE", beSalidaAlmacen.FechaContable));
+                    cmd.Parameters.Add(new SqlParameter("@COMENTARIO", beSalidaAlmacen.Comentario));
+                    cmd.Parameters.Add(new SqlParameter("@FECHACREACION", beSalidaAlmacen.FechaCreacion));
+                    cmd.Parameters.Add(new SqlParameter("@TOTAL", beSalidaAlmacen.Total));
+                    cmd.Parameters.Add(new SqlParameter("@USUARIO", beSalidaAlmacen.Usuario));
+                    cmd.Parameters.Add(new SqlParameter("@CODSAP", beSalidaAlmacen.CodSap));
+
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+
+                return rowsAffected > 0;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

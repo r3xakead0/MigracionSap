@@ -1,4 +1,4 @@
-﻿namespace MigracionSap
+﻿namespace MigracionSap.Cliente
 {
     public class Error
     {

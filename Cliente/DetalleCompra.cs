@@ -1,6 +1,6 @@
 ﻿namespace MigracionSap.Cliente
 {
-    public class DetalleAlmacen
+    public class DetalleCompra
     {
         public int NroLinea { get; set; }
 
@@ -23,6 +23,9 @@
 
         public string CodCentroCosto { get; set; }
         public string DscCentroCosto { get; set; }
+
+        public string CodProveedor { get; set; }
+        public string DscProveedor { get; set; }
     }
     
 }

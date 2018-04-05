@@ -32,8 +32,7 @@
             this.lblTipo = new System.Windows.Forms.Label();
             this.lblSolicitante = new System.Windows.Forms.Label();
             this.lblComentarios = new System.Windows.Forms.Label();
-            this.txtUsuarioCodigo = new System.Windows.Forms.TextBox();
-            this.txtUsuarioNombre = new System.Windows.Forms.TextBox();
+            this.txtUsuarioC = new System.Windows.Forms.TextBox();
             this.txtComentario = new System.Windows.Forms.TextBox();
             this.lblFechaDocumento = new System.Windows.Forms.Label();
             this.dtpFechaDocumento = new System.Windows.Forms.DateTimePicker();
@@ -43,6 +42,8 @@
             this.cboTipo = new System.Windows.Forms.ComboBox();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.lblEmpresa = new System.Windows.Forms.Label();
+            this.txtEmpresa = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +60,7 @@
             // lblSolicitante
             // 
             this.lblSolicitante.AutoSize = true;
-            this.lblSolicitante.Location = new System.Drawing.Point(19, 44);
+            this.lblSolicitante.Location = new System.Drawing.Point(19, 72);
             this.lblSolicitante.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSolicitante.Name = "lblSolicitante";
             this.lblSolicitante.Size = new System.Drawing.Size(81, 14);
@@ -69,7 +70,7 @@
             // lblComentarios
             // 
             this.lblComentarios.AutoSize = true;
-            this.lblComentarios.Location = new System.Drawing.Point(19, 72);
+            this.lblComentarios.Location = new System.Drawing.Point(19, 100);
             this.lblComentarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblComentarios.Name = "lblComentarios";
             this.lblComentarios.Size = new System.Drawing.Size(96, 14);
@@ -78,48 +79,38 @@
             // 
             // txtUsuarioCodigo
             // 
-            this.txtUsuarioCodigo.BackColor = System.Drawing.SystemColors.Window;
-            this.txtUsuarioCodigo.Location = new System.Drawing.Point(131, 41);
-            this.txtUsuarioCodigo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtUsuarioCodigo.Name = "txtUsuarioCodigo";
-            this.txtUsuarioCodigo.ReadOnly = true;
-            this.txtUsuarioCodigo.Size = new System.Drawing.Size(107, 22);
-            this.txtUsuarioCodigo.TabIndex = 8;
-            this.txtUsuarioCodigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtUsuarioNombre
-            // 
-            this.txtUsuarioNombre.BackColor = System.Drawing.SystemColors.Window;
-            this.txtUsuarioNombre.Location = new System.Drawing.Point(249, 41);
-            this.txtUsuarioNombre.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtUsuarioNombre.Name = "txtUsuarioNombre";
-            this.txtUsuarioNombre.ReadOnly = true;
-            this.txtUsuarioNombre.Size = new System.Drawing.Size(205, 22);
-            this.txtUsuarioNombre.TabIndex = 9;
+            this.txtUsuarioC.BackColor = System.Drawing.SystemColors.Window;
+            this.txtUsuarioC.Location = new System.Drawing.Point(131, 69);
+            this.txtUsuarioC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtUsuarioC.Name = "txtUsuarioCodigo";
+            this.txtUsuarioC.ReadOnly = true;
+            this.txtUsuarioC.Size = new System.Drawing.Size(107, 22);
+            this.txtUsuarioC.TabIndex = 8;
+            this.txtUsuarioC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtComentario
             // 
             this.txtComentario.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtComentario.BackColor = System.Drawing.SystemColors.Window;
-            this.txtComentario.Location = new System.Drawing.Point(131, 69);
+            this.txtComentario.Location = new System.Drawing.Point(131, 97);
             this.txtComentario.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtComentario.Multiline = true;
             this.txtComentario.Name = "txtComentario";
             this.txtComentario.ReadOnly = true;
-            this.txtComentario.Size = new System.Drawing.Size(728, 92);
+            this.txtComentario.Size = new System.Drawing.Size(728, 64);
             this.txtComentario.TabIndex = 10;
             // 
             // lblFechaDocumento
             // 
             this.lblFechaDocumento.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFechaDocumento.AutoSize = true;
-            this.lblFechaDocumento.Location = new System.Drawing.Point(591, 16);
+            this.lblFechaDocumento.Location = new System.Drawing.Point(619, 16);
             this.lblFechaDocumento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFechaDocumento.Name = "lblFechaDocumento";
-            this.lblFechaDocumento.Size = new System.Drawing.Size(128, 14);
+            this.lblFechaDocumento.Size = new System.Drawing.Size(53, 14);
             this.lblFechaDocumento.TabIndex = 11;
-            this.lblFechaDocumento.Text = "Fecha Documento :";
+            this.lblFechaDocumento.Text = "Fecha :";
             // 
             // dtpFechaDocumento
             // 
@@ -137,12 +128,12 @@
             // 
             this.lblFechaRequerida.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFechaRequerida.AutoSize = true;
-            this.lblFechaRequerida.Location = new System.Drawing.Point(591, 44);
+            this.lblFechaRequerida.Location = new System.Drawing.Point(619, 72);
             this.lblFechaRequerida.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFechaRequerida.Name = "lblFechaRequerida";
-            this.lblFechaRequerida.Size = new System.Drawing.Size(121, 14);
+            this.lblFechaRequerida.Size = new System.Drawing.Size(80, 14);
             this.lblFechaRequerida.TabIndex = 14;
-            this.lblFechaRequerida.Text = "Fecha Requerida :";
+            this.lblFechaRequerida.Text = "Requerido :";
             // 
             // dtpFechaRequerida
             // 
@@ -150,7 +141,7 @@
             this.dtpFechaRequerida.CustomFormat = "dd/MM/yyyy";
             this.dtpFechaRequerida.Enabled = false;
             this.dtpFechaRequerida.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFechaRequerida.Location = new System.Drawing.Point(732, 41);
+            this.dtpFechaRequerida.Location = new System.Drawing.Point(732, 69);
             this.dtpFechaRequerida.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dtpFechaRequerida.Name = "dtpFechaRequerida";
             this.dtpFechaRequerida.Size = new System.Drawing.Size(127, 22);
@@ -202,11 +193,35 @@
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // lblEmpresa
+            // 
+            this.lblEmpresa.AutoSize = true;
+            this.lblEmpresa.Location = new System.Drawing.Point(19, 44);
+            this.lblEmpresa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEmpresa.Name = "lblEmpresa";
+            this.lblEmpresa.Size = new System.Drawing.Size(71, 14);
+            this.lblEmpresa.TabIndex = 33;
+            this.lblEmpresa.Text = "Empresa :";
+            // 
+            // txtEmpresa
+            // 
+            this.txtEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEmpresa.BackColor = System.Drawing.SystemColors.Window;
+            this.txtEmpresa.Location = new System.Drawing.Point(131, 41);
+            this.txtEmpresa.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtEmpresa.Name = "txtEmpresa";
+            this.txtEmpresa.ReadOnly = true;
+            this.txtEmpresa.Size = new System.Drawing.Size(728, 22);
+            this.txtEmpresa.TabIndex = 32;
+            // 
             // FrmSolicitudCompra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(875, 441);
+            this.Controls.Add(this.lblEmpresa);
+            this.Controls.Add(this.txtEmpresa);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.dgvDetalle);
             this.Controls.Add(this.checkedListBox1);
@@ -216,8 +231,7 @@
             this.Controls.Add(this.dtpFechaDocumento);
             this.Controls.Add(this.lblFechaDocumento);
             this.Controls.Add(this.txtComentario);
-            this.Controls.Add(this.txtUsuarioNombre);
-            this.Controls.Add(this.txtUsuarioCodigo);
+            this.Controls.Add(this.txtUsuarioC);
             this.Controls.Add(this.lblComentarios);
             this.Controls.Add(this.lblSolicitante);
             this.Controls.Add(this.lblTipo);
@@ -237,8 +251,7 @@
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.Label lblSolicitante;
         private System.Windows.Forms.Label lblComentarios;
-        private System.Windows.Forms.TextBox txtUsuarioCodigo;
-        private System.Windows.Forms.TextBox txtUsuarioNombre;
+        private System.Windows.Forms.TextBox txtUsuarioC;
         private System.Windows.Forms.TextBox txtComentario;
         private System.Windows.Forms.Label lblFechaDocumento;
         private System.Windows.Forms.DateTimePicker dtpFechaDocumento;
@@ -248,6 +261,8 @@
         private System.Windows.Forms.ComboBox cboTipo;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.Label lblEmpresa;
+        private System.Windows.Forms.TextBox txtEmpresa;
     }
 }
 

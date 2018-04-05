@@ -32,14 +32,15 @@
             this.dtpFechaDocumento = new System.Windows.Forms.DateTimePicker();
             this.lblFechaDocumento = new System.Windows.Forms.Label();
             this.txtComentario = new System.Windows.Forms.TextBox();
-            this.txtUsuarioNombre = new System.Windows.Forms.TextBox();
-            this.txtUsuarioCodigo = new System.Windows.Forms.TextBox();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
             this.lblComentarios = new System.Windows.Forms.Label();
             this.lblSolicitante = new System.Windows.Forms.Label();
             this.dgvDetalle = new System.Windows.Forms.DataGridView();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.txtNroOrden = new System.Windows.Forms.TextBox();
             this.lblNroOrden = new System.Windows.Forms.Label();
+            this.lblEmpresa = new System.Windows.Forms.Label();
+            this.txtEmpresa = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,39 +71,29 @@
             this.txtComentario.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtComentario.BackColor = System.Drawing.SystemColors.Window;
-            this.txtComentario.Location = new System.Drawing.Point(131, 41);
+            this.txtComentario.Location = new System.Drawing.Point(131, 69);
             this.txtComentario.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtComentario.Multiline = true;
             this.txtComentario.Name = "txtComentario";
             this.txtComentario.ReadOnly = true;
-            this.txtComentario.Size = new System.Drawing.Size(727, 60);
+            this.txtComentario.Size = new System.Drawing.Size(727, 69);
             this.txtComentario.TabIndex = 26;
             // 
-            // txtUsuarioNombre
+            // txtUsuario
             // 
-            this.txtUsuarioNombre.BackColor = System.Drawing.SystemColors.Window;
-            this.txtUsuarioNombre.Location = new System.Drawing.Point(267, 13);
-            this.txtUsuarioNombre.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtUsuarioNombre.Name = "txtUsuarioNombre";
-            this.txtUsuarioNombre.ReadOnly = true;
-            this.txtUsuarioNombre.Size = new System.Drawing.Size(292, 22);
-            this.txtUsuarioNombre.TabIndex = 25;
-            // 
-            // txtUsuarioCodigo
-            // 
-            this.txtUsuarioCodigo.BackColor = System.Drawing.SystemColors.Window;
-            this.txtUsuarioCodigo.Location = new System.Drawing.Point(131, 13);
-            this.txtUsuarioCodigo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtUsuarioCodigo.Name = "txtUsuarioCodigo";
-            this.txtUsuarioCodigo.ReadOnly = true;
-            this.txtUsuarioCodigo.Size = new System.Drawing.Size(127, 22);
-            this.txtUsuarioCodigo.TabIndex = 24;
-            this.txtUsuarioCodigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtUsuario.BackColor = System.Drawing.SystemColors.Window;
+            this.txtUsuario.Location = new System.Drawing.Point(131, 13);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.ReadOnly = true;
+            this.txtUsuario.Size = new System.Drawing.Size(127, 22);
+            this.txtUsuario.TabIndex = 24;
+            this.txtUsuario.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblComentarios
             // 
             this.lblComentarios.AutoSize = true;
-            this.lblComentarios.Location = new System.Drawing.Point(19, 44);
+            this.lblComentarios.Location = new System.Drawing.Point(19, 72);
             this.lblComentarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblComentarios.Name = "lblComentarios";
             this.lblComentarios.Size = new System.Drawing.Size(96, 14);
@@ -125,16 +116,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDetalle.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetalle.Location = new System.Drawing.Point(17, 135);
+            this.dgvDetalle.Location = new System.Drawing.Point(17, 183);
             this.dgvDetalle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvDetalle.Name = "dgvDetalle";
-            this.dgvDetalle.Size = new System.Drawing.Size(842, 259);
+            this.dgvDetalle.Size = new System.Drawing.Size(842, 294);
             this.dgvDetalle.TabIndex = 29;
             // 
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.Location = new System.Drawing.Point(752, 400);
+            this.btnCerrar.Location = new System.Drawing.Point(752, 483);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(107, 24);
             this.btnCerrar.TabIndex = 30;
@@ -145,7 +136,7 @@
             // txtNroOrden
             // 
             this.txtNroOrden.BackColor = System.Drawing.SystemColors.Window;
-            this.txtNroOrden.Location = new System.Drawing.Point(131, 107);
+            this.txtNroOrden.Location = new System.Drawing.Point(131, 144);
             this.txtNroOrden.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtNroOrden.Name = "txtNroOrden";
             this.txtNroOrden.ReadOnly = true;
@@ -156,18 +147,42 @@
             // lblNroOrden
             // 
             this.lblNroOrden.AutoSize = true;
-            this.lblNroOrden.Location = new System.Drawing.Point(19, 110);
+            this.lblNroOrden.Location = new System.Drawing.Point(19, 147);
             this.lblNroOrden.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNroOrden.Name = "lblNroOrden";
             this.lblNroOrden.Size = new System.Drawing.Size(85, 14);
             this.lblNroOrden.TabIndex = 31;
             this.lblNroOrden.Text = "Nro. Orden :";
             // 
+            // lblEmpresa
+            // 
+            this.lblEmpresa.AutoSize = true;
+            this.lblEmpresa.Location = new System.Drawing.Point(19, 44);
+            this.lblEmpresa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEmpresa.Name = "lblEmpresa";
+            this.lblEmpresa.Size = new System.Drawing.Size(71, 14);
+            this.lblEmpresa.TabIndex = 34;
+            this.lblEmpresa.Text = "Empresa :";
+            // 
+            // txtEmpresa
+            // 
+            this.txtEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEmpresa.BackColor = System.Drawing.SystemColors.Window;
+            this.txtEmpresa.Location = new System.Drawing.Point(131, 41);
+            this.txtEmpresa.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtEmpresa.Name = "txtEmpresa";
+            this.txtEmpresa.ReadOnly = true;
+            this.txtEmpresa.Size = new System.Drawing.Size(727, 22);
+            this.txtEmpresa.TabIndex = 33;
+            // 
             // FrmEntradaAlmacen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(875, 436);
+            this.ClientSize = new System.Drawing.Size(875, 519);
+            this.Controls.Add(this.lblEmpresa);
+            this.Controls.Add(this.txtEmpresa);
             this.Controls.Add(this.txtNroOrden);
             this.Controls.Add(this.lblNroOrden);
             this.Controls.Add(this.btnCerrar);
@@ -175,8 +190,7 @@
             this.Controls.Add(this.dtpFechaDocumento);
             this.Controls.Add(this.lblFechaDocumento);
             this.Controls.Add(this.txtComentario);
-            this.Controls.Add(this.txtUsuarioNombre);
-            this.Controls.Add(this.txtUsuarioCodigo);
+            this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.lblComentarios);
             this.Controls.Add(this.lblSolicitante);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -198,14 +212,15 @@
         private System.Windows.Forms.DateTimePicker dtpFechaDocumento;
         private System.Windows.Forms.Label lblFechaDocumento;
         private System.Windows.Forms.TextBox txtComentario;
-        private System.Windows.Forms.TextBox txtUsuarioNombre;
-        private System.Windows.Forms.TextBox txtUsuarioCodigo;
+        private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Label lblComentarios;
         private System.Windows.Forms.Label lblSolicitante;
         private System.Windows.Forms.DataGridView dgvDetalle;
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.TextBox txtNroOrden;
         private System.Windows.Forms.Label lblNroOrden;
+        private System.Windows.Forms.Label lblEmpresa;
+        private System.Windows.Forms.TextBox txtEmpresa;
     }
 }
 

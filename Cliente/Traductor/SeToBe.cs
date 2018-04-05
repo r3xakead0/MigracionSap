@@ -1,37 +1,37 @@
 ﻿using System;
-using SAP = MigracionSap.Cliente.Sap.Entidades;
-using BD = MigracionSap.Cliente.BaseDatos.Entidades;
+using SE = MigracionSap.Cliente.Sap.Entidades;
+using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 using System.Collections.Generic;
 
 namespace MigracionSap.Cliente.Traductor
 {
-    public class SapToBd
+    public class SeToBe
     {
 
-        public static BD.SalidaAlmacen SalidaAlmacen(SAP.SalidaAlmacen sapSalidaAlmacen)
+        public static BE.SalidaAlmacen SalidaAlmacen(SE.SalidaAlmacen seSalidaAlmacen)
         {
-            BD.SalidaAlmacen bdSalidaAlmacen = null;
+            BE.SalidaAlmacen beSalidaAlmacen = null;
             try
             {
-                if (sapSalidaAlmacen != null)
+                if (seSalidaAlmacen != null)
                 {
-                    bdSalidaAlmacen = new BD.SalidaAlmacen();
+                    beSalidaAlmacen = new BE.SalidaAlmacen();
 
-                    bdSalidaAlmacen.Empresa = null;
-                    bdSalidaAlmacen.TipoDocumento = null;
-                    bdSalidaAlmacen.Serie = sapSalidaAlmacen.Serie;
-                    bdSalidaAlmacen.Usuario = sapSalidaAlmacen.Usuario;
-                    bdSalidaAlmacen.Comentario = sapSalidaAlmacen.Comentario;
-                    bdSalidaAlmacen.FechaContable = sapSalidaAlmacen.FechaContable;
-                    bdSalidaAlmacen.FechaCreacion = sapSalidaAlmacen.FechaCreacion;
-                    bdSalidaAlmacen.Total = 0.0;
-                    bdSalidaAlmacen.CodSap = sapSalidaAlmacen.DocEntry;
+                    beSalidaAlmacen.Empresa = null;
+                    beSalidaAlmacen.TipoDocumento = null;
+                    beSalidaAlmacen.Serie = seSalidaAlmacen.Serie;
+                    beSalidaAlmacen.Usuario = seSalidaAlmacen.Usuario;
+                    beSalidaAlmacen.Comentario = seSalidaAlmacen.Comentario;
+                    beSalidaAlmacen.FechaContable = seSalidaAlmacen.FechaContable;
+                    beSalidaAlmacen.FechaCreacion = seSalidaAlmacen.FechaCreacion;
+                    beSalidaAlmacen.Total = 0.0;
+                    beSalidaAlmacen.CodSap = seSalidaAlmacen.DocEntry;
 
-                    bdSalidaAlmacen.Detalle = new List<BD.SalidaAlmacenDetalle>();
+                    beSalidaAlmacen.Detalle = new List<BE.SalidaAlmacenDetalle>();
 
-                    foreach (var sapDetalle in sapSalidaAlmacen.Detalle)
+                    foreach (var sapDetalle in seSalidaAlmacen.Detalle)
                     {
-                        var bdDetalle = new BD.SalidaAlmacenDetalle();
+                        var bdDetalle = new BE.SalidaAlmacenDetalle();
 
                         bdDetalle.NroLinea = sapDetalle.NroLinea;
                         bdDetalle.Codigo = sapDetalle.Codigo;
@@ -44,12 +44,12 @@ namespace MigracionSap.Cliente.Traductor
                         bdDetalle.CodProyecto = sapDetalle.CodProyecto;
                         bdDetalle.CodCentroCosto = sapDetalle.CodCentroCosto;
 
-                        bdSalidaAlmacen.Detalle.Add(bdDetalle);
+                        beSalidaAlmacen.Detalle.Add(bdDetalle);
                     }
                     
                 }
 
-                return bdSalidaAlmacen;
+                return beSalidaAlmacen;
             }
             catch (Exception ex)
             {
@@ -57,14 +57,14 @@ namespace MigracionSap.Cliente.Traductor
             }
         }
 
-        public static BD.EntradaAlmacen EntradaAlmacen(SAP.EntradaAlmacen sapEntradaAlmacen)
+        public static BE.EntradaAlmacen EntradaAlmacen(SE.EntradaAlmacen sapEntradaAlmacen)
         {
-            BD.EntradaAlmacen bdEntradaAlmacen = null;
+            BE.EntradaAlmacen bdEntradaAlmacen = null;
             try
             {
                 if (sapEntradaAlmacen != null)
                 {
-                    bdEntradaAlmacen = new BD.EntradaAlmacen();
+                    bdEntradaAlmacen = new BE.EntradaAlmacen();
 
                     bdEntradaAlmacen.Serie = sapEntradaAlmacen.Serie;
                     bdEntradaAlmacen.Usuario = sapEntradaAlmacen.Usuario;
@@ -75,11 +75,11 @@ namespace MigracionSap.Cliente.Traductor
                     bdEntradaAlmacen.CodSap = sapEntradaAlmacen.DocEntry;
                     bdEntradaAlmacen.refSap = sapEntradaAlmacen.refSap;
 
-                    bdEntradaAlmacen.Detalle = new List<BD.EntradaAlmacenDetalle>();
+                    bdEntradaAlmacen.Detalle = new List<BE.EntradaAlmacenDetalle>();
 
                     foreach (var sapDetalle in sapEntradaAlmacen.Detalle)
                     {
-                        var bdDetalle = new BD.EntradaAlmacenDetalle();
+                        var bdDetalle = new BE.EntradaAlmacenDetalle();
 
                         bdDetalle.NroLinea = sapDetalle.NroLinea;
                         bdDetalle.Codigo = sapDetalle.Codigo;
@@ -107,14 +107,14 @@ namespace MigracionSap.Cliente.Traductor
         }
 
 
-        public static BD.SolicitudCompra SolicitudCompra(SAP.SolicitudCompra sapSolicitudCompra)
+        public static BE.SolicitudCompra SolicitudCompra(SE.SolicitudCompra sapSolicitudCompra)
         {
-            BD.SolicitudCompra bdSolicitudCompra = null;
+            BE.SolicitudCompra bdSolicitudCompra = null;
             try
             {
                 if (sapSolicitudCompra != null)
                 {
-                    bdSolicitudCompra = new BD.SolicitudCompra();
+                    bdSolicitudCompra = new BE.SolicitudCompra();
 
                     bdSolicitudCompra.Serie = sapSolicitudCompra.Serie;
                     bdSolicitudCompra.Tipo = sapSolicitudCompra.Tipo;
@@ -127,11 +127,11 @@ namespace MigracionSap.Cliente.Traductor
                     bdSolicitudCompra.IdArea = sapSolicitudCompra.IdArea;
                     bdSolicitudCompra.CodSap = sapSolicitudCompra.DocEntry;
 
-                    bdSolicitudCompra.Detalle = new List<BD.SolicitudCompraDetalle>();
+                    bdSolicitudCompra.Detalle = new List<BE.SolicitudCompraDetalle>();
 
                     foreach (var sapDetalle in sapSolicitudCompra.Detalle)
                     {
-                        var bdDetalle = new BD.SolicitudCompraDetalle();
+                        var bdDetalle = new BE.SolicitudCompraDetalle();
 
                         bdDetalle.NroLinea = sapDetalle.NroLinea;
                         bdDetalle.Codigo = sapDetalle.Codigo;

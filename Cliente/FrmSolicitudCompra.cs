@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using BD = MigracionSap.Cliente.BaseDatos;
 
 namespace MigracionSap.Cliente
 {
@@ -25,6 +27,8 @@ namespace MigracionSap.Cliente
 
         #endregion
 
+        private List<DetalleCompra> lsUitDetalleCompra = new List<DetalleCompra>();
+
         public FrmSolicitudCompra()
         {
             InitializeComponent();
@@ -45,6 +49,51 @@ namespace MigracionSap.Cliente
         private void FrmSolicitudCompra_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public void Cargar(int idSolicitudCompra)
+        {
+            try
+            {
+                var beSolicitudCompra = new BD.SolicitudCompra().Obtener(idSolicitudCompra);
+                if (beSolicitudCompra != null)
+                {
+                    this.txtUsuarioC.Text = beSolicitudCompra.Usuario;
+                    this.txtEmpresa.Text = beSolicitudCompra.Usuario;
+                    this.dtpFechaDocumento.Value = beSolicitudCompra.FechaContable;
+                    this.txtComentario.Text = beSolicitudCompra.Comentario;
+
+                    this.lsUitDetalleCompra = new List<DetalleCompra>();
+                    foreach (var beDetalle in beSolicitudCompra.Detalle)
+                    {
+                        var uiDetalle = new DetalleCompra();
+
+                        uiDetalle.NroLinea = beDetalle.NroLinea;
+                        uiDetalle.Codigo = beDetalle.Codigo;
+                        uiDetalle.Descripcion = beDetalle.Descripcion;
+                        uiDetalle.Cantidad = beDetalle.Cantidad;
+                        uiDetalle.CodAlmacen = beDetalle.CodAlmacen;
+                        uiDetalle.DscAlmacen = "";
+                        uiDetalle.DscImpuesto = "";
+                        uiDetalle.CodCuentaContable = "";
+                        uiDetalle.DscCuentaContable = "";
+                        uiDetalle.CodProyecto = beDetalle.CodProyecto;
+                        uiDetalle.DscProyecto = "";
+                        uiDetalle.CodCentroCosto = beDetalle.CodCentroCosto;
+                        uiDetalle.DscCentroCosto = "";
+                        uiDetalle.CodProyecto = beDetalle.CodProveedor;
+                        uiDetalle.DscProyecto = "";
+
+                        this.lsUitDetalleCompra.Add(uiDetalle);
+                    }
+
+                    this.dgvDetalle.DataSource = this.lsUitDetalleCompra;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void FormatDetalle()

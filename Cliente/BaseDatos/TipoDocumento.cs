@@ -47,6 +47,46 @@ namespace MigracionSap.Cliente.BaseDatos
                 throw ex;
             }
         }
-        
+
+        public List<BE.TipoDocumento> Listar()
+        {
+            var lstBeTipoDocumento = new List<BE.TipoDocumento>();
+            try
+            {
+
+                string sp = "SpTbTipoDocumentoListar";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", id));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var beTipoDocumento = new BE.TipoDocumento();
+
+                        beTipoDocumento.Id = int.Parse(reader["idTipoDocumento"].ToString());
+                        beTipoDocumento.IdObjectoSap = int.Parse(reader["IdObjectoSap"].ToString());
+                        beTipoDocumento.Nombre = reader["nombre"].ToString();
+                        beTipoDocumento.Descripcion = reader["descripcion"].ToString();
+
+                        lstBeTipoDocumento.Add(beTipoDocumento);
+                    }
+
+                    cnn.Close();
+                }
+
+                return lstBeTipoDocumento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using System.Collections.Generic;
-using JS = MigracionSap.Cliente.ServicioWeb.Json;
-using BE = MigracionSap.Cliente.Sap.Entidades;
+using WE = MigracionSap.Cliente.ServicioWeb.Json;
+using SE = MigracionSap.Cliente.Sap.Entidades;
 
 namespace MigracionSap.Cliente.Traductor
 {
-    public class JsonToSap
+    public class JsonToSe
     {
 
         private static string formatDate = "yyyy-MM-dd HH:mm:ss";
@@ -39,28 +39,28 @@ namespace MigracionSap.Cliente.Traductor
         }
 
 
-        public static BE.SalidaAlmacen SalidaAlmacen(JS.SalidaAlmacen jsSalidaAlmacen)
+        public static SE.SalidaAlmacen SalidaAlmacen(WE.SalidaAlmacen weSalidaAlmacen)
         {
-            BE.SalidaAlmacen beSalidaAlmacen = null;
+            SE.SalidaAlmacen seSalidaAlmacen = null;
             try
             {
-                if (jsSalidaAlmacen != null)
+                if (weSalidaAlmacen != null)
                 {
-                    beSalidaAlmacen = new BE.SalidaAlmacen();
+                    seSalidaAlmacen = new SE.SalidaAlmacen();
 
-                    beSalidaAlmacen.Serie = 0;
-                    beSalidaAlmacen.Usuario = jsSalidaAlmacen.usuario;
-                    beSalidaAlmacen.Comentario = jsSalidaAlmacen.comentario;
-                    beSalidaAlmacen.FechaContable = ParseStringToDatetime(jsSalidaAlmacen.FechaContable);
-                    beSalidaAlmacen.FechaCreacion = ParseStringToDatetime(jsSalidaAlmacen.FechaCreacion);
-                    beSalidaAlmacen.DocEntry = 0;
+                    seSalidaAlmacen.Serie = 0;
+                    seSalidaAlmacen.Usuario = weSalidaAlmacen.usuario;
+                    seSalidaAlmacen.Comentario = weSalidaAlmacen.comentario;
+                    seSalidaAlmacen.FechaContable = ParseStringToDatetime(weSalidaAlmacen.FechaContable);
+                    seSalidaAlmacen.FechaCreacion = ParseStringToDatetime(weSalidaAlmacen.FechaCreacion);
+                    seSalidaAlmacen.DocEntry = 0;
 
-                    beSalidaAlmacen.Detalle = new List<BE.SalidaAlmacenDetalle>();
+                    seSalidaAlmacen.Detalle = new List<SE.SalidaAlmacenDetalle>();
 
                     int nroLinea = 1;
-                    foreach (var jsDetalle in jsSalidaAlmacen.detalle)
+                    foreach (var jsDetalle in weSalidaAlmacen.detalle)
                     {
-                        var beDetalle = new BE.SalidaAlmacenDetalle();
+                        var beDetalle = new SE.SalidaAlmacenDetalle();
 
                         beDetalle.NroLinea = nroLinea;
                         beDetalle.Codigo = jsDetalle.codArticulo;
@@ -74,14 +74,14 @@ namespace MigracionSap.Cliente.Traductor
                         beDetalle.CodProyecto = "";
                         beDetalle.CodCentroCosto = jsDetalle.codCentroCosto;
 
-                        beSalidaAlmacen.Detalle.Add(beDetalle);
+                        seSalidaAlmacen.Detalle.Add(beDetalle);
 
                         nroLinea++;
                     }
                     
                 }
 
-                return beSalidaAlmacen;
+                return seSalidaAlmacen;
             }
             catch (Exception ex)
             {
@@ -89,29 +89,29 @@ namespace MigracionSap.Cliente.Traductor
             }
         }
 
-        public static BE.EntradaAlmacen EntradaAlmacen(JS.EntradaAlmacen jsEntradaAlmacen)
+        public static SE.EntradaAlmacen EntradaAlmacen(WE.EntradaAlmacen weEntradaAlmacen)
         {
-            BE.EntradaAlmacen beEntradaAlmacen = null;
+            SE.EntradaAlmacen seEntradaAlmacen = null;
             try
             {
-                if (jsEntradaAlmacen != null)
+                if (weEntradaAlmacen != null)
                 {
-                    beEntradaAlmacen = new BE.EntradaAlmacen();
+                    seEntradaAlmacen = new SE.EntradaAlmacen();
 
-                    beEntradaAlmacen.Serie = 0;
-                    beEntradaAlmacen.Usuario = jsEntradaAlmacen.usuario;
-                    beEntradaAlmacen.Comentario = jsEntradaAlmacen.comentario;
-                    beEntradaAlmacen.FechaContable = ParseStringToDatetime(jsEntradaAlmacen.FechaContable);
-                    beEntradaAlmacen.FechaCreacion = ParseStringToDatetime(jsEntradaAlmacen.FechaCreacion);
-                    beEntradaAlmacen.DocEntry = 0;
-                    beEntradaAlmacen.refSap = int.Parse(jsEntradaAlmacen.docEntryOrden);
+                    seEntradaAlmacen.Serie = 0;
+                    seEntradaAlmacen.Usuario = weEntradaAlmacen.usuario;
+                    seEntradaAlmacen.Comentario = weEntradaAlmacen.comentario;
+                    seEntradaAlmacen.FechaContable = ParseStringToDatetime(weEntradaAlmacen.FechaContable);
+                    seEntradaAlmacen.FechaCreacion = ParseStringToDatetime(weEntradaAlmacen.FechaCreacion);
+                    seEntradaAlmacen.DocEntry = 0;
+                    seEntradaAlmacen.refSap = int.Parse(weEntradaAlmacen.docEntryOrden);
 
-                    beEntradaAlmacen.Detalle = new List<BE.EntradaAlmacenDetalle>();
+                    seEntradaAlmacen.Detalle = new List<SE.EntradaAlmacenDetalle>();
 
                     int nroLinea = 1;
-                    foreach (var jsDetalle in jsEntradaAlmacen.detalle)
+                    foreach (var jsDetalle in weEntradaAlmacen.detalle)
                     {
-                        var beDetalle = new BE.EntradaAlmacenDetalle();
+                        var beDetalle = new SE.EntradaAlmacenDetalle();
 
                         beDetalle.NroLinea = nroLinea;
                         beDetalle.Codigo = jsDetalle.codArticulo;
@@ -126,14 +126,14 @@ namespace MigracionSap.Cliente.Traductor
                         beDetalle.CodCentroCosto = jsDetalle.codCentroCosto;
                         beDetalle.refLineaSap = int.Parse(jsDetalle.lineNumSap);
 
-                        beEntradaAlmacen.Detalle.Add(beDetalle);
+                        seEntradaAlmacen.Detalle.Add(beDetalle);
 
                         nroLinea++;
                     }
 
                 }
 
-                return beEntradaAlmacen;
+                return seEntradaAlmacen;
             }
             catch (Exception ex)
             {
@@ -142,32 +142,32 @@ namespace MigracionSap.Cliente.Traductor
         }
 
 
-        public static BE.SolicitudCompra SolicitudCompra(JS.SolicitudCompra jsSolicitudCompra)
+        public static SE.SolicitudCompra SolicitudCompra(WE.SolicitudCompra wsSolicitudCompra)
         {
-            BE.SolicitudCompra beSolicitudCompra = null;
+            SE.SolicitudCompra seSolicitudCompra = null;
             try
             {
-                if (jsSolicitudCompra != null)
+                if (wsSolicitudCompra != null)
                 {
-                    beSolicitudCompra = new BE.SolicitudCompra();
+                    seSolicitudCompra = new SE.SolicitudCompra();
 
-                    beSolicitudCompra.Serie = 0;
-                    beSolicitudCompra.Tipo = char.Parse(jsSolicitudCompra.tipo);
-                    beSolicitudCompra.Usuario = jsSolicitudCompra.usuario;
-                    beSolicitudCompra.Comentario = jsSolicitudCompra.comentario;
-                    beSolicitudCompra.FechaContable = ParseStringToDatetime(jsSolicitudCompra.FechaContable);
-                    beSolicitudCompra.FechaCreacion = ParseStringToDatetime(jsSolicitudCompra.FechaCreacion);
-                    beSolicitudCompra.FechaNecesita = ParseStringToDatetime(jsSolicitudCompra.FechaNecesita);
-                    beSolicitudCompra.IdSucursal = ParseStringToInt(jsSolicitudCompra.idSucursal);
-                    beSolicitudCompra.IdArea = ParseStringToInt(jsSolicitudCompra.idArea);
-                    beSolicitudCompra.DocEntry = 0;
+                    seSolicitudCompra.Serie = 0;
+                    seSolicitudCompra.Tipo = char.Parse(wsSolicitudCompra.tipo);
+                    seSolicitudCompra.Usuario = wsSolicitudCompra.usuario;
+                    seSolicitudCompra.Comentario = wsSolicitudCompra.comentario;
+                    seSolicitudCompra.FechaContable = ParseStringToDatetime(wsSolicitudCompra.FechaContable);
+                    seSolicitudCompra.FechaCreacion = ParseStringToDatetime(wsSolicitudCompra.FechaCreacion);
+                    seSolicitudCompra.FechaNecesita = ParseStringToDatetime(wsSolicitudCompra.FechaNecesita);
+                    seSolicitudCompra.IdSucursal = ParseStringToInt(wsSolicitudCompra.idSucursal);
+                    seSolicitudCompra.IdArea = ParseStringToInt(wsSolicitudCompra.idArea);
+                    seSolicitudCompra.DocEntry = 0;
 
-                    beSolicitudCompra.Detalle = new List<BE.SolicitudCompraDetalle>();
+                    seSolicitudCompra.Detalle = new List<SE.SolicitudCompraDetalle>();
 
                     int nroLinea = 1;
-                    foreach (var jsDetalle in jsSolicitudCompra.items)
+                    foreach (var jsDetalle in wsSolicitudCompra.items)
                     {
-                        var beDetalle = new BE.SolicitudCompraDetalle();
+                        var beDetalle = new SE.SolicitudCompraDetalle();
 
                         beDetalle.NroLinea = nroLinea;
                         beDetalle.Codigo = jsDetalle.codArticulo;
@@ -179,14 +179,14 @@ namespace MigracionSap.Cliente.Traductor
                         beDetalle.CodCentroCosto = jsDetalle.codCentroCosto;
                         beDetalle.CodProveedor = jsDetalle.codProveedor;
 
-                        beSolicitudCompra.Detalle.Add(beDetalle);
+                        seSolicitudCompra.Detalle.Add(beDetalle);
 
                         nroLinea++;
                     }
 
                 }
 
-                return beSolicitudCompra;
+                return seSolicitudCompra;
             }
             catch (Exception ex)
             {

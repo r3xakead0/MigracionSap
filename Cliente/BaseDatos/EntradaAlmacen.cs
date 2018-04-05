@@ -9,6 +9,107 @@ namespace MigracionSap.Cliente.BaseDatos
     public class EntradaAlmacen
     {
 
+        public BE.EntradaAlmacen Obtener(int idEntradaAlmacen, bool detalle = true)
+        {
+            BE.EntradaAlmacen beEntradaAlmacen = null;
+            try
+            {
+
+                string sp = "SpTbEntradaAlmacenObtener";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IDEntradaAlmacen", idEntradaAlmacen));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        beEntradaAlmacen = new BE.EntradaAlmacen();
+
+                        int idEmpresa = int.Parse(reader["idEmpresa"].ToString());
+                        beEntradaAlmacen.Empresa = new Empresa().Obtener(idEmpresa);
+
+                        int idTipoDocumento = int.Parse(reader["idTipoDocumento"].ToString());
+                        beEntradaAlmacen.TipoDocumento = new TipoDocumento().Obtener(idTipoDocumento);
+
+                        beEntradaAlmacen.IdEntradaAlmacen = int.Parse(reader["idEntradaAlmacen"].ToString());
+                        beEntradaAlmacen.Serie = int.Parse(reader["serie"].ToString());
+                        beEntradaAlmacen.FechaContable = DateTime.Parse(reader["fechaContable"].ToString());
+                        beEntradaAlmacen.Comentario = reader["comentario"].ToString();
+                        beEntradaAlmacen.FechaCreacion = DateTime.Parse(reader["fechaCreacion"].ToString());
+                        beEntradaAlmacen.Total = double.Parse(reader["total"].ToString());
+                        beEntradaAlmacen.Usuario = reader["usuario"].ToString();
+                        beEntradaAlmacen.CodSap = int.Parse(reader["codSap"].ToString());
+                        beEntradaAlmacen.refSap = int.Parse(reader["refSap"].ToString());
+
+                        if (detalle)
+                            beEntradaAlmacen.Detalle = this.Detalle(idEntradaAlmacen);
+
+                    }
+
+                    cnn.Close();
+                }
+
+                return beEntradaAlmacen;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private List<BE.EntradaAlmacenDetalle> Detalle(int idEntradaAlmacen)
+        {
+            var lstEntradaAlmacenDetalle = new List<BE.EntradaAlmacenDetalle>();
+            try
+            {
+
+                string sp = "SpTbEntradaAlmacenDetalleListar";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IDENTRADAALMACEN", idEntradaAlmacen));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var beEntradaAlmacenDetalle = new BE.EntradaAlmacenDetalle();
+
+                        beEntradaAlmacenDetalle.IdEntradaAlmacenDetalle = int.Parse(reader["idEntradaAlmacenDetalle"].ToString());
+                        beEntradaAlmacenDetalle.IdEntradaAlmacen = int.Parse(reader["idEntradaAlmacen"].ToString());
+                        beEntradaAlmacenDetalle.NroLinea = int.Parse(reader["nroLinea"].ToString());
+                        beEntradaAlmacenDetalle.Codigo = reader["codArticulo"].ToString();
+                        beEntradaAlmacenDetalle.Descripcion = reader["dscArticulo"].ToString();
+                        beEntradaAlmacenDetalle.Cantidad = double.Parse(reader["cantidad"].ToString());
+                        beEntradaAlmacenDetalle.CodAlmacen = reader["codAlmacen"].ToString();
+                        beEntradaAlmacenDetalle.CodImpuesto = reader["codImpuesto"].ToString();
+                        beEntradaAlmacenDetalle.CodCuentaContable = reader["codCuentaContable"].ToString();
+                        beEntradaAlmacenDetalle.CodProyecto = reader["codProyecto"].ToString();
+                        beEntradaAlmacenDetalle.CodCentroCosto = reader["codCentroCosto"].ToString();
+                        beEntradaAlmacenDetalle.refLineaSap = int.Parse(reader["REFLINEASAP"].ToString());
+
+                        lstEntradaAlmacenDetalle.Add(beEntradaAlmacenDetalle);
+                    }
+
+                    cnn.Close();
+                }
+
+                return lstEntradaAlmacenDetalle;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool Insertar(ref BE.EntradaAlmacen beEntradaAlmacen)
         {
             SqlConnection cnn = null;
@@ -90,6 +191,44 @@ namespace MigracionSap.Cliente.BaseDatos
                 if (tns != null)
                     tns.Rollback();
 
+                throw ex;
+            }
+        }
+
+        public bool Actualizar(BE.EntradaAlmacen beEntradaAlmacen)
+        {
+            try
+            {
+                string sp = "SpTbEntradaAlmacenActualizar";
+                int rowsAffected = 0;
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@IDENTRADAALMACEN", beEntradaAlmacen.IdEntradaAlmacen));
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", beEntradaAlmacen.Empresa.Id));
+                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", beEntradaAlmacen.TipoDocumento.Id));
+                    cmd.Parameters.Add(new SqlParameter("@SERIE", beEntradaAlmacen.Serie));
+                    cmd.Parameters.Add(new SqlParameter("@FECHACONTABLE", beEntradaAlmacen.FechaContable));
+                    cmd.Parameters.Add(new SqlParameter("@COMENTARIO", beEntradaAlmacen.Comentario));
+                    cmd.Parameters.Add(new SqlParameter("@FECHACREACION", beEntradaAlmacen.FechaCreacion));
+                    cmd.Parameters.Add(new SqlParameter("@TOTAL", beEntradaAlmacen.Total));
+                    cmd.Parameters.Add(new SqlParameter("@USUARIO", beEntradaAlmacen.Usuario));
+                    cmd.Parameters.Add(new SqlParameter("@CODSAP", beEntradaAlmacen.CodSap));
+                    cmd.Parameters.Add(new SqlParameter("@REFSAP", beEntradaAlmacen.refSap));
+
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+
+                return rowsAffected > 0;
+
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

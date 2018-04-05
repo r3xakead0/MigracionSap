@@ -9,6 +9,50 @@ namespace MigracionSap.Cliente.BaseDatos
     public class Configuracion
     {
 
+        public BE.Configuracion Obtener(int idEmpresa)
+        {
+            BE.Configuracion beConfiguracion = null;
+            try
+            {
+
+                string sp = "SpTbConfiguracionObtener";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IDEMPRESA", idEmpresa));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        beConfiguracion = new BE.Configuracion();
+
+                        beConfiguracion.Id = int.Parse(reader["IdConfiguracion"].ToString());
+                        beConfiguracion.Empresa = new Empresa().Obtener(idEmpresa); 
+                        beConfiguracion.Servidor = reader["servidor"].ToString();
+                        beConfiguracion.BaseDatos = reader["baseDatos"].ToString();
+                        beConfiguracion.TipoBD = int.Parse(reader["tipoBD"].ToString());
+                        beConfiguracion.UsuarioBD = reader["usuarioBD"].ToString();
+                        beConfiguracion.ClaveBD = reader["claveBD"].ToString();
+                        beConfiguracion.LicenciaSAP = reader["licenciaSAP"].ToString();
+                        beConfiguracion.UsuarioSAP = reader["usuarioSAP"].ToString();
+                        beConfiguracion.ClaveSAP = reader["claveSAP"].ToString();
+                    }
+
+                    cnn.Close();
+                }
+
+                return beConfiguracion;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public BE.Configuracion Obtener(BE.Empresa empresa)
         {
             BE.Configuracion beConfiguracion = null;

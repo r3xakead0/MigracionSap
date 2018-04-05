@@ -95,5 +95,16 @@ namespace MigracionSap.Cliente
             }
         }
 
+        private void FrmErrorList_Resize(object sender, EventArgs e)
+        {
+            try
+            {
+                General.AutoWidthColumn(ref this.dgvErrores, "Mensaje");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace MigracionSap.Cliente.BaseDatos
     {
         public List<UI.Documento> ListarDocumentosConError()
         {
-            var lstDocumentos = new List<UI.Documento>();
+            var lstUiDocumentos = new List<UI.Documento>();
             try
             {
 
@@ -26,24 +26,26 @@ namespace MigracionSap.Cliente.BaseDatos
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var documento = new UI.Documento();
+                        var uiDocumento = new UI.Documento();
 
-                        documento.Id = int.Parse(reader["Id"].ToString());
-                        documento.Empresa = reader["Empresa"].ToString();
-                        documento.Tipo = reader["Tipo"].ToString();
-                        documento.Fecha = DateTime.Parse(reader["Fecha"].ToString());
-                        documento.Usuario = reader["Usuario"].ToString();
-                        documento.Estado = reader["Estado"].ToString();
-                        documento.FechaRecepcion = DateTime.Parse(reader["FechaRecepcion"].ToString());
-                        documento.FechaEnvio = null;
+                        uiDocumento.Id = int.Parse(reader["Id"].ToString());
+                        uiDocumento.EmpresaId = int.Parse(reader["EmpresaId"].ToString());
+                        uiDocumento.Empresa = reader["Empresa"].ToString();
+                        uiDocumento.TipoId = int.Parse(reader["TipoId"].ToString());
+                        uiDocumento.Tipo = reader["Tipo"].ToString();
+                        uiDocumento.Fecha = DateTime.Parse(reader["Fecha"].ToString());
+                        uiDocumento.Usuario = reader["Usuario"].ToString();
+                        uiDocumento.Estado = reader["Estado"].ToString();
+                        uiDocumento.FechaRecepcion = DateTime.Parse(reader["FechaRecepcion"].ToString());
+                        uiDocumento.FechaEnvio = null;
 
-                        lstDocumentos.Add(documento);
+                        lstUiDocumentos.Add(uiDocumento);
                     }
 
                     cnn.Close();
                 }
 
-                return lstDocumentos;
+                return lstUiDocumentos;
             }
             catch (Exception ex)
             {

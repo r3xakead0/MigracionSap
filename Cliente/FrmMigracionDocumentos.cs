@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
 using DI = MigracionSap.Cliente.Sap;
+using SE = MigracionSap.Cliente.Sap.Entidades;
 using WS = MigracionSap.Cliente.ServicioWeb;
 using BD = MigracionSap.Cliente.BaseDatos;
+using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 using TD = MigracionSap.Cliente.Traductor;
 
 namespace MigracionSap.Cliente
@@ -31,7 +33,13 @@ namespace MigracionSap.Cliente
 
         #endregion
 
-        private List<Documento> lstMigracion = null;
+        private const string ERROR = "Error";
+
+        private const int SALIDA = 1;
+        private const int ENTRADA = 2;
+        private const int SOLICITUD =3;
+
+        private List<Documento> lstUiDocumentosError = null;
         private List<Documento> lstHistorial = null;
 
         public FrmMigracionDocumentos()
@@ -46,35 +54,16 @@ namespace MigracionSap.Cliente
 
                 this.stlMensaje.Text = string.Empty;
 
-                this.lstMigracion = new BD.Documento().ListarDocumentosConError();
-                this.dgvMigraciones.DataSource = this.lstMigracion;
-                this.FormatoMigraciones();
+                this.CargarDocumentosError();
+                this.FormatoDocumentosError();
 
-                this.lstHistorial = new List<Documento>();
-                this.dgvHistorial.DataSource = this.lstHistorial;
+                this.CargarHistorial();
                 this.FormatoHistorial();
 
                 this.dtpInicio.Value = DateTime.Now;
-                this.dtpFisn.Value = DateTime.Now;
+                this.dtpFin.Value = DateTime.Now;
 
-                this.cboTiposDocumentos.Items.Clear();
-                this.cboTiposDocumentos.Items.Add("Todos");
-                this.cboTiposDocumentos.Items.Add("Entrada de Almacen");
-                this.cboTiposDocumentos.Items.Add("Salida de Almacen");
-                this.cboTiposDocumentos.Items.Add("Solicitud de Almacen");
-                this.cboTiposDocumentos.SelectedIndex = 0;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private void SincronizarSalidasAlmacen()
-        {
-            try
-            {
+                this.CargarTiposDocumentos();
 
             }
             catch (Exception ex)
@@ -96,15 +85,11 @@ namespace MigracionSap.Cliente
 
                 #region Tipo de Documentos
 
-                int idTipoSalida = 1;
-                int idTipoEntrada= 2;
-                int idTipoSolicitud= 3;
-
                 var bdTipoDocumento = new BD.TipoDocumento();
 
-                var beTipoSalida = bdTipoDocumento.Obtener(idTipoSalida);
-                var beTipoEntrada = bdTipoDocumento.Obtener(idTipoEntrada);
-                var beTipoSsolicitud = bdTipoDocumento.Obtener(idTipoSolicitud);
+                var beTipoSalida = bdTipoDocumento.Obtener(SALIDA);
+                var beTipoEntrada = bdTipoDocumento.Obtener(ENTRADA);
+                var beTipoSsolicitud = bdTipoDocumento.Obtener(SOLICITUD);
 
                 #endregion
 
@@ -146,23 +131,26 @@ namespace MigracionSap.Cliente
 
                         foreach (var salidaJson in lstSalidasJson)
                         {
-                            var salidaBe = TD.JsonToSap.SalidaAlmacen(salidaJson);
+                            var salidaSe = TD.JsonToSe.SalidaAlmacen(salidaJson);
 
-                            salidaBe.Serie = sapBd.ObtenerSerieSalidaAlmacen(serieName);
-                            for (int i = 0; i < salidaBe.Detalle.Count; i++)
+                            salidaSe.Serie = sapBd.ObtenerSerieSalidaAlmacen(serieName);
+                            for (int i = 0; i < salidaSe.Detalle.Count; i++)
                             {
-                                salidaBe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(salidaBe.Detalle[i].Codigo);
+                                salidaSe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(salidaSe.Detalle[i].Codigo);
                             }
 
-                            string docEntry = salidaDi.Enviar(salidaBe, out errCode, out errMessage);
+                            string docEntry = salidaDi.Enviar(salidaSe, out errCode, out errMessage);
                             if(docEntry.Length > 0)
-                                salidaBe.DocEntry = int.Parse(docEntry);
+                                salidaSe.DocEntry = int.Parse(docEntry);
+ 
+                            var beSalida = TD.SeToBe.SalidaAlmacen(salidaSe);
+                            beSalida.Empresa = beConfiguracion.Empresa;
+                            beSalida.TipoDocumento = beTipoSalida;
 
-                            var salidaBD = TD.SapToBd.SalidaAlmacen(salidaBe);
-                            salidaBD.Empresa = beConfiguracion.Empresa;
-                            salidaBD.TipoDocumento = beTipoSalida;
+                            var rpta = salidaBd.Insertar(ref beSalida);
+                            if (rpta == true && docEntry.Length == 0)
+                                this.RegistrarErrorSap(SALIDA, beSalida.IdSalidaAlmacen, errMessage);
 
-                            var rpta = salidaBd.Insertar(ref salidaBD);
                         }
 
                         #endregion
@@ -181,23 +169,25 @@ namespace MigracionSap.Cliente
 
                         foreach (var entradaJson in lstEntradasJson)
                         {
-                            var entradaBe = TD.JsonToSap.EntradaAlmacen(entradaJson);
+                            var seEntrada = TD.JsonToSe.EntradaAlmacen(entradaJson);
 
-                            entradaBe.Serie = sapBd.ObtenerSerieEntradaAlmacenPorCompra(serieName);
-                            for (int i = 0; i < entradaBe.Detalle.Count; i++)
+                            seEntrada.Serie = sapBd.ObtenerSerieEntradaAlmacenPorCompra(serieName);
+                            for (int i = 0; i < seEntrada.Detalle.Count; i++)
                             {
-                                entradaBe.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(entradaBe.Detalle[i].Codigo);
+                                seEntrada.Detalle[i].CodAlmacen = sapBd.ObtenerCodigoAlmacen(seEntrada.Detalle[i].Codigo);
                             }
 
-                            string docEntry = entradaDi.Enviar(entradaBe, out errCode, out errMessage);
+                            string docEntry = entradaDi.Enviar(seEntrada, out errCode, out errMessage);
                             if (docEntry.Length > 0)
-                                entradaBe.DocEntry = int.Parse(docEntry);
+                                seEntrada.DocEntry = int.Parse(docEntry);
 
-                            var entradaBD = TD.SapToBd.EntradaAlmacen(entradaBe);
+                            var entradaBD = TD.SeToBe.EntradaAlmacen(seEntrada);
                             entradaBD.Empresa = beConfiguracion.Empresa;
                             entradaBD.TipoDocumento = beTipoEntrada;
 
                             var rpta = entradaBd.Insertar(ref entradaBD);
+                            if (rpta == true && docEntry.Length == 0)
+                                this.RegistrarErrorSap(ENTRADA, entradaBD.IdEntradaAlmacen, errMessage);
                         }
 
                         #endregion
@@ -216,7 +206,7 @@ namespace MigracionSap.Cliente
 
                         foreach (var solicitudJson in lstSolicitudJson)
                         {
-                            var solicitudBe = TD.JsonToSap.SolicitudCompra(solicitudJson);
+                            var solicitudBe = TD.JsonToSe.SolicitudCompra(solicitudJson);
 
                             solicitudBe.Serie = sapBd.ObtenerSerieSolicitudCompra(serieName);
                             for (int i = 0; i < solicitudBe.Detalle.Count; i++)
@@ -228,11 +218,13 @@ namespace MigracionSap.Cliente
                             if (docEntry.Length > 0)
                                 solicitudBe.DocEntry = int.Parse(docEntry);
 
-                            var solicitudBD = TD.SapToBd.SolicitudCompra(solicitudBe);
+                            var solicitudBD = TD.SeToBe.SolicitudCompra(solicitudBe);
                             solicitudBD.Empresa = beConfiguracion.Empresa;
                             solicitudBD.TipoDocumento = beTipoSsolicitud;
                            
                             var rpta = solicitudBd.Insertar(ref solicitudBD);
+                            if (rpta == true && docEntry.Length == 0)
+                                this.RegistrarErrorSap(SOLICITUD, solicitudBD.IdSolicitudCompra, errMessage);
                         }
 
                         #endregion
@@ -242,8 +234,8 @@ namespace MigracionSap.Cliente
 
                 this.stlMensaje.Text = string.Empty;
 
-                this.lstMigracion = new BD.Documento().ListarDocumentosConError();
-                this.dgvMigraciones.DataSource = this.lstMigracion;
+                this.lstUiDocumentosError = new BD.Documento().ListarDocumentosConError();
+                this.dgvDocumentosError.DataSource = this.lstUiDocumentosError;
 
             }
             catch (Exception ex)
@@ -256,42 +248,337 @@ namespace MigracionSap.Cliente
             }
         }
 
-        private void FormatoMigraciones()
+        private void btnVisualizar_Click(object sender, EventArgs e)
         {
             try
             {
-                General.FormatDatagridview(ref this.dgvMigraciones);
 
-                for (int i = 0; i < this.dgvMigraciones.Columns.Count; i++)
-                    this.dgvMigraciones.Columns[i].Visible = false;
+                if (this.dgvHistorial.CurrentRow != null)
+                {
+                    var documento = (Documento)this.dgvDocumentosError.CurrentRow.DataBoundItem;
 
-                this.dgvMigraciones.Columns["Empresa"].Visible = true;
-                this.dgvMigraciones.Columns["Empresa"].HeaderText = "Empresa";
-                this.dgvMigraciones.Columns["Empresa"].Width = 200;
-                this.dgvMigraciones.Columns["Empresa"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                    switch (documento.TipoId)
+                    {
+                        case SALIDA: //"Salida de Almacen"
+                            var salida = FrmSalidaAlmacen.Instance();
+                            salida.Cargar(documento.Id);
+                            salida.Show();
+                            break;
+                        case ENTRADA: // "Entrada de Almacen"
+                            var entrada = FrmEntradaAlmacen.Instance();
+                            entrada.Cargar(documento.Id);
+                            entrada.Show();
+                            break;
+                        case SOLICITUD: // "Solicitud de Compra"
+                            var solicitud = FrmSolicitudCompra.Instance();
+                            solicitud.Cargar(documento.Id);
+                            solicitud.Show();
+                            break;
+                        default:
+                            break;
+                    }
+  
+                }
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
 
-                this.dgvMigraciones.Columns["Tipo"].Visible = true;
-                this.dgvMigraciones.Columns["Tipo"].HeaderText = "Documento";
-                this.dgvMigraciones.Columns["Tipo"].Width = 200;
-                this.dgvMigraciones.Columns["Tipo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
 
-                this.dgvMigraciones.Columns["Fecha"].Visible = true;
-                this.dgvMigraciones.Columns["Fecha"].HeaderText = "Fecha";
-                this.dgvMigraciones.Columns["Fecha"].Width = 100;
-                this.dgvMigraciones.Columns["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.dgvMigraciones.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                #region Validaciones
 
-                this.dgvMigraciones.Columns["Usuario"].Visible = true;
-                this.dgvMigraciones.Columns["Usuario"].HeaderText = "Usuario";
-                this.dgvMigraciones.Columns["Usuario"].Width = 150;
-                this.dgvMigraciones.Columns["Usuario"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                var beTipoDocumento = (BE.Empresa)this.cboTiposDocumentos.SelectedItem;
+                if (beTipoDocumento == null)
+                {
+                    this.cboTiposDocumentos.Focus();
+                    General.CriticalMessage("Seleccione un Tipo de Documento");
+                    return;
+                }
 
-                this.dgvMigraciones.Columns["Estado"].Visible = true;
-                this.dgvMigraciones.Columns["Estado"].HeaderText = "Estado";
-                this.dgvMigraciones.Columns["Estado"].Width = 100;
-                this.dgvMigraciones.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                if (this.dtpInicio.Value.Date > this.dtpFin.Value.Date)
+                {
+                    this.dtpInicio.Focus();
+                    General.CriticalMessage("La Fecha Inicial es mayor a la Fecha Final");
+                    return;
+                }
 
-                General.AutoWidthColumn(ref this.dgvMigraciones, "Empresa");
+                #endregion
+
+                int idTipoDocumento = beTipoDocumento.Id;
+                DateTime fechaInicio = this.dtpInicio.Value;
+                DateTime fechaFin = this.dtpFin.Value;
+
+                this.CargarHistorial(idTipoDocumento, fechaInicio, fechaFin);
+
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void btnErrores_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.dgvDocumentosError.CurrentRow != null)
+                {
+                    var uiDocumento = (Documento)this.dgvDocumentosError.CurrentRow.DataBoundItem;
+
+                    if (uiDocumento.Estado != ERROR)
+                        return;
+
+                    var error = FrmErrorList.Instance();
+                    error.Show();
+
+                    switch (uiDocumento.TipoId)
+                    {
+                        case SALIDA: // "Salida de Almacen":
+                            error.Cargar(uiDocumento.TipoId, uiDocumento.Id);
+                            break;
+                        case ENTRADA: // "Entrada de Almacen":
+                            error.Cargar(uiDocumento.TipoId, uiDocumento.Id);
+                            break;
+                        case SOLICITUD: // "Solicitud de Compra":
+                            error.Cargar(uiDocumento.TipoId, uiDocumento.Id);
+                            break;
+                        default:
+                            break;
+                    }
+ 
+                }
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void btnEnviar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.dgvDocumentosError.CurrentRow != null)
+                    return;
+
+                var uiDocumento = (Documento)this.dgvDocumentosError.CurrentRow.DataBoundItem;
+                if (uiDocumento.Estado != ERROR)
+                    return;
+
+                string serieName = DateTime.Now.Year.ToString();
+
+                int errCode = 0;
+                string errMessage = "";
+
+                var beEmpresa = new BD.Empresa().Obtener(uiDocumento.EmpresaId);
+                var beConfiguracion = new BD.Configuracion().Obtener(beEmpresa);
+
+                string server = beConfiguracion.Servidor;
+                string licenseServer = beConfiguracion.LicenciaSAP;
+                string companyDB = beConfiguracion.BaseDatos;
+                string dbUserName = beConfiguracion.UsuarioBD;
+                string dbPassword = beConfiguracion.ClaveBD;
+                string userName = beConfiguracion.UsuarioSAP;
+                string password = beConfiguracion.ClaveSAP;
+
+                this.stlMensaje.Text = $"Conectando al SBO de la compañia { beConfiguracion.Empresa.Nombre }";
+
+                using (var sbo = new DI.DiConexion(server, licenseServer, companyDB,
+                                                    dbUserName, dbPassword,
+                                                    userName, password))
+                {
+
+                    var sapBd = new BD.Sap(server, companyDB, dbUserName, dbPassword);
+                    var errorBd = new BD.Error();
+
+                    switch (uiDocumento.TipoId)
+                    {
+                        case SALIDA: // "Salida de Almacen":
+                            var bdSalida = new BD.SalidaAlmacen();
+                            var beSalida = bdSalida.Obtener(uiDocumento.Id);
+                            if (beSalida != null)
+                            {
+
+                                var seSalida = TD.BeToSe.SalidaAlmacen(beSalida);
+
+                                this.stlMensaje.Text = $"Enviando Salida de Almacen";
+
+                                string docEntry = new DI.DiSalidaAlmacen(sbo.oCompany).Enviar(seSalida, out errCode, out errMessage);
+                                if (docEntry.Length > 0)
+                                    beSalida.CodSap = int.Parse(docEntry);
+
+                                var rpta = bdSalida.Actualizar(beSalida);
+                                if (rpta == true && errCode != 0)
+                                    this.RegistrarErrorSap(SALIDA, beSalida.IdSalidaAlmacen, errMessage);
+
+                            }
+                            break;
+                        case ENTRADA: // "Entrada de Almacen":
+                            var bdEntrada = new BD.EntradaAlmacen();
+                            var beEntrada = bdEntrada.Obtener(uiDocumento.Id);
+                            if (beEntrada != null)
+                            {
+
+                                var seEntrada = TD.BeToSe.EntradaAlmacen(beEntrada);
+
+                                this.stlMensaje.Text = $"Enviando Entrada de Almacen";
+
+                                string docEntry = new DI.DiEntradaAlmacenPorCompra(sbo.oCompany).Enviar(seEntrada, out errCode, out errMessage);
+                                if (docEntry.Length > 0)
+                                    beEntrada.CodSap = int.Parse(docEntry);
+
+                                var rpta = bdEntrada.Actualizar(beEntrada);
+                                if (rpta == true && errCode != 0)
+                                    this.RegistrarErrorSap(SALIDA, beEntrada.IdEntradaAlmacen, errMessage);
+
+                            }
+                            break;
+                        case SOLICITUD: // "Solicitud de Compra":
+                            var bdSolicitud = new BD.SolicitudCompra();
+                            var beSolicitud = bdSolicitud.Obtener(uiDocumento.Id);
+                            if (beSolicitud != null)
+                            {
+
+                                var seSolicitud = TD.BeToSe.SolicitudCompra(beSolicitud);
+
+                                this.stlMensaje.Text = $"Enviando Solicitud de Compra";
+
+                                string docEntry = new DI.DiSolicitudCompra(sbo.oCompany).Enviar(seSolicitud, out errCode, out errMessage);
+                                if (docEntry.Length > 0)
+                                    beSolicitud.CodSap = int.Parse(docEntry);
+
+                                var rpta = bdSolicitud.Actualizar(beSolicitud);
+                                if (rpta == true && errCode != 0)
+                                    this.RegistrarErrorSap(SOLICITUD, beSolicitud.IdSolicitudCompra, errMessage);
+
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                this.stlMensaje.Text = string.Empty;
+
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void tsmConfigurarSociedades_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var frmConfiguracion = FrmConfiguracion.Instance();
+                frmConfiguracion.StartPosition = FormStartPosition.CenterScreen;
+                frmConfiguracion.Show();
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void tsmConfigurarPlanes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var frmPlan = FrmPlanificacion.Instance();
+                frmPlan.StartPosition = FormStartPosition.CenterScreen;
+                frmPlan.Show();
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void FrmMigracionDocumentos_Resize(object sender, EventArgs e)
+        {
+            try
+            {
+                General.AutoWidthColumn(ref this.dgvDocumentosError, "Empresa");
+                General.AutoWidthColumn(ref this.dgvHistorial, "Empresa");
+
+                this.stlMensaje.Width = this.Width - 50;
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+
+        private void CargarDocumentosError()
+        {
+            try
+            {
+                this.lstUiDocumentosError = new BD.Documento().ListarDocumentosConError();
+                this.dgvDocumentosError.DataSource = this.lstUiDocumentosError;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void FormatoDocumentosError()
+        {
+            try
+            {
+                General.FormatDatagridview(ref this.dgvDocumentosError);
+
+                for (int i = 0; i < this.dgvDocumentosError.Columns.Count; i++)
+                    this.dgvDocumentosError.Columns[i].Visible = false;
+
+                this.dgvDocumentosError.Columns["Empresa"].Visible = true;
+                this.dgvDocumentosError.Columns["Empresa"].HeaderText = "Empresa";
+                this.dgvDocumentosError.Columns["Empresa"].Width = 200;
+                this.dgvDocumentosError.Columns["Empresa"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+                this.dgvDocumentosError.Columns["Tipo"].Visible = true;
+                this.dgvDocumentosError.Columns["Tipo"].HeaderText = "Documento";
+                this.dgvDocumentosError.Columns["Tipo"].Width = 200;
+                this.dgvDocumentosError.Columns["Tipo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+                this.dgvDocumentosError.Columns["Fecha"].Visible = true;
+                this.dgvDocumentosError.Columns["Fecha"].HeaderText = "Fecha";
+                this.dgvDocumentosError.Columns["Fecha"].Width = 100;
+                this.dgvDocumentosError.Columns["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                this.dgvDocumentosError.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
+                this.dgvDocumentosError.Columns["Usuario"].Visible = true;
+                this.dgvDocumentosError.Columns["Usuario"].HeaderText = "Usuario";
+                this.dgvDocumentosError.Columns["Usuario"].Width = 150;
+                this.dgvDocumentosError.Columns["Usuario"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                this.dgvDocumentosError.Columns["Estado"].Visible = true;
+                this.dgvDocumentosError.Columns["Estado"].HeaderText = "Estado";
+                this.dgvDocumentosError.Columns["Estado"].Width = 100;
+                this.dgvDocumentosError.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                General.AutoWidthColumn(ref this.dgvDocumentosError, "Empresa");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CargarHistorial(int idTipoDocumento = 0, DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            try
+            {
+                this.lstHistorial = new List<Documento>();
+                this.dgvHistorial.DataSource = this.lstHistorial;
             }
             catch (Exception ex)
             {
@@ -342,127 +629,41 @@ namespace MigracionSap.Cliente
             }
         }
 
-        private void btnVisualizar_Click(object sender, EventArgs e)
+        private void CargarTiposDocumentos()
         {
             try
             {
+                var lstBeTiposDocumentos = new BD.TipoDocumento().Listar();
 
-                if (this.dgvHistorial.CurrentRow != null)
-                {
-                    var documento = (Documento)this.dgvMigraciones.CurrentRow.DataBoundItem;
+                var beTipoDocumento = new BE.TipoDocumento();
+                beTipoDocumento.Id = 0;
+                beTipoDocumento.Nombre = "Todos";
+                lstBeTiposDocumentos.Insert(0, beTipoDocumento);
 
-                    switch (documento.Tipo)
-                    {
-                        case "Salida de Almacen":
-                            var salida = FrmSalidaAlmacen.Instance();
-                            salida.Cargar(documento.Id);
-                            salida.Show();
-                            break;
-                        case "Entrada de Almacen":
-                            var entrada = FrmEntradaAlmacen.Instance();
-                            entrada.Cargar(documento.Id);
-                            entrada.Show();
-                            break;
-                        default:
-                            break;
-                    }
-  
-                }
+                this.cboTiposDocumentos.DataSource = lstBeTiposDocumentos;
+                this.cboTiposDocumentos.DisplayMember = "Nombre";
+                this.cboTiposDocumentos.ValueMember = "Id";
+
+                this.cboTiposDocumentos.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                General.ErrorMessage(ex.Message);
+                throw ex;
             }
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void RegistrarErrorSap(int idTipoDocumento, int idDocumento, string mensaje)
         {
             try
             {
-
+                var bdError = new BD.Error();
+                bool rpta = bdError.Insertar(idTipoDocumento, idDocumento, mensaje);
             }
             catch (Exception ex)
             {
-                General.ErrorMessage(ex.Message);
+                throw ex;
             }
         }
 
-        private void btnErrores_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (this.dgvMigraciones.CurrentRow != null)
-                {
-                    var documento = (Documento)this.dgvMigraciones.CurrentRow.DataBoundItem;
-
-                    if (documento.Estado != "Error")
-                        return;
-
-                    var error = FrmErrorList.Instance();
-                    error.Show();
-
-                    switch (documento.Tipo)
-                    {
-                        case "Salida de Almacen":
-                            error.Cargar(1, documento.Id);
-                            break;
-                        case "Entrada de Almacen":
-                            error.Cargar(2, documento.Id);
-                            break;
-                        case "Solicitud de Compra":
-                            error.Cargar(3, documento.Id);
-                            break;
-                        default:
-                            break;
-                    }
-
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-                General.ErrorMessage(ex.Message);
-            }
-        }
-
-        private void btnEnviar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                General.ErrorMessage(ex.Message);
-            }
-        }
-
-        private void tsmConfigurarSociedades_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var frmConfiguracion = FrmConfiguracion.Instance();
-                frmConfiguracion.StartPosition = FormStartPosition.CenterScreen;
-                frmConfiguracion.Show();
-            }
-            catch (Exception ex)
-            {
-                General.ErrorMessage(ex.Message);
-            }
-        }
-
-        private void tsmConfigurarPlanes_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var frmPlan = FrmPlanificacion.Instance();
-                frmPlan.StartPosition = FormStartPosition.CenterScreen;
-                frmPlan.Show();
-            }
-            catch (Exception ex)
-            {
-                General.ErrorMessage(ex.Message);
-            }
-        }
     }
 }

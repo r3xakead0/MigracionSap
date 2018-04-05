@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConfiguracion));
             this.lbServidor = new System.Windows.Forms.Label();
             this.lblEmpresa = new System.Windows.Forms.Label();
-            this.btnCerrar = new System.Windows.Forms.Button();
             this.txtServidor = new System.Windows.Forms.TextBox();
             this.cboEmpresa = new System.Windows.Forms.ComboBox();
             this.txtNombreBD = new System.Windows.Forms.TextBox();
@@ -76,29 +75,22 @@
             this.lblEmpresa.TabIndex = 21;
             this.lblEmpresa.Text = "Empresa :";
             // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.Location = new System.Drawing.Point(245, 355);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(107, 24);
-            this.btnCerrar.TabIndex = 30;
-            this.btnCerrar.Text = "Cerrar";
-            this.btnCerrar.UseVisualStyleBackColor = true;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-            // 
             // txtServidor
             // 
+            this.txtServidor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtServidor.BackColor = System.Drawing.SystemColors.Window;
             this.txtServidor.Location = new System.Drawing.Point(131, 40);
             this.txtServidor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtServidor.Name = "txtServidor";
             this.txtServidor.ReadOnly = true;
-            this.txtServidor.Size = new System.Drawing.Size(323, 22);
+            this.txtServidor.Size = new System.Drawing.Size(226, 22);
             this.txtServidor.TabIndex = 32;
             // 
             // cboEmpresa
             // 
+            this.cboEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboEmpresa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboEmpresa.FormattingEnabled = true;
             this.cboEmpresa.Items.AddRange(new object[] {
@@ -107,17 +99,20 @@
             this.cboEmpresa.Location = new System.Drawing.Point(131, 12);
             this.cboEmpresa.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboEmpresa.Name = "cboEmpresa";
-            this.cboEmpresa.Size = new System.Drawing.Size(294, 22);
+            this.cboEmpresa.Size = new System.Drawing.Size(197, 22);
             this.cboEmpresa.TabIndex = 33;
+            this.cboEmpresa.SelectionChangeCommitted += new System.EventHandler(this.cboEmpresa_SelectionChangeCommitted);
             // 
             // txtNombreBD
             // 
+            this.txtNombreBD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNombreBD.BackColor = System.Drawing.SystemColors.Window;
             this.txtNombreBD.Location = new System.Drawing.Point(119, 49);
             this.txtNombreBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtNombreBD.Name = "txtNombreBD";
             this.txtNombreBD.ReadOnly = true;
-            this.txtNombreBD.Size = new System.Drawing.Size(297, 22);
+            this.txtNombreBD.Size = new System.Drawing.Size(200, 22);
             this.txtNombreBD.TabIndex = 35;
             // 
             // lblNombreBD
@@ -132,12 +127,14 @@
             // 
             // txtUsuarioBD
             // 
+            this.txtUsuarioBD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUsuarioBD.BackColor = System.Drawing.SystemColors.Window;
             this.txtUsuarioBD.Location = new System.Drawing.Point(119, 77);
             this.txtUsuarioBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtUsuarioBD.Name = "txtUsuarioBD";
             this.txtUsuarioBD.ReadOnly = true;
-            this.txtUsuarioBD.Size = new System.Drawing.Size(297, 22);
+            this.txtUsuarioBD.Size = new System.Drawing.Size(200, 22);
             this.txtUsuarioBD.TabIndex = 37;
             // 
             // lblUsuarioBD
@@ -152,6 +149,8 @@
             // 
             // grpBaseDatos
             // 
+            this.grpBaseDatos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBaseDatos.Controls.Add(this.cboTipoBD);
             this.grpBaseDatos.Controls.Add(this.lblTipoBD);
             this.grpBaseDatos.Controls.Add(this.lblClaveBD);
@@ -162,19 +161,21 @@
             this.grpBaseDatos.Controls.Add(this.txtUsuarioBD);
             this.grpBaseDatos.Location = new System.Drawing.Point(22, 208);
             this.grpBaseDatos.Name = "grpBaseDatos";
-            this.grpBaseDatos.Size = new System.Drawing.Size(432, 141);
+            this.grpBaseDatos.Size = new System.Drawing.Size(335, 141);
             this.grpBaseDatos.TabIndex = 40;
             this.grpBaseDatos.TabStop = false;
             this.grpBaseDatos.Text = "Base de Datos";
             // 
             // cboTipoBD
             // 
+            this.cboTipoBD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboTipoBD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipoBD.FormattingEnabled = true;
             this.cboTipoBD.Location = new System.Drawing.Point(119, 21);
             this.cboTipoBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboTipoBD.Name = "cboTipoBD";
-            this.cboTipoBD.Size = new System.Drawing.Size(297, 22);
+            this.cboTipoBD.Size = new System.Drawing.Size(200, 22);
             this.cboTipoBD.TabIndex = 41;
             // 
             // lblTipoBD
@@ -199,17 +200,21 @@
             // 
             // txtClaveBD
             // 
+            this.txtClaveBD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtClaveBD.BackColor = System.Drawing.SystemColors.Window;
             this.txtClaveBD.Location = new System.Drawing.Point(119, 105);
             this.txtClaveBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtClaveBD.Name = "txtClaveBD";
             this.txtClaveBD.PasswordChar = '*';
             this.txtClaveBD.ReadOnly = true;
-            this.txtClaveBD.Size = new System.Drawing.Size(297, 22);
+            this.txtClaveBD.Size = new System.Drawing.Size(200, 22);
             this.txtClaveBD.TabIndex = 39;
             // 
             // grpLicencia
             // 
+            this.grpLicencia.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpLicencia.Controls.Add(this.lblClaveSBO);
             this.grpLicencia.Controls.Add(this.txtClaveSBO);
             this.grpLicencia.Controls.Add(this.lblLicenciaSBO);
@@ -218,7 +223,7 @@
             this.grpLicencia.Controls.Add(this.txtUsuarioSBO);
             this.grpLicencia.Location = new System.Drawing.Point(22, 77);
             this.grpLicencia.Name = "grpLicencia";
-            this.grpLicencia.Size = new System.Drawing.Size(432, 113);
+            this.grpLicencia.Size = new System.Drawing.Size(335, 113);
             this.grpLicencia.TabIndex = 42;
             this.grpLicencia.TabStop = false;
             this.grpLicencia.Text = "Licencia SBO";
@@ -235,13 +240,15 @@
             // 
             // txtClaveSBO
             // 
+            this.txtClaveSBO.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtClaveSBO.BackColor = System.Drawing.SystemColors.Window;
             this.txtClaveSBO.Location = new System.Drawing.Point(119, 77);
             this.txtClaveSBO.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtClaveSBO.Name = "txtClaveSBO";
             this.txtClaveSBO.PasswordChar = '*';
             this.txtClaveSBO.ReadOnly = true;
-            this.txtClaveSBO.Size = new System.Drawing.Size(297, 22);
+            this.txtClaveSBO.Size = new System.Drawing.Size(200, 22);
             this.txtClaveSBO.TabIndex = 39;
             // 
             // lblLicenciaSBO
@@ -256,12 +263,14 @@
             // 
             // txtLicenciaSBO
             // 
+            this.txtLicenciaSBO.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLicenciaSBO.BackColor = System.Drawing.SystemColors.Window;
             this.txtLicenciaSBO.Location = new System.Drawing.Point(119, 21);
             this.txtLicenciaSBO.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtLicenciaSBO.Name = "txtLicenciaSBO";
             this.txtLicenciaSBO.ReadOnly = true;
-            this.txtLicenciaSBO.Size = new System.Drawing.Size(297, 22);
+            this.txtLicenciaSBO.Size = new System.Drawing.Size(200, 22);
             this.txtLicenciaSBO.TabIndex = 35;
             // 
             // lblUsuarioSBO
@@ -276,18 +285,20 @@
             // 
             // txtUsuarioSBO
             // 
+            this.txtUsuarioSBO.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUsuarioSBO.BackColor = System.Drawing.SystemColors.Window;
             this.txtUsuarioSBO.Location = new System.Drawing.Point(119, 49);
             this.txtUsuarioSBO.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtUsuarioSBO.Name = "txtUsuarioSBO";
             this.txtUsuarioSBO.ReadOnly = true;
-            this.txtUsuarioSBO.Size = new System.Drawing.Size(297, 22);
+            this.txtUsuarioSBO.Size = new System.Drawing.Size(200, 22);
             this.txtUsuarioSBO.TabIndex = 37;
             // 
             // btnGuardar
             // 
             this.btnGuardar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGuardar.Location = new System.Drawing.Point(358, 355);
+            this.btnGuardar.Location = new System.Drawing.Point(261, 355);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(107, 24);
             this.btnGuardar.TabIndex = 43;
@@ -298,25 +309,25 @@
             // btnEmpresa
             // 
             this.btnEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEmpresa.Location = new System.Drawing.Point(432, 12);
+            this.btnEmpresa.Location = new System.Drawing.Point(335, 12);
             this.btnEmpresa.Name = "btnEmpresa";
             this.btnEmpresa.Size = new System.Drawing.Size(22, 22);
             this.btnEmpresa.TabIndex = 44;
             this.btnEmpresa.Text = "+";
             this.btnEmpresa.UseVisualStyleBackColor = true;
+            this.btnEmpresa.Click += new System.EventHandler(this.btnEmpresa_Click);
             // 
             // FrmConfiguracion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 391);
+            this.ClientSize = new System.Drawing.Size(384, 391);
             this.Controls.Add(this.btnEmpresa);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.grpLicencia);
             this.Controls.Add(this.grpBaseDatos);
             this.Controls.Add(this.cboEmpresa);
             this.Controls.Add(this.txtServidor);
-            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.lbServidor);
             this.Controls.Add(this.lblEmpresa);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -339,7 +350,6 @@
         #endregion
         private System.Windows.Forms.Label lbServidor;
         private System.Windows.Forms.Label lblEmpresa;
-        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.TextBox txtServidor;
         private System.Windows.Forms.ComboBox cboEmpresa;
         private System.Windows.Forms.TextBox txtNombreBD;
