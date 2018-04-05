@@ -43,7 +43,10 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                this.lstMigracion = new List<Documento>();
+
+                this.stlMensaje.Text = string.Empty;
+
+                this.lstMigracion = new BD.Documento().ListarDocumentosConError();
                 this.dgvMigraciones.DataSource = this.lstMigracion;
                 this.FormatoMigraciones();
 
@@ -107,8 +110,6 @@ namespace MigracionSap.Cliente
 
                 DateTime recepcion = new DateTime(2018, 2, 2, 0, 0, 0);
 
-                var lstDocumentos = new List<Documento>();
-
                 var lstBeConfiguracion = new BD.Configuracion().Listar();
                 foreach (var beConfiguracion in lstBeConfiguracion)
                 {
@@ -120,6 +121,8 @@ namespace MigracionSap.Cliente
                     string dbPassword = beConfiguracion.ClaveBD;
                     string userName = beConfiguracion.UsuarioSAP;
                     string password = beConfiguracion.ClaveSAP;
+
+                    this.stlMensaje.Text = $"Conectando al SBO de la compañia { beConfiguracion.Empresa.Nombre }";
 
                     using (var sbo = new DI.DiConexion(server, licenseServer, companyDB, 
                                                         dbUserName, dbPassword,
@@ -135,7 +138,11 @@ namespace MigracionSap.Cliente
                         var salidaDi = new DI.DiSalidaAlmacen(sbo.oCompany);
                         var salidaBd = new BD.SalidaAlmacen();
 
+                        this.stlMensaje.Text = $"Obtener Salidas de Almacen";
+
                         var lstSalidasJson = salidaWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
+
+                        this.stlMensaje.Text = $"Enviar Salidas de Almacen";
 
                         foreach (var salidaJson in lstSalidasJson)
                         {
@@ -156,30 +163,6 @@ namespace MigracionSap.Cliente
                             salidaBD.TipoDocumento = beTipoSalida;
 
                             var rpta = salidaBd.Insertar(ref salidaBD);
-                            if (rpta)
-                            {
-                                string estado = "Sincronizado";
-                                DateTime? envio = DateTime.Now;
-                                if (docEntry.Length == 0)
-                                {
-                                    errorBd.Insertar(idTipoSalida, salidaBD.IdSalidaAlmacen, errMessage);
-                                    estado = "Error";
-                                    envio = null;
-                                }
-
-                                var documento = new Documento();
-                                documento.Empresa = beConfiguracion.Empresa.Nombre;
-                                documento.Tipo = salidaBD.TipoDocumento.Nombre;
-                                documento.Id = salidaBD.IdSalidaAlmacen;
-                                documento.Usuario = salidaBD.Usuario;
-                                documento.Fecha = salidaBD.FechaContable;
-                                documento.Estado = estado;
-                                documento.FechaRecepcion = recepcion;
-                                documento.FechaEnvio = envio;
-
-                                lstDocumentos.Add(documento);
-                            }
-
                         }
 
                         #endregion
@@ -190,7 +173,11 @@ namespace MigracionSap.Cliente
                         var entradaDi = new DI.DiEntradaAlmacenPorCompra(sbo.oCompany);
                         var entradaBd = new BD.EntradaAlmacen();
 
+                        this.stlMensaje.Text = $"Obtener Entradas de Almacen";
+
                         var lstEntradasJson = entradaWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
+
+                        this.stlMensaje.Text = $"Enviar Entradas de Almacen";
 
                         foreach (var entradaJson in lstEntradasJson)
                         {
@@ -211,29 +198,6 @@ namespace MigracionSap.Cliente
                             entradaBD.TipoDocumento = beTipoEntrada;
 
                             var rpta = entradaBd.Insertar(ref entradaBD);
-                            if (rpta)
-                            {
-                                string estado = "Sincronizado";
-                                DateTime? envio = DateTime.Now;
-                                if (docEntry.Length == 0)
-                                {
-                                    errorBd.Insertar(idTipoEntrada, entradaBD.IdEntradaAlmacen, errMessage);
-                                    estado = "Error";
-                                    envio = null;
-                                }
-
-                                var documento = new Documento();
-                                documento.Empresa = beConfiguracion.Empresa.Nombre;
-                                documento.Tipo = entradaBD.TipoDocumento.Nombre;
-                                documento.Id = entradaBD.IdEntradaAlmacen;
-                                documento.Usuario = entradaBD.Usuario;
-                                documento.Fecha = entradaBD.FechaContable;
-                                documento.Estado = estado;
-                                documento.FechaRecepcion = recepcion;
-                                documento.FechaEnvio = envio;
-
-                                lstDocumentos.Add(documento);
-                            }
                         }
 
                         #endregion
@@ -244,7 +208,11 @@ namespace MigracionSap.Cliente
                         var solicitudDi = new DI.DiSolicitudCompra(sbo.oCompany);
                         var solicitudBd = new BD.SolicitudCompra();
 
+                        this.stlMensaje.Text = $"Obtener Solicitud de Compra";
+
                         var lstSolicitudJson = solicitudWs.Obtener(recepcion, beConfiguracion.Empresa.Id);
+
+                        this.stlMensaje.Text = $"Enviar Solicitud de Compra";
 
                         foreach (var solicitudJson in lstSolicitudJson)
                         {
@@ -265,31 +233,6 @@ namespace MigracionSap.Cliente
                             solicitudBD.TipoDocumento = beTipoSsolicitud;
                            
                             var rpta = solicitudBd.Insertar(ref solicitudBD);
-
-                            if (rpta)
-                            {
-                                string estado = "Sincronizado";
-                                DateTime? envio = DateTime.Now;
-                                if (docEntry.Length == 0)
-                                {
-                                    errorBd.Insertar(idTipoSolicitud, solicitudBD.IdSolicitudCompra, errMessage);
-                                    estado = "Error";
-                                    envio = null;
-                                }
-
-                                var documento = new Documento();
-                                documento.Empresa = beConfiguracion.Empresa.Nombre;
-                                documento.Tipo = solicitudBD.TipoDocumento.Nombre;
-                                documento.Id = solicitudBD.IdSolicitudCompra;
-                                documento.Usuario = solicitudBD.Usuario;
-                                documento.Fecha = solicitudBD.FechaContable;
-                                documento.Estado = estado;
-                                documento.FechaRecepcion = recepcion;
-                                documento.FechaEnvio = envio;
-
-                                lstDocumentos.Add(documento);
-                            }
-
                         }
 
                         #endregion
@@ -297,8 +240,11 @@ namespace MigracionSap.Cliente
                     }
                 }
 
-                this.dgvMigraciones.DataSource = lstDocumentos;
-                
+                this.stlMensaje.Text = string.Empty;
+
+                this.lstMigracion = new BD.Documento().ListarDocumentosConError();
+                this.dgvMigraciones.DataSource = this.lstMigracion;
+
             }
             catch (Exception ex)
             {
@@ -471,7 +417,48 @@ namespace MigracionSap.Cliente
                             break;
                     }
 
+                    
                 }
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void btnEnviar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void tsmConfigurarSociedades_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var frmConfiguracion = FrmConfiguracion.Instance();
+                frmConfiguracion.StartPosition = FormStartPosition.CenterScreen;
+                frmConfiguracion.Show();
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void tsmConfigurarPlanes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var frmPlan = FrmPlanificacion.Instance();
+                frmPlan.StartPosition = FormStartPosition.CenterScreen;
+                frmPlan.Show();
             }
             catch (Exception ex)
             {

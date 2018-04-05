@@ -95,7 +95,6 @@
             this.cboDia.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboDia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDia.Enabled = false;
             this.cboDia.FormattingEnabled = true;
             this.cboDia.Items.AddRange(new object[] {
             "Servicios",

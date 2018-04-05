@@ -62,6 +62,7 @@
     <Compile Include="BaseDatos\Conexion.cs" />
     <Compile Include="BaseDatos\Entidades\Error.cs" />
     <Compile Include="BaseDatos\Error.cs" />
+    <Compile Include="BaseDatos\Documento.cs" />
     <Compile Include="BaseDatos\TipoDocumento.cs" />
     <Compile Include="BaseDatos\Configuracion.cs" />
     <Compile Include="BaseDatos\Entidades\Configuracion.cs" />

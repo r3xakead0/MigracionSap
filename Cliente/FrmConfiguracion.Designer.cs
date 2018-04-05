@@ -100,7 +100,6 @@
             // cboEmpresa
             // 
             this.cboEmpresa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboEmpresa.Enabled = false;
             this.cboEmpresa.FormattingEnabled = true;
             this.cboEmpresa.Items.AddRange(new object[] {
             "Servicios",
@@ -171,11 +170,7 @@
             // cboTipoBD
             // 
             this.cboTipoBD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTipoBD.Enabled = false;
             this.cboTipoBD.FormattingEnabled = true;
-            this.cboTipoBD.Items.AddRange(new object[] {
-            "Servicios",
-            "Articulos"});
             this.cboTipoBD.Location = new System.Drawing.Point(119, 21);
             this.cboTipoBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboTipoBD.Name = "cboTipoBD";
