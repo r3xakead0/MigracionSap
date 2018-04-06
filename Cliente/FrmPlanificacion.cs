@@ -85,7 +85,7 @@ namespace MigracionSap.Cliente
             {
                 if (this.dgvPlanificaciones.CurrentRow != null)
                 {
-                    var uiPlanificacion = (Documento)this.dgvPlanificaciones.CurrentRow.DataBoundItem;
+                    var uiPlanificacion = (Planificacion)this.dgvPlanificaciones.CurrentRow.DataBoundItem;
 
                     bool rpta = new BD.Planificacion().Eliminar(uiPlanificacion.Id);
                     if (rpta)

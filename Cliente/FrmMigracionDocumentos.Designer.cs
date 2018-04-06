@@ -169,6 +169,7 @@
             this.btnVer.TabIndex = 51;
             this.btnVer.Text = "Ver";
             this.btnVer.UseVisualStyleBackColor = true;
+            this.btnVer.Click += new System.EventHandler(this.btnVer_Click);
             // 
             // grpFiltro
             // 

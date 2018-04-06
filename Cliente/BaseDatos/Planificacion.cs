@@ -66,7 +66,9 @@ namespace MigracionSap.Cliente.BaseDatos
                     cmd.Parameters.Add(new SqlParameter("@IDPLANIFICACION", planificacion.Id));
                     cmd.Parameters["@IDPLANIFICACION"].Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(new SqlParameter("@DIA", planificacion.Dia));
-                    cmd.Parameters.Add(new SqlParameter("@HORA", planificacion.Hora));
+                    
+                    //cmd.Parameters.Add(new SqlParameter("@HORA", planificacion.Hora.TimeOfDay));
+                    cmd.Parameters.Add("@HORA", SqlDbType.Time).Value = planificacion.Hora.TimeOfDay;
 
                     rowsAffected = cmd.ExecuteNonQuery();
                     planificacion.Id = int.Parse(cmd.Parameters["@IDPLANIFICACION"].Value.ToString());

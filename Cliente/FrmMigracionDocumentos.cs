@@ -96,7 +96,7 @@ namespace MigracionSap.Cliente
 
                 #endregion
 
-                DateTime recepcion = new DateTime(2018, 2, 2, 0, 0, 0);
+                DateTime recepcion = this.UltimaFecha;
 
                 var lstBeConfiguracion = new BD.Configuracion().Listar();
                 foreach (var beConfiguracion in lstBeConfiguracion)
@@ -296,7 +296,7 @@ namespace MigracionSap.Cliente
 
                 #region Validaciones
 
-                var beTipoDocumento = (BE.Empresa)this.cboTiposDocumentos.SelectedItem;
+                var beTipoDocumento = (BE.TipoDocumento)this.cboTiposDocumentos.SelectedItem;
                 if (beTipoDocumento == null)
                 {
                     this.cboTiposDocumentos.Focus();
@@ -480,6 +480,43 @@ namespace MigracionSap.Cliente
             {
                 this.btnEnviar.Enabled = true;
             }
+        }
+
+
+        private void btnVer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.dgvDocumentosError.CurrentRow == null)
+                    return;
+
+                var uiDocumento = (Documento)this.dgvDocumentosError.CurrentRow.DataBoundItem;
+                if (uiDocumento.Estado != ERROR)
+                    return;
+
+                switch (uiDocumento.TipoId)
+                {
+                    case SALIDA: // "Salida de Almacen":
+                        var frmSalida = FrmSalidaAlmacen.Instance();
+                        frmSalida.Cargar(uiDocumento.Id);
+                        frmSalida.Show();
+                        break;
+                    case ENTRADA: // "Entrada de Almacen":
+                        
+                        break;
+                    case SOLICITUD: // "Solicitud de Compra":
+                        
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+           
         }
 
         private void tsmConfigurarSociedades_Click(object sender, EventArgs e)
