@@ -39,6 +39,7 @@ namespace MigracionSap.Cliente
         private const int ENTRADA = 2;
         private const int SOLICITUD =3;
 
+        private DateTime UltimaFecha = DateTime.Now;
         private List<Documento> lstUiDocumentosError = null;
         private List<Documento> lstHistorial = null;
 
@@ -53,6 +54,8 @@ namespace MigracionSap.Cliente
             {
 
                 this.stlMensaje.Text = string.Empty;
+
+                this.ObtenerUltimaSincronizacion();
 
                 this.CargarDocumentosError();
                 this.FormatoDocumentosError();
@@ -364,7 +367,9 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                if (this.dgvDocumentosError.CurrentRow != null)
+                this.btnEnviar.Enabled = false;
+
+                if (this.dgvDocumentosError.CurrentRow == null)
                     return;
 
                 var uiDocumento = (Documento)this.dgvDocumentosError.CurrentRow.DataBoundItem;
@@ -471,6 +476,10 @@ namespace MigracionSap.Cliente
             {
                 General.ErrorMessage(ex.Message);
             }
+            finally
+            {
+                this.btnEnviar.Enabled = true;
+            }
         }
 
         private void tsmConfigurarSociedades_Click(object sender, EventArgs e)
@@ -516,6 +525,18 @@ namespace MigracionSap.Cliente
             }
         }
 
+        private void ObtenerUltimaSincronizacion()
+        {
+            try
+            {
+                this.UltimaFecha = new BD.Documento().ObtenerUltimaFecha();
+                this.txtUltimaSincronizacion.Text = this.UltimaFecha.ToString("dd/MM/yyyy HH:mm:ss");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         private void CargarDocumentosError()
         {
@@ -523,6 +544,8 @@ namespace MigracionSap.Cliente
             {
                 this.lstUiDocumentosError = new BD.Documento().ListarDocumentosConError();
                 this.dgvDocumentosError.DataSource = this.lstUiDocumentosError;
+
+                this.txtDocumentosError.Text = this.lstUiDocumentosError.Count.ToString();
             }
             catch (Exception ex)
             {
@@ -579,6 +602,8 @@ namespace MigracionSap.Cliente
             {
                 this.lstHistorial = new List<Documento>();
                 this.dgvHistorial.DataSource = this.lstHistorial;
+
+                this.txtHistorial.Text = this.lstHistorial.Count.ToString();
             }
             catch (Exception ex)
             {

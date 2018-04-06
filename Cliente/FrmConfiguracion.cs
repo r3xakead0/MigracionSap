@@ -114,16 +114,16 @@ namespace MigracionSap.Cliente
                     return;
                 }
 
-                if (this.txtClaveSBO.Text.Trim().Length == 0)
+                if (this.txtClaveBD.Text.Trim().Length == 0)
                 {
-                    this.txtClaveSBO.Focus();
+                    this.txtClaveBD.Focus();
                     General.CriticalMessage("Ingrese una Clave de BD");
                     return;
                 }
 
                 #endregion
 
-                if (this.configuracion != null)
+                if (this.configuracion == null)
                     this.configuracion = new BE.Configuracion();
 
                 this.configuracion.Empresa = beEmpresa;
@@ -138,7 +138,7 @@ namespace MigracionSap.Cliente
 
                 this.configuracion.BaseDatos = this.txtNombreBD.Text;
                 this.configuracion.UsuarioBD = this.txtUsuarioBD.Text;
-                this.configuracion.ClaveBD = this.txtClaveSBO.Text;
+                this.configuracion.ClaveBD = this.txtClaveBD.Text;
 
                 bool rpta = false;
                 if (this.configuracion.Id == 0)
@@ -202,7 +202,7 @@ namespace MigracionSap.Cliente
 
                     this.txtServidor.Text = this.configuracion.Servidor;
 
-                    this.txtServidor.Text = this.configuracion.LicenciaSAP;
+                    this.txtLicenciaSBO.Text = this.configuracion.LicenciaSAP;
                     this.txtUsuarioSBO.Text = this.configuracion.UsuarioSAP;
                     this.txtClaveSBO.Text = this.configuracion.ClaveSAP;
 
@@ -210,13 +210,13 @@ namespace MigracionSap.Cliente
 
                     this.txtNombreBD.Text = this.configuracion.BaseDatos;
                     this.txtUsuarioBD.Text = this.configuracion.UsuarioBD;
-                    this.txtClaveSBO.Text = this.configuracion.ClaveBD;
+                    this.txtClaveBD.Text = this.configuracion.ClaveBD;
                 }
                 else
                 {
                     this.txtServidor.Clear();
 
-                    this.txtServidor.Clear();
+                    this.txtLicenciaSBO.Clear();
                     this.txtUsuarioSBO.Clear();
                     this.txtClaveSBO.Clear(); ;
 
@@ -224,7 +224,7 @@ namespace MigracionSap.Cliente
 
                     this.txtNombreBD.Clear();
                     this.txtUsuarioBD.Clear();
-                    this.txtClaveSBO.Clear();
+                    this.txtClaveBD.Clear();
                 }
             }
             catch (Exception ex)

@@ -47,6 +47,7 @@ namespace MigracionSap.Cliente
                 this.dtpHora.Value = DateTime.Now;
 
                 this.CargarPlanificaciones();
+                this.FormatoPlanificacioness();
 
             }
             catch (Exception ex)

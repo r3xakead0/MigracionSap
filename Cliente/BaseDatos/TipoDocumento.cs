@@ -62,7 +62,6 @@ namespace MigracionSap.Cliente.BaseDatos
 
                     var cmd = new SqlCommand(sp, cnn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", id));
 
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())

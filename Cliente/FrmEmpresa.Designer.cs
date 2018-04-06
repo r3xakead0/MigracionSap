@@ -56,7 +56,6 @@
             this.txtNombre.Location = new System.Drawing.Point(115, 34);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(209, 22);
             this.txtNombre.TabIndex = 35;
             // 
@@ -80,7 +79,6 @@
             this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.ReadOnly = true;
             this.txtDescripcion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescripcion.Size = new System.Drawing.Size(209, 64);
             this.txtDescripcion.TabIndex = 37;
@@ -104,7 +102,6 @@
             this.txtCodigo.Location = new System.Drawing.Point(116, 6);
             this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.ReadOnly = true;
             this.txtCodigo.Size = new System.Drawing.Size(209, 22);
             this.txtCodigo.TabIndex = 44;
             this.txtCodigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

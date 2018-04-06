@@ -31,6 +31,13 @@ namespace MigracionSap.Cliente.BaseDatos
                         beSalidaAlmacen = new BE.SalidaAlmacen();
 
                         beSalidaAlmacen.IdSalidaAlmacen = int.Parse(reader["idSalidaAlmacen"].ToString());
+
+                        int idEmpresa = int.Parse(reader["idEmpresa"].ToString());
+                        beSalidaAlmacen.Empresa = new Empresa().Obtener(idEmpresa);
+
+                        int idTipoDocumento = int.Parse(reader["idTipoDocumento"].ToString());
+                        beSalidaAlmacen.TipoDocumento = new TipoDocumento().Obtener(idTipoDocumento);
+
                         beSalidaAlmacen.Serie = int.Parse(reader["serie"].ToString());
                         beSalidaAlmacen.FechaContable = DateTime.Parse(reader["fechaContable"].ToString());
                         beSalidaAlmacen.Comentario = reader["comentario"].ToString();
@@ -189,7 +196,7 @@ namespace MigracionSap.Cliente.BaseDatos
         {
             try
             {
-                string sp = "SpTbSalidaAlmacennActualizar";
+                string sp = "SpTbSalidaAlmacenActualizar";
                 int rowsAffected = 0;
 
                 using (var cnn = new SqlConnection(Conexion.strCnxBD))

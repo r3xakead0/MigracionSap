@@ -96,9 +96,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboDia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDia.FormattingEnabled = true;
-            this.cboDia.Items.AddRange(new object[] {
-            "Servicios",
-            "Articulos"});
             this.cboDia.Location = new System.Drawing.Point(119, 21);
             this.cboDia.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboDia.Name = "cboDia";
@@ -153,7 +150,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmPlanificacion";
-            this.Text = "Plan de Ejecución";
+            this.Text = "Configurar de Ejecuciones";
             this.Load += new System.EventHandler(this.FrmPlanificacion_Load);
             this.Resize += new System.EventHandler(this.FrmPlanificacion_Resize);
             this.grpPlan.ResumeLayout(false);

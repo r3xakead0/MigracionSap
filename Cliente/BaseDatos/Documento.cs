@@ -52,6 +52,34 @@ namespace MigracionSap.Cliente.BaseDatos
                 throw ex;
             }
         }
-        
+
+        public DateTime ObtenerUltimaFecha()
+        {
+            DateTime ultimaFecha = DateTime.Now;
+            try
+            {
+
+                string sp = "SpObtenerDocumentosUltimaFecha";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    ultimaFecha = DateTime.Parse(cmd.ExecuteScalar().ToString());
+
+                    cnn.Close();
+                }
+
+                return ultimaFecha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

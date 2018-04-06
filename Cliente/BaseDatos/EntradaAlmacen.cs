@@ -23,7 +23,7 @@ namespace MigracionSap.Cliente.BaseDatos
 
                     var cmd = new SqlCommand(sp, cnn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@IDEntradaAlmacen", idEntradaAlmacen));
+                    cmd.Parameters.Add(new SqlParameter("@IDENTRADAALMACEN", idEntradaAlmacen));
 
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())

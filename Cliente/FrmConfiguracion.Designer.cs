@@ -83,7 +83,6 @@
             this.txtServidor.Location = new System.Drawing.Point(131, 40);
             this.txtServidor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtServidor.Name = "txtServidor";
-            this.txtServidor.ReadOnly = true;
             this.txtServidor.Size = new System.Drawing.Size(226, 22);
             this.txtServidor.TabIndex = 32;
             // 
@@ -111,7 +110,6 @@
             this.txtNombreBD.Location = new System.Drawing.Point(119, 49);
             this.txtNombreBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtNombreBD.Name = "txtNombreBD";
-            this.txtNombreBD.ReadOnly = true;
             this.txtNombreBD.Size = new System.Drawing.Size(200, 22);
             this.txtNombreBD.TabIndex = 35;
             // 
@@ -133,7 +131,6 @@
             this.txtUsuarioBD.Location = new System.Drawing.Point(119, 77);
             this.txtUsuarioBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtUsuarioBD.Name = "txtUsuarioBD";
-            this.txtUsuarioBD.ReadOnly = true;
             this.txtUsuarioBD.Size = new System.Drawing.Size(200, 22);
             this.txtUsuarioBD.TabIndex = 37;
             // 
@@ -207,7 +204,6 @@
             this.txtClaveBD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtClaveBD.Name = "txtClaveBD";
             this.txtClaveBD.PasswordChar = '*';
-            this.txtClaveBD.ReadOnly = true;
             this.txtClaveBD.Size = new System.Drawing.Size(200, 22);
             this.txtClaveBD.TabIndex = 39;
             // 
@@ -247,7 +243,6 @@
             this.txtClaveSBO.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtClaveSBO.Name = "txtClaveSBO";
             this.txtClaveSBO.PasswordChar = '*';
-            this.txtClaveSBO.ReadOnly = true;
             this.txtClaveSBO.Size = new System.Drawing.Size(200, 22);
             this.txtClaveSBO.TabIndex = 39;
             // 
@@ -269,7 +264,6 @@
             this.txtLicenciaSBO.Location = new System.Drawing.Point(119, 21);
             this.txtLicenciaSBO.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtLicenciaSBO.Name = "txtLicenciaSBO";
-            this.txtLicenciaSBO.ReadOnly = true;
             this.txtLicenciaSBO.Size = new System.Drawing.Size(200, 22);
             this.txtLicenciaSBO.TabIndex = 35;
             // 
@@ -291,7 +285,6 @@
             this.txtUsuarioSBO.Location = new System.Drawing.Point(119, 49);
             this.txtUsuarioSBO.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtUsuarioSBO.Name = "txtUsuarioSBO";
-            this.txtUsuarioSBO.ReadOnly = true;
             this.txtUsuarioSBO.Size = new System.Drawing.Size(200, 22);
             this.txtUsuarioSBO.TabIndex = 37;
             // 
@@ -336,7 +329,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmConfiguracion";
-            this.Text = "Configuracion";
+            this.Text = "Configuracion de Sociedades";
             this.Load += new System.EventHandler(this.FrmConfiguracion_Load);
             this.grpBaseDatos.ResumeLayout(false);
             this.grpBaseDatos.PerformLayout();

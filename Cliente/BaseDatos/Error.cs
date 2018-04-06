@@ -95,28 +95,7 @@ namespace MigracionSap.Cliente.BaseDatos
         {
             try
             {
-                string sp = "SpTbErrorInsertar";
-                int rowsAffected = 0;
-
-                using (var cnn = new SqlConnection(Conexion.strCnxBD))
-                {
-                    cnn.Open();
-
-                    var cmd = new SqlCommand(sp, cnn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add(new SqlParameter("@IDERROR", beError.Id));
-                    cmd.Parameters["@IDERROR"].Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(new SqlParameter("@IDTIPODOCUMENTO", beError.Documento.Id));
-                    cmd.Parameters.Add(new SqlParameter("@IDDOCUMENTO", beError.IdDocumento));
-                    cmd.Parameters.Add(new SqlParameter("@MENSAJE", beError.Mensaje));
-
-                    rowsAffected = cmd.ExecuteNonQuery();
-                    beError.Id = int.Parse(cmd.Parameters["@IDERROR"].Value.ToString());
-                }
-
-                return rowsAffected > 0;
-
+                return Insertar(beError.Documento.Id, beError.IdDocumento, beError.Mensaje);
             }
             catch (Exception ex)
             {
