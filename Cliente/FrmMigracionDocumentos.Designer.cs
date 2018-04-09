@@ -32,6 +32,10 @@
             this.dgvDocumentosError = new System.Windows.Forms.DataGridView();
             this.tbcMigraciones = new System.Windows.Forms.TabControl();
             this.tbpSincronizar = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtUltimaSincronizacion = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDocumentosError = new System.Windows.Forms.TextBox();
             this.btnEnviar = new System.Windows.Forms.Button();
             this.btnSincronizar = new System.Windows.Forms.Button();
             this.btnErrores = new System.Windows.Forms.Button();
@@ -50,15 +54,17 @@
             this.dgvHistorial = new System.Windows.Forms.DataGridView();
             this.stssEstado = new System.Windows.Forms.StatusStrip();
             this.stlMensaje = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mnuPrincipal = new System.Windows.Forms.MenuStrip();
             this.tsmConfigurar = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmConfigurarSociedades = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmConfigurarPlanes = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmAyuda = new System.Windows.Forms.ToolStripMenuItem();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtDocumentosError = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtUltimaSincronizacion = new System.Windows.Forms.TextBox();
+            this.lblSociedad = new System.Windows.Forms.Label();
+            this.cboSociedades = new System.Windows.Forms.ComboBox();
+            this.grpSincronizar = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cboDocumentos = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentosError)).BeginInit();
             this.tbcMigraciones.SuspendLayout();
             this.tbpSincronizar.SuspendLayout();
@@ -66,7 +72,8 @@
             this.grpFiltro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
             this.stssEstado.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.mnuPrincipal.SuspendLayout();
+            this.grpSincronizar.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvDocumentosError
@@ -75,9 +82,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDocumentosError.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDocumentosError.Location = new System.Drawing.Point(8, 37);
+            this.dgvDocumentosError.Location = new System.Drawing.Point(8, 123);
             this.dgvDocumentosError.Name = "dgvDocumentosError";
-            this.dgvDocumentosError.Size = new System.Drawing.Size(726, 396);
+            this.dgvDocumentosError.Size = new System.Drawing.Size(726, 311);
             this.dgvDocumentosError.TabIndex = 0;
             // 
             // tbcMigraciones
@@ -96,12 +103,11 @@
             // 
             // tbpSincronizar
             // 
-            this.tbpSincronizar.Controls.Add(this.label3);
-            this.tbpSincronizar.Controls.Add(this.txtUltimaSincronizacion);
+            this.tbpSincronizar.Controls.Add(this.label5);
+            this.tbpSincronizar.Controls.Add(this.grpSincronizar);
             this.tbpSincronizar.Controls.Add(this.label2);
             this.tbpSincronizar.Controls.Add(this.txtDocumentosError);
             this.tbpSincronizar.Controls.Add(this.btnEnviar);
-            this.tbpSincronizar.Controls.Add(this.btnSincronizar);
             this.tbpSincronizar.Controls.Add(this.btnErrores);
             this.tbpSincronizar.Controls.Add(this.dgvDocumentosError);
             this.tbpSincronizar.Location = new System.Drawing.Point(4, 23);
@@ -111,6 +117,49 @@
             this.tbpSincronizar.TabIndex = 0;
             this.tbpSincronizar.Text = "Sincronizar";
             this.tbpSincronizar.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(419, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(165, 14);
+            this.label3.TabIndex = 53;
+            this.label3.Text = "Ultima Sincronizacion";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtUltimaSincronizacion
+            // 
+            this.txtUltimaSincronizacion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtUltimaSincronizacion.Location = new System.Drawing.Point(422, 54);
+            this.txtUltimaSincronizacion.Name = "txtUltimaSincronizacion";
+            this.txtUltimaSincronizacion.ReadOnly = true;
+            this.txtUltimaSincronizacion.Size = new System.Drawing.Size(162, 22);
+            this.txtUltimaSincronizacion.TabIndex = 52;
+            this.txtUltimaSincronizacion.TabStop = false;
+            this.txtUltimaSincronizacion.Text = "dd/MM/yyyyy HH:mm:ss";
+            this.txtUltimaSincronizacion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(559, 444);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 14);
+            this.label2.TabIndex = 51;
+            this.label2.Text = "Nro. Registros :";
+            // 
+            // txtDocumentosError
+            // 
+            this.txtDocumentosError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDocumentosError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDocumentosError.Location = new System.Drawing.Point(670, 442);
+            this.txtDocumentosError.Name = "txtDocumentosError";
+            this.txtDocumentosError.ReadOnly = true;
+            this.txtDocumentosError.Size = new System.Drawing.Size(64, 22);
+            this.txtDocumentosError.TabIndex = 50;
+            this.txtDocumentosError.Text = "0";
+            this.txtDocumentosError.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnEnviar
             // 
@@ -126,9 +175,9 @@
             // btnSincronizar
             // 
             this.btnSincronizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSincronizar.Location = new System.Drawing.Point(627, 6);
+            this.btnSincronizar.Location = new System.Drawing.Point(600, 26);
             this.btnSincronizar.Name = "btnSincronizar";
-            this.btnSincronizar.Size = new System.Drawing.Size(107, 24);
+            this.btnSincronizar.Size = new System.Drawing.Size(110, 50);
             this.btnSincronizar.TabIndex = 8;
             this.btnSincronizar.Text = "Sincronizar";
             this.btnSincronizar.UseVisualStyleBackColor = true;
@@ -180,7 +229,7 @@
             this.grpFiltro.Controls.Add(this.btnBuscar);
             this.grpFiltro.Controls.Add(this.lblDocumento);
             this.grpFiltro.Controls.Add(this.cboTiposDocumentos);
-            this.grpFiltro.Location = new System.Drawing.Point(8, 9);
+            this.grpFiltro.Location = new System.Drawing.Point(8, 6);
             this.grpFiltro.Name = "grpFiltro";
             this.grpFiltro.Size = new System.Drawing.Size(726, 97);
             this.grpFiltro.TabIndex = 50;
@@ -224,9 +273,9 @@
             // btnBuscar
             // 
             this.btnBuscar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBuscar.Location = new System.Drawing.Point(597, 26);
+            this.btnBuscar.Location = new System.Drawing.Point(600, 26);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(113, 50);
+            this.btnBuscar.Size = new System.Drawing.Size(110, 50);
             this.btnBuscar.TabIndex = 46;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -278,9 +327,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHistorial.Location = new System.Drawing.Point(8, 112);
+            this.dgvHistorial.Location = new System.Drawing.Point(8, 109);
             this.dgvHistorial.Name = "dgvHistorial";
-            this.dgvHistorial.Size = new System.Drawing.Size(726, 321);
+            this.dgvHistorial.Size = new System.Drawing.Size(726, 324);
             this.dgvHistorial.TabIndex = 47;
             // 
             // stssEstado
@@ -300,16 +349,16 @@
             this.stlMensaje.Size = new System.Drawing.Size(600, 17);
             this.stlMensaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // menuStrip1
+            // mnuPrincipal
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuPrincipal.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmConfigurar,
             this.tsmAyuda});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
-            this.menuStrip1.TabIndex = 3;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mnuPrincipal.Location = new System.Drawing.Point(0, 0);
+            this.mnuPrincipal.Name = "mnuPrincipal";
+            this.mnuPrincipal.Size = new System.Drawing.Size(784, 24);
+            this.mnuPrincipal.TabIndex = 3;
+            this.mnuPrincipal.Text = "menuStrip1";
             // 
             // tsmConfigurar
             // 
@@ -340,47 +389,72 @@
             this.tsmAyuda.Size = new System.Drawing.Size(53, 20);
             this.tsmAyuda.Text = "Ayuda";
             // 
-            // label2
+            // lblSociedad
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(559, 444);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 14);
-            this.label2.TabIndex = 51;
-            this.label2.Text = "Nro. Registros :";
+            this.lblSociedad.AutoSize = true;
+            this.lblSociedad.Location = new System.Drawing.Point(20, 28);
+            this.lblSociedad.Name = "lblSociedad";
+            this.lblSociedad.Size = new System.Drawing.Size(73, 14);
+            this.lblSociedad.TabIndex = 54;
+            this.lblSociedad.Text = "Sociedad :";
             // 
-            // txtDocumentosError
+            // cboSociedades
             // 
-            this.txtDocumentosError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDocumentosError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDocumentosError.Location = new System.Drawing.Point(670, 442);
-            this.txtDocumentosError.Name = "txtDocumentosError";
-            this.txtDocumentosError.ReadOnly = true;
-            this.txtDocumentosError.Size = new System.Drawing.Size(64, 22);
-            this.txtDocumentosError.TabIndex = 50;
-            this.txtDocumentosError.Text = "0";
-            this.txtDocumentosError.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.cboSociedades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSociedades.Enabled = false;
+            this.cboSociedades.FormattingEnabled = true;
+            this.cboSociedades.Location = new System.Drawing.Point(147, 26);
+            this.cboSociedades.Name = "cboSociedades";
+            this.cboSociedades.Size = new System.Drawing.Size(256, 22);
+            this.cboSociedades.TabIndex = 55;
             // 
-            // label3
+            // grpSincronizar
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 11);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(148, 14);
-            this.label3.TabIndex = 53;
-            this.label3.Text = "Ultima Sincronización :";
+            this.grpSincronizar.Controls.Add(this.label4);
+            this.grpSincronizar.Controls.Add(this.cboDocumentos);
+            this.grpSincronizar.Controls.Add(this.txtUltimaSincronizacion);
+            this.grpSincronizar.Controls.Add(this.lblSociedad);
+            this.grpSincronizar.Controls.Add(this.label3);
+            this.grpSincronizar.Controls.Add(this.cboSociedades);
+            this.grpSincronizar.Controls.Add(this.btnSincronizar);
+            this.grpSincronizar.Location = new System.Drawing.Point(8, 6);
+            this.grpSincronizar.Name = "grpSincronizar";
+            this.grpSincronizar.Size = new System.Drawing.Size(726, 97);
+            this.grpSincronizar.TabIndex = 56;
+            this.grpSincronizar.TabStop = false;
+            this.grpSincronizar.Text = "Sincronizar";
             // 
-            // txtUltimaSincronizacion
+            // label4
             // 
-            this.txtUltimaSincronizacion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUltimaSincronizacion.Location = new System.Drawing.Point(164, 9);
-            this.txtUltimaSincronizacion.Name = "txtUltimaSincronizacion";
-            this.txtUltimaSincronizacion.ReadOnly = true;
-            this.txtUltimaSincronizacion.Size = new System.Drawing.Size(179, 22);
-            this.txtUltimaSincronizacion.TabIndex = 52;
-            this.txtUltimaSincronizacion.Text = "dd/MM/yyyyy HH:mm:ss";
-            this.txtUltimaSincronizacion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 57);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 14);
+            this.label4.TabIndex = 56;
+            this.label4.Text = "Documento :";
+            // 
+            // cboDocumentos
+            // 
+            this.cboDocumentos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDocumentos.Enabled = false;
+            this.cboDocumentos.FormattingEnabled = true;
+            this.cboDocumentos.Location = new System.Drawing.Point(147, 54);
+            this.cboDocumentos.Name = "cboDocumentos";
+            this.cboDocumentos.Size = new System.Drawing.Size(256, 22);
+            this.cboDocumentos.TabIndex = 57;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.BackColor = System.Drawing.Color.Navy;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(8, 106);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(726, 14);
+            this.label5.TabIndex = 58;
+            this.label5.Text = "Lista de Documentos con Errores";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmMigracionDocumentos
             // 
@@ -388,11 +462,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.stssEstado);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.mnuPrincipal);
             this.Controls.Add(this.tbcMigraciones);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.mnuPrincipal;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmMigracionDocumentos";
@@ -411,8 +485,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).EndInit();
             this.stssEstado.ResumeLayout(false);
             this.stssEstado.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mnuPrincipal.ResumeLayout(false);
+            this.mnuPrincipal.PerformLayout();
+            this.grpSincronizar.ResumeLayout(false);
+            this.grpSincronizar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,7 +513,7 @@
         private System.Windows.Forms.Button btnEnviar;
         private System.Windows.Forms.StatusStrip stssEstado;
         private System.Windows.Forms.ToolStripStatusLabel stlMensaje;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip mnuPrincipal;
         private System.Windows.Forms.ToolStripMenuItem tsmConfigurar;
         private System.Windows.Forms.ToolStripMenuItem tsmConfigurarSociedades;
         private System.Windows.Forms.ToolStripMenuItem tsmConfigurarPlanes;
@@ -450,5 +526,11 @@
         private System.Windows.Forms.TextBox txtDocumentosError;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtUltimaSincronizacion;
+        private System.Windows.Forms.Label lblSociedad;
+        private System.Windows.Forms.ComboBox cboSociedades;
+        private System.Windows.Forms.GroupBox grpSincronizar;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cboDocumentos;
+        private System.Windows.Forms.Label label5;
     }
 }

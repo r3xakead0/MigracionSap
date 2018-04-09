@@ -55,7 +55,7 @@ namespace MigracionSap.Cliente.BaseDatos
 
         public DateTime ObtenerUltimaFecha()
         {
-            DateTime ultimaFecha = DateTime.Now;
+            DateTime ultimaFecha = new DateTime(2018,1,1);
             try
             {
 
@@ -68,7 +68,9 @@ namespace MigracionSap.Cliente.BaseDatos
                     var cmd = new SqlCommand(sp, cnn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    ultimaFecha = DateTime.Parse(cmd.ExecuteScalar().ToString());
+                    var strFechaHora = cmd.ExecuteScalar().ToString();
+                    if (strFechaHora.Length > 0)
+                        ultimaFecha = DateTime.Parse(strFechaHora);
 
                     cnn.Close();
                 }
@@ -81,5 +83,28 @@ namespace MigracionSap.Cliente.BaseDatos
             }
         }
 
+        public void Limpiar()
+        {
+            try
+            {
+
+                string sp = "SpLimpiarDocumentos";
+
+                using (var cnn = new SqlConnection(Conexion.strCnxBD))
+                {
+                    cnn.Open();
+
+                    var cmd = new SqlCommand(sp, cnn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+
+                    cnn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

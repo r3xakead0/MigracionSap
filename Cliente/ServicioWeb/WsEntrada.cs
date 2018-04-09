@@ -73,7 +73,7 @@ namespace MigracionSap.Cliente.ServicioWeb
                     }
                 }
 
-                return lstEntradaAlmacen;
+                 return lstEntradaAlmacen;
             }
             catch (Exception ex)
             {

@@ -1,8 +1,23 @@
 ﻿using System;
-using SAPbobsCOM;
+//using SAPbobsCOM;
 
 namespace MigracionSap.Cliente.Sap
 {
+
+
+    public class Company
+    {
+        public string Server { get; set; } = "";
+        public string LicenseServer { get; set; } = "";
+        public string CompanyDB { get; set; } = "";
+        public int DbServerType { get; set; } = 6; //SQL SERVER 2008
+        public string DbUserName { get; set; } = "";
+        public string DbPassword { get; set; } = "";
+        public string UserName { get; set; } = "";
+        public string Password { get; set; } = "";
+        public int language { get; set; } = 0;
+    }
+
     public class DiConexion : IDisposable
     {
 
@@ -79,6 +94,7 @@ namespace MigracionSap.Cliente.Sap
             bool flag = false;
             try
             {
+                /*
                 this.oCompany = new Company();
 
                 oCompany.Server = this.Server;
@@ -103,7 +119,8 @@ namespace MigracionSap.Cliente.Sap
                 {
                     flag = true;
                 }
-                    
+                */
+                System.Threading.Thread.Sleep(2000);
                 return flag;
             }
             catch (Exception ex)
@@ -119,13 +136,15 @@ namespace MigracionSap.Cliente.Sap
             {
                 if (this.oCompany == null)
                     flag = true;
-
+                /*
                 if (this.oCompany.Connected == true)
                 { 
                     this.oCompany.Disconnect();
                     flag = true;
                 }
+                */
 
+                System.Threading.Thread.Sleep(2000);
                 return flag;
             }
             catch (Exception ex)

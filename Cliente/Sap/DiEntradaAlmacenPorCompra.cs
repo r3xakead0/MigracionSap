@@ -1,6 +1,6 @@
 ﻿using System;
 using BE = MigracionSap.Cliente.Sap.Entidades;
-using SAPbobsCOM;
+//using SAPbobsCOM;
 
 namespace MigracionSap.Cliente.Sap
 {
@@ -22,6 +22,7 @@ namespace MigracionSap.Cliente.Sap
 
             try
             {
+                /*
                 Documents oOrdenCompra = oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders);
 
                 int docNumOC = beEntradaAlmacen.refSap;
@@ -88,11 +89,13 @@ namespace MigracionSap.Cliente.Sap
                     errCod = -1;
                     errMsg = "No existe la orden de compra";
                 }
+                */
 
                 errCode = errCod;
                 errMessage = errMsg;
 
                 return docEntry;
+                //return new Random().Next(1000, 9999).ToString();
             }
             catch (Exception ex)
             {

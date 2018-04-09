@@ -1,6 +1,6 @@
 ﻿using System;
 using BE = MigracionSap.Cliente.Sap.Entidades;
-using SAPbobsCOM;
+//using SAPbobsCOM;
 
 namespace MigracionSap.Cliente.Sap
 {
@@ -23,6 +23,7 @@ namespace MigracionSap.Cliente.Sap
 
             try
             {
+                /*
                 Documents oSolicitudCompra = oCompany.GetBusinessObject(BoObjectTypes.oPurchaseRequest);
 
                 oSolicitudCompra.Series = beSolicitudCompra.Serie;
@@ -110,11 +111,13 @@ namespace MigracionSap.Cliente.Sap
                     docEntry = oCompany.GetNewObjectKey();
                 else
                     oCompany.GetLastError(out errCod, out errMsg);
+                */
 
                 errCode = errCod;
                 errMessage = errMsg;
 
                 return docEntry;
+                //return new Random().Next(1000,9999).ToString();
             }
             catch (Exception ex)
             {
