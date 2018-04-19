@@ -82,11 +82,11 @@
     <Compile Include="DetalleAlmacen.cs" />
     <Compile Include="Planificacion.cs" />
     <Compile Include="Error.cs" />
-    <Compile Include="FrmErrorList.cs">
+    <Compile Include="FrmErrores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmErrorList.Designer.cs">
-      <DependentUpon>FrmErrorList.cs</DependentUpon>
+    <Compile Include="FrmErrores.Designer.cs">
+      <DependentUpon>FrmErrores.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmEmpresa.cs">
       <SubType>Form</SubType>
@@ -151,8 +151,8 @@
     <Compile Include="Traductor\BeToSe.cs" />
     <Compile Include="Traductor\SeToBe.cs" />
     <Compile Include="Traductor\JsonToSe.cs" />
-    <EmbeddedResource Include="FrmErrorList.resx">
-      <DependentUpon>FrmErrorList.cs</DependentUpon>
+    <EmbeddedResource Include="FrmErrores.resx">
+      <DependentUpon>FrmErrores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmEmpresa.resx">
       <DependentUpon>FrmEmpresa.cs</DependentUpon>
@@ -201,14 +201,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
-    <Content Include="Iconos\download.ico" />
+    <Content Include="Iconos\Planificacion.ico" />
+    <Content Include="Iconos\Empresa.ico" />
+    <Content Include="Iconos\Configuracion.ico" />
     <Content Include="Iconos\MigracionDocumentos.ico" />
     <Content Include="Iconos\IngresoAlmacen.ico" />
     <Content Include="Iconos\SalidaAlmacen.ico" />
     <Content Include="Iconos\SolicitudCompra.ico" />
-    <Content Include="Iconos\update.ico" />
-    <Content Include="Imagenes\download.png" />
-    <Content Include="Imagenes\upload.png" />
+    <Content Include="Iconos\Errores.ico" />
+    <Content Include="Imagenes\information.png" />
+    <Content Include="Imagenes\send.png" />
+    <Content Include="Imagenes\error.png" />
+    <Content Include="Imagenes\view.png" />
+    <Content Include="Imagenes\planning.png" />
+    <Content Include="Imagenes\company.png" />
+    <Content Include="Imagenes\configuration.png" />
+    <Content Include="Imagenes\find.png" />
+    <Content Include="Imagenes\synchronization.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\Utiles.csproj">

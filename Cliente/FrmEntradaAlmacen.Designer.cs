@@ -41,6 +41,7 @@
             this.lblNroOrden = new System.Windows.Forms.Label();
             this.lblEmpresa = new System.Windows.Forms.Label();
             this.txtEmpresa = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +53,7 @@
             this.dtpFechaDocumento.Location = new System.Drawing.Point(731, 13);
             this.dtpFechaDocumento.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dtpFechaDocumento.Name = "dtpFechaDocumento";
-            this.dtpFechaDocumento.Size = new System.Drawing.Size(127, 22);
+            this.dtpFechaDocumento.Size = new System.Drawing.Size(132, 22);
             this.dtpFechaDocumento.TabIndex = 28;
             // 
             // lblFechaDocumento
@@ -76,7 +77,7 @@
             this.txtComentario.Multiline = true;
             this.txtComentario.Name = "txtComentario";
             this.txtComentario.ReadOnly = true;
-            this.txtComentario.Size = new System.Drawing.Size(727, 69);
+            this.txtComentario.Size = new System.Drawing.Size(732, 69);
             this.txtComentario.TabIndex = 26;
             // 
             // txtUsuario
@@ -93,7 +94,7 @@
             // lblComentarios
             // 
             this.lblComentarios.AutoSize = true;
-            this.lblComentarios.Location = new System.Drawing.Point(19, 72);
+            this.lblComentarios.Location = new System.Drawing.Point(13, 72);
             this.lblComentarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblComentarios.Name = "lblComentarios";
             this.lblComentarios.Size = new System.Drawing.Size(96, 14);
@@ -103,7 +104,7 @@
             // lblSolicitante
             // 
             this.lblSolicitante.AutoSize = true;
-            this.lblSolicitante.Location = new System.Drawing.Point(19, 16);
+            this.lblSolicitante.Location = new System.Drawing.Point(13, 16);
             this.lblSolicitante.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSolicitante.Name = "lblSolicitante";
             this.lblSolicitante.Size = new System.Drawing.Size(81, 14);
@@ -116,16 +117,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDetalle.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetalle.Location = new System.Drawing.Point(17, 183);
+            this.dgvDetalle.Location = new System.Drawing.Point(13, 200);
             this.dgvDetalle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvDetalle.Name = "dgvDetalle";
-            this.dgvDetalle.Size = new System.Drawing.Size(842, 294);
+            this.dgvDetalle.Size = new System.Drawing.Size(850, 277);
             this.dgvDetalle.TabIndex = 29;
             // 
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.Location = new System.Drawing.Point(752, 483);
+            this.btnCerrar.Location = new System.Drawing.Point(756, 483);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(107, 24);
             this.btnCerrar.TabIndex = 30;
@@ -147,7 +148,7 @@
             // lblNroOrden
             // 
             this.lblNroOrden.AutoSize = true;
-            this.lblNroOrden.Location = new System.Drawing.Point(19, 147);
+            this.lblNroOrden.Location = new System.Drawing.Point(13, 147);
             this.lblNroOrden.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNroOrden.Name = "lblNroOrden";
             this.lblNroOrden.Size = new System.Drawing.Size(85, 14);
@@ -157,7 +158,7 @@
             // lblEmpresa
             // 
             this.lblEmpresa.AutoSize = true;
-            this.lblEmpresa.Location = new System.Drawing.Point(19, 44);
+            this.lblEmpresa.Location = new System.Drawing.Point(13, 44);
             this.lblEmpresa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEmpresa.Name = "lblEmpresa";
             this.lblEmpresa.Size = new System.Drawing.Size(71, 14);
@@ -173,14 +174,29 @@
             this.txtEmpresa.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtEmpresa.Name = "txtEmpresa";
             this.txtEmpresa.ReadOnly = true;
-            this.txtEmpresa.Size = new System.Drawing.Size(727, 22);
+            this.txtEmpresa.Size = new System.Drawing.Size(732, 22);
             this.txtEmpresa.TabIndex = 33;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.BackColor = System.Drawing.Color.Navy;
+            this.label5.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(12, 183);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(851, 14);
+            this.label5.TabIndex = 60;
+            this.label5.Text = "Detalle";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmEntradaAlmacen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(875, 519);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.lblEmpresa);
             this.Controls.Add(this.txtEmpresa);
             this.Controls.Add(this.txtNroOrden);
@@ -221,6 +237,7 @@
         private System.Windows.Forms.Label lblNroOrden;
         private System.Windows.Forms.Label lblEmpresa;
         private System.Windows.Forms.TextBox txtEmpresa;
+        private System.Windows.Forms.Label label5;
     }
 }
 

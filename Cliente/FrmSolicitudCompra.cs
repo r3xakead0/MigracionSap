@@ -27,7 +27,7 @@ namespace MigracionSap.Cliente
 
         #endregion
 
-        private List<DetalleCompra> lsUitDetalleCompra = new List<DetalleCompra>();
+        private List<DetalleCompra> lsUitDetalle = new List<DetalleCompra>();
 
         public FrmSolicitudCompra()
         {
@@ -48,7 +48,16 @@ namespace MigracionSap.Cliente
 
         private void FrmSolicitudCompra_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                this.lsUitDetalle = new List<DetalleCompra>();
+                this.dgvDetalle.DataSource = this.lsUitDetalle;
+                this.FormatDetalle();
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
         }
 
         public void Cargar(int idSolicitudCompra)
@@ -63,7 +72,7 @@ namespace MigracionSap.Cliente
                     this.dtpFechaDocumento.Value = beSolicitudCompra.FechaContable;
                     this.txtComentario.Text = beSolicitudCompra.Comentario;
 
-                    this.lsUitDetalleCompra = new List<DetalleCompra>();
+                    this.lsUitDetalle = new List<DetalleCompra>();
                     foreach (var beDetalle in beSolicitudCompra.Detalle)
                     {
                         var uiDetalle = new DetalleCompra();
@@ -84,10 +93,10 @@ namespace MigracionSap.Cliente
                         uiDetalle.CodProyecto = beDetalle.CodProveedor;
                         uiDetalle.DscProyecto = "";
 
-                        this.lsUitDetalleCompra.Add(uiDetalle);
+                        this.lsUitDetalle.Add(uiDetalle);
                     }
 
-                    this.dgvDetalle.DataSource = this.lsUitDetalleCompra;
+                    this.dgvDetalle.DataSource = this.lsUitDetalle;
                 }
             }
             catch (Exception ex)

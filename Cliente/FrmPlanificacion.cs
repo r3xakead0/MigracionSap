@@ -42,6 +42,12 @@ namespace MigracionSap.Cliente
             try
             {
 
+                bool activo = false;
+                int minutos = 0;
+                FrmMigracionDocumentos.Instance().ObtenerTemporizador(out activo, out minutos);
+                this.chkTemporizador.Checked = activo;
+                this.dudMinutos.Text = minutos.ToString();
+
                 this.CargarDias();
 
                 this.dtpHora.Value = DateTime.Now;
@@ -176,6 +182,39 @@ namespace MigracionSap.Cliente
             try
             {
                 General.AutoWidthColumn(ref this.dgvPlanificaciones, "Dia");
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void chkTemporizador_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bool activo = this.chkTemporizador.Checked;
+                int minutos = int.Parse(this.dudMinutos.Text);
+
+                FrmMigracionDocumentos.Instance().AsignarTemporizador(activo, minutos);
+
+                this.grpPlan.Enabled = activo;
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
+        private void FrmPlanificacion_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                bool activo = this.chkTemporizador.Checked;
+                int minutos = int.Parse(this.dudMinutos.Text);
+
+                FrmMigracionDocumentos.Instance().AsignarTemporizador(activo, minutos);
+
             }
             catch (Exception ex)
             {

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConfiguracion));
             this.lbServidor = new System.Windows.Forms.Label();
             this.lblEmpresa = new System.Windows.Forms.Label();
@@ -51,6 +52,7 @@
             this.txtUsuarioSBO = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEmpresa = new System.Windows.Forms.Button();
+            this.ttpEmpresa = new System.Windows.Forms.ToolTip(this.components);
             this.grpBaseDatos.SuspendLayout();
             this.grpLicencia.SuspendLayout();
             this.SuspendLayout();
@@ -98,7 +100,7 @@
             this.cboEmpresa.Location = new System.Drawing.Point(131, 12);
             this.cboEmpresa.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboEmpresa.Name = "cboEmpresa";
-            this.cboEmpresa.Size = new System.Drawing.Size(197, 22);
+            this.cboEmpresa.Size = new System.Drawing.Size(179, 22);
             this.cboEmpresa.TabIndex = 33;
             this.cboEmpresa.SelectionChangeCommitted += new System.EventHandler(this.cboEmpresa_SelectionChangeCommitted);
             // 
@@ -302,11 +304,16 @@
             // btnEmpresa
             // 
             this.btnEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEmpresa.Location = new System.Drawing.Point(335, 12);
+            this.btnEmpresa.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEmpresa.Image = ((System.Drawing.Image)(resources.GetObject("btnEmpresa.Image")));
+            this.btnEmpresa.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEmpresa.Location = new System.Drawing.Point(317, 12);
             this.btnEmpresa.Name = "btnEmpresa";
-            this.btnEmpresa.Size = new System.Drawing.Size(22, 22);
+            this.btnEmpresa.Size = new System.Drawing.Size(40, 22);
             this.btnEmpresa.TabIndex = 44;
             this.btnEmpresa.Text = "+";
+            this.btnEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttpEmpresa.SetToolTip(this.btnEmpresa, "Agregar Empresa");
             this.btnEmpresa.UseVisualStyleBackColor = true;
             this.btnEmpresa.Click += new System.EventHandler(this.btnEmpresa_Click);
             // 
@@ -363,6 +370,7 @@
         private System.Windows.Forms.TextBox txtUsuarioSBO;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnEmpresa;
+        private System.Windows.Forms.ToolTip ttpEmpresa;
     }
 }
 

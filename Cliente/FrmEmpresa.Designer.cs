@@ -134,7 +134,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmEmpresa";
-            this.Text = "Empresa";
+            this.Text = "Agregar Sociedad";
             this.Load += new System.EventHandler(this.FrmEmpresa_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

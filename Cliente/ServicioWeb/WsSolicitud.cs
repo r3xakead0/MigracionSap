@@ -82,7 +82,7 @@ namespace MigracionSap.Cliente.ServicioWeb
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
             }
         }
 

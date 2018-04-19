@@ -1,6 +1,6 @@
 ﻿namespace MigracionSap.Cliente
 {
-    partial class FrmErrorList
+    partial class FrmErrores
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmErrorList));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmErrores));
             this.dgvErrores = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtNroRegistros = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,14 +44,38 @@
             this.dgvErrores.Location = new System.Drawing.Point(13, 12);
             this.dgvErrores.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvErrores.Name = "dgvErrores";
-            this.dgvErrores.Size = new System.Drawing.Size(849, 201);
+            this.dgvErrores.Size = new System.Drawing.Size(826, 210);
             this.dgvErrores.TabIndex = 30;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(664, 232);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(105, 14);
+            this.label1.TabIndex = 51;
+            this.label1.Text = "Nro. Registros :";
+            // 
+            // txtNroRegistros
+            // 
+            this.txtNroRegistros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNroRegistros.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNroRegistros.Location = new System.Drawing.Point(775, 228);
+            this.txtNroRegistros.Name = "txtNroRegistros";
+            this.txtNroRegistros.ReadOnly = true;
+            this.txtNroRegistros.Size = new System.Drawing.Size(64, 22);
+            this.txtNroRegistros.TabIndex = 50;
+            this.txtNroRegistros.Text = "0";
+            this.txtNroRegistros.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // FrmErrorList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(875, 225);
+            this.ClientSize = new System.Drawing.Size(851, 262);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtNroRegistros);
             this.Controls.Add(this.dgvErrores);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -62,12 +88,15 @@
             this.Resize += new System.EventHandler(this.FrmErrorList_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView dgvErrores;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtNroRegistros;
     }
 }
 

@@ -34,21 +34,28 @@ namespace MigracionSap.Cliente
 
         #endregion
 
+        #region Constantes
         private const string ERROR = "Error";
 
         private const int SALIDA = 1;
         private const int ENTRADA = 2;
         private const int SOLICITUD =3;
+        #endregion
+
+        private bool temporizadorActivo = false;
+        private int temporizadorMinutos = 0;
+        private DateTime temporizadorFechaHora = DateTime.Now;
 
         private string serie = "";
-
-        private DateTime UltimaFecha = DateTime.Now;
+        private DateTime ultimaFecha = DateTime.Now;
         private List<Documento> lstUiDocumentosError = null;
-        private List<Documento> lstHistorial = null;
+        private List<Documento> lstUiHistorial = null;
 
+        #region Lista de Datos Obtenidos del WS
         private List<WS.Json.EntradaAlmacen> lstWsEntradas = null;
         private List<WS.Json.SalidaAlmacen> lstWsSalidas = null;
         private List<WS.Json.SolicitudCompra> lstWsSolicitudes = null;
+        #endregion
 
         public FrmMigracionDocumentos()
         {
@@ -86,6 +93,19 @@ namespace MigracionSap.Cliente
             }
         }
 
+        public void ObtenerTemporizador(out bool activo, out int minutos)
+        {
+            activo = this.temporizadorActivo;
+            minutos = this.temporizadorMinutos;
+        }
+
+        public void AsignarTemporizador(bool activo, int minutos)
+        {
+            this.temporizadorActivo = activo;
+            this.temporizadorMinutos = minutos;
+            this.temporizadorFechaHora = DateTime.Now;
+        }
+
         private bool ObtenerSalidasWs(DateTime fechaHora, int idEmpresa)
         {
             this.lstWsSalidas = new WS.WsSalida().Obtener(fechaHora, idEmpresa);
@@ -104,33 +124,112 @@ namespace MigracionSap.Cliente
             return this.lstWsSolicitudes.Count > 0;
         }
 
+
         private bool RegistrarSalidaBD(ref BD.Sap bdSap, BE.Empresa beEmpresa)
         {
             bool rpta = false;
 
-            var beTipoSalida = new BD.TipoDocumento().Obtener(SALIDA);
-
-            var bdSalida = new BD.SalidaAlmacen();
-
-            foreach (var salidaJson in this.lstWsSalidas)
+            try
             {
-                var salidaSe = TD.JsonToSe.SalidaAlmacen(salidaJson);
+                var beTipoSalida = new BD.TipoDocumento().Obtener(SALIDA);
 
-                salidaSe.Serie = bdSap.ObtenerSerieSalidaAlmacen(this.serie);
-                for (int i = 0; i < salidaSe.Detalle.Count; i++)
+                var bdSalida = new BD.SalidaAlmacen();
+
+                foreach (var salidaJson in this.lstWsSalidas)
                 {
-                    salidaSe.Detalle[i].CodAlmacen = bdSap.ObtenerCodigoAlmacen(salidaSe.Detalle[i].Codigo);
+                    SE.SalidaAlmacen seSalida = TD.JsonToSe.SalidaAlmacen(salidaJson);
+
+                    seSalida.Serie = bdSap.ObtenerSerieSalidaAlmacen(this.serie);
+                    for (int i = 0; i < seSalida.Detalle.Count; i++)
+                    {
+                        seSalida.Detalle[i].CodAlmacen = bdSap.ObtenerCodigoAlmacen(seSalida.Detalle[i].Codigo);
+                    }
+
+                    var beSalida = TD.SeToBe.SalidaAlmacen(seSalida);
+                    beSalida.Empresa = beEmpresa;
+                    beSalida.TipoDocumento = beTipoSalida;
+
+                    var flag = bdSalida.Insertar(ref beSalida);
                 }
 
-                var beSalida = TD.SeToBe.SalidaAlmacen(salidaSe);
-                beSalida.Empresa = beEmpresa;
-                beSalida.TipoDocumento = beTipoSalida;
-
-                var flag = bdSalida.Insertar(ref beSalida);
+                return rpta;
             }
-
-            return rpta;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+        private bool RegistrarEntradaBD(ref BD.Sap bdSap, BE.Empresa beEmpresa)
+        {
+            bool rpta = false;
+
+            try
+            {
+                var beTipoEntrada = new BD.TipoDocumento().Obtener(ENTRADA);
+
+                var bdEntrada = new BD.EntradaAlmacen();
+
+                foreach (var entradaJson in this.lstWsEntradas)
+                {
+                    SE.EntradaAlmacen seEntrada = TD.JsonToSe.EntradaAlmacen(entradaJson);
+
+                    seEntrada.Serie = bdSap.ObtenerSerieSalidaAlmacen(this.serie);
+                    for (int i = 0; i < seEntrada.Detalle.Count; i++)
+                    {
+                        seEntrada.Detalle[i].CodAlmacen = bdSap.ObtenerCodigoAlmacen(seEntrada.Detalle[i].Codigo);
+                    }
+
+                    var beEntrada = TD.SeToBe.EntradaAlmacen(seEntrada);
+                    beEntrada.Empresa = beEmpresa;
+                    beEntrada.TipoDocumento = beTipoEntrada;
+
+                    var flag = bdEntrada.Insertar(ref beEntrada);
+                }
+
+                return rpta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private bool RegistrarSolicitudBD(ref BD.Sap bdSap, BE.Empresa beEmpresa)
+        {
+            bool rpta = false;
+
+            try
+            {
+                var beTipoSolicitud = new BD.TipoDocumento().Obtener(SOLICITUD);
+
+                var bdSolicitud = new BD.SolicitudCompra();
+
+                foreach (var solicitudJson in this.lstWsSolicitudes)
+                {
+                    SE.SolicitudCompra seSolicitud = TD.JsonToSe.SolicitudCompra(solicitudJson);
+
+                    seSolicitud.Serie = bdSap.ObtenerSerieSalidaAlmacen(this.serie);
+                    for (int i = 0; i < seSolicitud.Detalle.Count; i++)
+                    {
+                        seSolicitud.Detalle[i].CodAlmacen = bdSap.ObtenerCodigoAlmacen(seSolicitud.Detalle[i].Codigo);
+                    }
+
+                    var beSolicitud = TD.SeToBe.SolicitudCompra(seSolicitud);
+                    beSolicitud.Empresa = beEmpresa;
+                    beSolicitud.TipoDocumento = beTipoSolicitud;
+
+                    var flag = bdSolicitud.Insertar(ref beSolicitud);
+                }
+
+                return rpta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         private void EnviarSalidasSap(ref DI.DiConexion diConexion, BE.Empresa beEmpresa)
         {
@@ -275,23 +374,14 @@ namespace MigracionSap.Cliente
 
         private void btnSincronizar_Click(object sender, EventArgs e)
         {
+            this.tmrMigracion.Enabled = false;
             this.btnSincronizar.Enabled = false;
             this.stlMensaje.Text = string.Empty;
 
             try
             {
 
-                #region Tipo de Documentos
-
-                var bdTipoDocumento = new BD.TipoDocumento();
-
-                var beTipoSalida = bdTipoDocumento.Obtener(SALIDA);
-                var beTipoEntrada = bdTipoDocumento.Obtener(ENTRADA);
-                var beTipoSsolicitud = bdTipoDocumento.Obtener(SOLICITUD);
-
-                #endregion
-
-                DateTime recepcion = this.UltimaFecha;
+                DateTime recepcion = this.ultimaFecha;
 
                 var lstBeConfiguracion = new List<BE.Configuracion>();
                 if (this.cboSociedades.SelectedIndex == 0)
@@ -303,20 +393,23 @@ namespace MigracionSap.Cliente
                     if (beConfiguracion != null)
                         lstBeConfiguracion.Add(beConfiguracion);
                     else
+                    { 
                         General.CriticalMessage("La sociedad seleccionada no tiene configuración");
+                        return;
+                    }
                 }
 
 
                 foreach (var beConfiguracion in lstBeConfiguracion)
                 {
 
-                    bool existeDatosSalida = false;
-                    bool existeDatosEntrada = false;
-                    bool existeDatosSolicitud = false;
-
                     #region Obtener Datos de WS
 
                     this.stlMensaje.Text = $"Obteniendo los datos de la sociedad { beConfiguracion.Empresa.Nombre } del Servicio Web";
+
+                    bool existeDatosSalida = false;
+                    bool existeDatosEntrada = false;
+                    bool existeDatosSolicitud = false;
 
                     int idEmpresa = beConfiguracion.Empresa.Id;
                     var tasksWs = new[]
@@ -325,7 +418,15 @@ namespace MigracionSap.Cliente
                         Task<bool>.Factory.StartNew(() => ObtenerEntradasWs(recepcion, idEmpresa)),
                         Task<bool>.Factory.StartNew(() => ObtenerSolicitudesWs(recepcion, idEmpresa))
                     };
-                    Task.WaitAll(tasksWs);
+
+                    try
+                    {
+                        Task.WaitAll(tasksWs);
+                    }
+                    catch (AggregateException exTask)
+                    {
+                        throw exTask.Flatten(); 
+                    }
 
                     existeDatosSalida = tasksWs[0].Result;
                     existeDatosEntrada = tasksWs[1].Result;
@@ -333,7 +434,38 @@ namespace MigracionSap.Cliente
 
                     #endregion
 
-                    #region Registrar en BD
+                    #region Registrar Datos en BD
+
+                    this.stlMensaje.Text = $"Guardando los datos de la sociedad { beConfiguracion.Empresa.Nombre }";
+
+                    bool registraDatosSalida = false;
+                    bool registraDatosEntrada = false;
+                    bool registraDatosSolicitud = false;
+
+                    var bdSap = new BD.Sap(beConfiguracion.Servidor, 
+                                        beConfiguracion.BaseDatos, 
+                                        beConfiguracion.UsuarioBD, 
+                                        beConfiguracion.ClaveBD);
+
+                    var tasksBd = new[]
+                    {
+                        Task<bool>.Factory.StartNew(() => RegistrarSalidaBD(ref bdSap, beConfiguracion.Empresa)),
+                        Task<bool>.Factory.StartNew(() => RegistrarEntradaBD(ref bdSap, beConfiguracion.Empresa)),
+                        Task<bool>.Factory.StartNew(() => RegistrarSolicitudBD(ref bdSap, beConfiguracion.Empresa))
+                    };
+
+                    try
+                    {
+                        Task.WaitAll(tasksBd);
+                    }
+                    catch (AggregateException exTask)
+                    {
+                        throw exTask.Flatten();
+                    }
+
+                    registraDatosSalida = tasksBd[0].Result;
+                    registraDatosEntrada = tasksBd[1].Result;
+                    registraDatosSolicitud = tasksBd[2].Result;
 
                     #endregion
 
@@ -368,6 +500,7 @@ namespace MigracionSap.Cliente
                     #region Desconectar a SAP
 
                     diConexion.Desconectar();
+                    diConexion.Dispose();
 
                     #endregion
 
@@ -388,6 +521,7 @@ namespace MigracionSap.Cliente
             finally
             {
                 this.btnSincronizar.Enabled = true;
+                this.tmrMigracion.Enabled = true;
             }
         }
 
@@ -477,7 +611,7 @@ namespace MigracionSap.Cliente
                     if (uiDocumento.Estado != ERROR)
                         return;
 
-                    var error = FrmErrorList.Instance();
+                    var error = FrmErrores.Instance();
                     error.Show();
 
                     switch (uiDocumento.TipoId)
@@ -641,10 +775,14 @@ namespace MigracionSap.Cliente
                         frmSalida.Show();
                         break;
                     case ENTRADA: // "Entrada de Almacen":
-                        
+                        var frmEntrada = FrmEntradaAlmacen.Instance();
+                        frmEntrada.Cargar(uiDocumento.Id);
+                        frmEntrada.Show();
                         break;
                     case SOLICITUD: // "Solicitud de Compra":
-                        
+                        var frmSolicitud = FrmSolicitudCompra.Instance();
+                        frmSolicitud.Cargar(uiDocumento.Id);
+                        frmSolicitud.Show();
                         break;
                     default:
                         break;
@@ -705,8 +843,8 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                this.UltimaFecha = new BD.Documento().ObtenerUltimaFecha();
-                this.txtUltimaSincronizacion.Text = this.UltimaFecha.ToString("dd/MM/yyyy HH:mm:ss");
+                this.ultimaFecha = new BD.Documento().ObtenerUltimaFecha();
+                this.txtUltimaSincronizacion.Text = this.ultimaFecha.ToString("dd/MM/yyyy HH:mm:ss");
             }
             catch (Exception ex)
             {
@@ -776,10 +914,10 @@ namespace MigracionSap.Cliente
         {
             try
             {
-                this.lstHistorial = new List<Documento>();
-                this.dgvHistorial.DataSource = this.lstHistorial;
+                this.lstUiHistorial = new List<Documento>();
+                this.dgvHistorial.DataSource = this.lstUiHistorial;
 
-                this.txtHistorial.Text = this.lstHistorial.Count.ToString();
+                this.txtHistorial.Text = this.lstUiHistorial.Count.ToString();
             }
             catch (Exception ex)
             {
@@ -897,5 +1035,31 @@ namespace MigracionSap.Cliente
             }
         }
 
+        private void tmrMigracion_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (temporizadorActivo)
+                {
+                    var actualFechaHora = DateTime.Now;
+
+                    int minutosTranscurridos = actualFechaHora.Subtract(this.temporizadorFechaHora).Minutes;
+
+                    if (minutosTranscurridos >= this.temporizadorMinutos)
+                    {
+                        this.btnSincronizar_Click(null, null);
+                        this.temporizadorFechaHora = DateTime.Now;
+                    }
+                }
+                else
+                {
+                    //Planeado
+                }
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
     }
 }

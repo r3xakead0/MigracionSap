@@ -7,19 +7,19 @@ using BE = MigracionSap.Cliente.BaseDatos.Entidades;
 
 namespace MigracionSap.Cliente
 {
-    public partial class FrmErrorList : Form
+    public partial class FrmErrores : Form
     {
 
         #region "Patron Singleton"
 
-        private static FrmErrorList frmInstance = null;
+        private static FrmErrores frmInstance = null;
 
-        public static FrmErrorList Instance()
+        public static FrmErrores Instance()
         {
 
             if (frmInstance == null || frmInstance.IsDisposed == true)
             {
-                frmInstance = new FrmErrorList();
+                frmInstance = new FrmErrores();
             }
 
             frmInstance.BringToFront();
@@ -31,7 +31,7 @@ namespace MigracionSap.Cliente
 
         private List<Error> lstError = null;
 
-        public FrmErrorList()
+        public FrmErrores()
         {
             InitializeComponent();
         }
@@ -66,6 +66,7 @@ namespace MigracionSap.Cliente
                 }
 
                 this.dgvErrores.DataSource = this.lstError;
+                this.txtNroRegistros.Text = this.lstError.Count.ToString();
             }
             catch (Exception ex)
             {

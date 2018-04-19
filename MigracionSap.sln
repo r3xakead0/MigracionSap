@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utiles", "Utils\Utiles.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cliente", "Cliente\Cliente.csproj", "{2BB46010-AD37-466A-8339-1074D9D0346D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DbIntermerdio", "DbIntermerdio\DbIntermerdio.sqlproj", "{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{2BB46010-AD37-466A-8339-1074D9D0346D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BB46010-AD37-466A-8339-1074D9D0346D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BB46010-AD37-466A-8339-1074D9D0346D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEE98E0-9AA3-4DBD-B21B-DA2660F063FE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
